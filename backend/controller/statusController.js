@@ -3,11 +3,11 @@ const db = require('../db.config/db.config')
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const add_status = async(req, res, next) => {
-    const { name,deskripsi } = req.body; // Ambil nama status dari body request
+    const { nama,deskripsi } = req.body; // Ambil nama status dari body request
 
     try {
         // Query untuk menambahkan status ke dalam tabel status
-        const result = await db.query('INSERT INTO status (name,deskripsi) VALUES ($1,$2) RETURNING *', [name,deskripsi]);
+        const result = await db.query('INSERT INTO status (nama,deskripsi) VALUES ($1,$2) RETURNING *', [nama,deskripsi]);
         
         // Jika berhasil ditambahkan, kembalikan status baru
         res.status(201).json({ status: result.rows[0] });
@@ -18,12 +18,12 @@ const add_status = async(req, res, next) => {
 }
 
 const edit_status = async(req, res, next) => {
-    const { id } = req.params; // Ambil ID status dari parameter URL
-    const { name, deskripsi } = req.body; // Ambil nama status dari body request
+    const id_status = req.body.id_status;
+    const { nama, deskripsi } = req.body; // Ambil nama status dari body request
 
     try {
         // Query SQL untuk mengedit status berdasarkan ID
-        const result = await db.query('UPDATE status SET name = $1, deskripsi = $2 WHERE id = $3 RETURNING *', [name, deskripsi, id]);
+        const result = await db.query('UPDATE status SET nama = $1, deskripsi = $2 WHERE id_status = $3 RETURNING *', [nama, deskripsi, id_status]);
 
         // Periksa apakah status berhasil diperbarui
         if (result.rowCount === 0) {
@@ -39,11 +39,11 @@ const edit_status = async(req, res, next) => {
 }
 
 const remove_status = async(req, res, next) => {
-    const { id } = req.params; // Ambil ID status dari parameter URL
+    const  id_status  = req.body.id_status; // Ambil ID status dari parameter URL
 
     try {
         // Query SQL untuk menghapus status berdasarkan ID
-        const result = await db.query('DELETE FROM status WHERE id = $1 RETURNING *', [id]);
+        const result = await db.query('DELETE FROM status WHERE id_status = $1 RETURNING *', [id_status]);
 
         // Periksa apakah status berhasil dihapus
         if (result.rowCount === 0) {

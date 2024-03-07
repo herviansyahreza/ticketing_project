@@ -6,6 +6,8 @@ const tiketController = require('../controller/tiketController')
 const asetController = require('../controller/asetController')
 const statusController = require('../controller/statusController')
 const prioritasController = require('../controller/prioritasController')
+const peranController = require('../controller/peranController')
+const hakAksesController = require('../controller/hakAksesController')
 
 const Auth = require('../middleware/auth')
 
@@ -49,5 +51,19 @@ router.post('/add_prioritas', prioritasController.add_prioritas)
 router.put('/edit_prioritas', prioritasController.edit_prioritas)
 
 router.delete('/remove_prioritas', prioritasController.remove_prioritas)
+
+//peran
+router.post('/add_peran', peranController.add_peran)
+
+router.put('/edit_peran', peranController.edit_peran)
+
+router.delete('/remove_peran', peranController.remove_peran)
+
+//hak akses
+router.post('/add_hakAkses', hakAksesController.add_hakAkses)
+
+router.put('/edit_hakAkses', hakAksesController.edit_hakAkses)
+
+router.delete('/remove_hakAkses', hakAksesController.remove_hakAkses)
 
 module.exports = router

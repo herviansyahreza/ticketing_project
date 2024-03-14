@@ -21,7 +21,7 @@ export default function Header() {
             localStorage.removeItem('email');
             }
             // Redirect pengguna ke halaman login atau halaman lainnya jika diperlukan
-            window.location.href = '/login'; // Contoh: redirect ke halaman login
+            window.location.href = '/login';
         } catch (error) {
             // Tangani kesalahan jika terjadi
             console.error('Error during logout:', error);

@@ -11,7 +11,8 @@ export default function Header() {
     const handleLogout = async () => {
         try {
             // Kirim permintaan ke endpoint logout
-            const response = await axios.post('http://localhost:3001/logout');
+            const token = localStorage.getItem('token');
+            const response = await axios.post('http://localhost:3001/logout', {token});
 
             // Handle respons dari server jika diperlukan
             if (response.status === 200) {

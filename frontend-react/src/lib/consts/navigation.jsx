@@ -1,43 +1,42 @@
 import {
-	HiOutlineViewGrid,
-	HiOutlineCube,
-	HiOutlineShoppingCart,
 	HiOutlineUsers,
 	HiOutlineDocumentText,
 	HiOutlineAnnotation,
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog
 } from 'react-icons/hi'
+import { IoTicketOutline } from "react-icons/io5";
+import { BiBarChart, BiServer } from "react-icons/bi";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
 		key: 'dashboard',
 		label: 'Dashboard',
 		path: '/',
-		icon: <HiOutlineViewGrid />
+		icon: <BiBarChart />
 	},
 	{
 		key: 'ticket',
 		label: 'Ticket',
 		path: '/ticket',
-		icon: <HiOutlineCube />
+		icon: <IoTicketOutline />
 	},
 	{
-		key: 'orders',
-		label: 'Orders',
-		path: '/orders',
-		icon: <HiOutlineShoppingCart />
+		key: 'aset',
+		label: 'Aset',
+		path: '/aset',
+		icon: <BiServer />
 	},
 	{
-		key: 'customers',
-		label: 'Customers',
-		path: '/customers',
+		key: 'users',
+		label: 'Users',
+		path: '/users',
 		icon: <HiOutlineUsers />
 	},
 	{
-		key: 'transactions',
-		label: 'Transactions',
-		path: '/transactions',
+		key: 'history',
+		label: 'History',
+		path: '/history',
 		icon: <HiOutlineDocumentText />
 	},
 	{

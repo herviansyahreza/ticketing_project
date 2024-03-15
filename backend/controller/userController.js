@@ -4,18 +4,22 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
-const register = async(req, res, next) => {
-    const{username,email,password,jabatan}= req.body;
-    // mengubah password menjadi hash
-    const hashed_pwd= await bcrypt.hash(password,10)
+const register = async (req, res, next) => {
+    const { username, email, password, confirmPassword, jabatan } = req.body;
     
-    // input data ke db
+    // Cek apakah password dan confirm password sama
+    if (password !== confirmPassword) {
+        return res.status(400).send('Password and confirm password do not match');
+    }
+    // Mengubah password menjadi hash
+    const hashedPwd = await bcrypt.hash(password, 10);
+    // Input data ke database
     try {
-        db.query('INSERT INTO users(username,email,password,jabatan,created_at) VALUES ($1,$2,$3,$4,$5);',[username,email,hashed_pwd,jabatan,currentDate])
-        res.send('data added succesfully!')
-        
+        await db.query('INSERT INTO users (username, email, password, jabatan, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, jabatan, currentDate]);
+        res.send('Data added successfully!');
     } catch (error) {
-        res.send('Input failure!')
+        console.error('Error:', error.message);
+        res.status(500).send('Input failure!');
     }
 }
 

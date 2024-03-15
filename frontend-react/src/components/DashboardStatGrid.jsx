@@ -79,7 +79,3 @@ export default function DashboardStatsGrid() {
 		</div>
 	)
 }
-
-// function BoxWrapper({ children }) {
-// 	return <div className="rounded-sm p-4 flex-1 border border-gray-200 flex items-center">{children}</div>
-// }

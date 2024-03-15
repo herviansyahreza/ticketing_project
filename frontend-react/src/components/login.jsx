@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 export default function Login() {
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
+    const handleSubmitLogin = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
@@ -22,7 +22,7 @@ export default function Login() {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('name', response.data.username);
                 localStorage.setItem('email', response.data.email);
-                Navigate('/');
+                navigate('/');
             } else {
                 // Login gagal karena username atau password salah
                 alert('Email atau password salah');
@@ -32,6 +32,11 @@ export default function Login() {
             alert('Terjadi kesalahan saat login');
         }
     };
+    const handleClickRegister = () => {
+        // Navigate ke halaman register
+        navigate('/register');
+    };
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -47,7 +52,7 @@ export default function Login() {
             </div>
     
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form  onSubmit={handleSubmit} className="space-y-6" action="#" method="POST">
+                <form  onSubmit={handleSubmitLogin} className="space-y-6" action="#" method="POST">
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Email address
@@ -59,7 +64,7 @@ export default function Login() {
                         type="email"
                         autoComplete="email"
                         required
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     </div>
                 </div>
@@ -82,7 +87,7 @@ export default function Login() {
                         type="password"
                         autoComplete="current-password"
                         required
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     </div>
                 </div>
@@ -99,7 +104,7 @@ export default function Login() {
     
                 <p className="mt-10 text-center text-sm text-gray-500">
                 Don't have an account? 
-                <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2">
+                <a onClick={handleClickRegister} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2">
                     Register
                 </a>
                 </p>

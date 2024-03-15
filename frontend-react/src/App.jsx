@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import Ticket from './components/Ticket';
 import FormTicket from './components/FormTicket';
 import Login from './components/login';
+import RegisterForm from './components/Register';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Route path="form-ticket" element={<FormTicket/>} />
         </Route>
         <Route path="login" element={<Login/>} />
-        <Route path="register" element={<div>this is register page</div>} />
+        <Route path="register" element={<RegisterForm/>} />
       </Routes>
     </Router>
   );

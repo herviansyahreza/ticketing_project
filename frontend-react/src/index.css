@@ -25,3 +25,7 @@
 		@apply text-sky-500 hover:underline;
 	}
 }
+
+.bg-metallic {
+  background-image: linear-gradient(135deg, #6c757d, #495057);
+}

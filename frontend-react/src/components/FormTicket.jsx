@@ -3,7 +3,7 @@ import React from "react";
 
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
-export default function Example() {
+export default function Ticket() {
     return (
     <form>
         <div className="space-y-12">

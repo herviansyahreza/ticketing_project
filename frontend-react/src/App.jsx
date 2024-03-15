@@ -5,6 +5,8 @@ import Ticket from './components/Ticket';
 import FormTicket from './components/FormTicket';
 import Login from './components/login';
 import RegisterForm from './components/Register';
+import Aset from './components/Aset';
+import FormAset from './components/FormAset';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="ticket" element={<Ticket />} />
           <Route path="form-ticket" element={<FormTicket/>} />
+          <Route path="aset" element={<Aset/>} />
+          <Route path="form-aset" element={<FormAset/>} />
         </Route>
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<RegisterForm/>} />

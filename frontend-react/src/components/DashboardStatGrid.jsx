@@ -5,7 +5,7 @@ import { BiTime, BiPauseCircle, BiCheckCircle, BiRefresh } from "react-icons/bi"
 export default function DashboardStatsGrid() {
 	return (
 		<div className="flex gap-4">
-			<div className='bg-gray-500 rounded-xl h-28 w-48 p-6 flex-1 border border-gray-200 flex items-center'>
+			<div className='bg-gray-400 rounded-xl h-28 w-48 p-6 flex-1 border border-gray-200 flex items-center'>
 				<div className="rounded-full h-8 w-8 flex items-center justify-center bg-gray-700">
 					<AiOutlineExclamation className="text-2xl text-white" />
 				</div>

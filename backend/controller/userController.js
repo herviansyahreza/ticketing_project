@@ -75,8 +75,8 @@ const logout = (req, res) => {
 
 const verify = async (req, res, next) => {
     try {
-        // Mendapatkan token dari header Authorization
-        const token = req.header('Authorization');
+        const token = req.body.token; // Mendapatkan token dari body request
+        console.log(token);
         if (!token) {
             return res.status(401).json({ message: 'Access denied, no token provided' });
         }

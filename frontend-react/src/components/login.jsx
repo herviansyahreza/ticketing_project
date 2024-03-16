@@ -39,7 +39,7 @@ export default function Login() {
     };
 
     return (
-        <>
+        <div className='bg-neutral-100 h-screen w-screen overflow-hidden flex flex-row'>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
@@ -47,12 +47,12 @@ export default function Login() {
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Your Company"
                 />
+            </div>
+            <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-auto my-auto px-8 py-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm" >
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                 Sign in to your account
                 </h2>
-            </div>
-    
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm cursor-pointer" >
                 <form  onSubmit={handleSubmitLogin} className="space-y-6" action="#" method="POST">
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -111,6 +111,7 @@ export default function Login() {
                 </p>
             </div>
             </div>
-        </>
+        </div>
+        </div>
         )
     }

@@ -36,13 +36,13 @@ const login = async (req, res, next) => {
                 // Menghasilkan token dengan JWT
                 const jwtSecretKey = 'kuncirahasia';
                 const tokenData = {
-                    userId: user.rows[0].id // Hanya menyimpan ID pengguna dalam token
+                    userId: user.rows[0].id_user // Hanya menyimpan ID pengguna dalam token
                 };
                 const token = jwt.sign(tokenData, jwtSecretKey);
                 
                 // Mengembalikan ID, username, dan email
                 res.cookie("JWT", token, { httpOnly: true, sameSite: "strict" }).status(200).json({
-                    id: user.rows[0].id,
+                    id_user: user.rows[0].id_user,
                     username: user.rows[0].username,
                     email: user.rows[0].email,
                     token: token
@@ -75,11 +75,12 @@ const logout = (req, res) => {
 
 const verify = async (req, res, next) => {
     try {
-        const token = req.body.token; // Mendapatkan token dari body request
-        console.log(token);
-        if (!token) {
-            return res.status(401).json({ message: 'Access denied, no token provided' });
+        const authHeader = req.headers.authorization;
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                return res.status(401).json({ message: 'Access denied, no token provided' });
         }
+        // Mengambil token dari header
+        const token = authHeader.split(' ')[1];
 
         // Memverifikasi token
         const jwtSecretKey = 'kuncirahasia';
@@ -89,7 +90,7 @@ const verify = async (req, res, next) => {
         const userId = decoded.userId;
 
         // Periksa apakah pengguna ada dalam database
-        const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+        const user = await db.query('SELECT * FROM users WHERE id_user = $1', [userId]);
         if (user.rowCount === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -107,7 +108,7 @@ const verify = async (req, res, next) => {
 };
 
 const update = async (req, res, next) => {
-    const userId = req.body.id;
+    const userId = req.body.id_user;
     const { username, email, password } = req.body;
 
     try {
@@ -115,10 +116,10 @@ const update = async (req, res, next) => {
         if (password) {
             // Jika password diubah, hash password baru
             const hashedPassword = await bcrypt.hash(password, 10);
-            await db.query('UPDATE users SET username = $1, email = $2, password = $3, edited_at = $4 WHERE id = $5', [username, email, hashedPassword, currentDate, userId]);
+            await db.query('UPDATE users SET username = $1, email = $2, password = $3, edited_at = $4 WHERE id_user = $5', [username, email, hashedPassword, currentDate, userId]);
         } else {
             // Jika password tidak diubah, hanya perbarui username, email, dan edited_at
-            await db.query('UPDATE users SET username = $1, email = $2, edited_at = $3 WHERE id = $4', [username, email, currentDate, userId]);
+            await db.query('UPDATE users SET username = $1, email = $2, edited_at = $3 WHERE id_user = $4', [username, email, currentDate, userId]);
         }
 
         // Kirimkan respons sukses
@@ -135,7 +136,7 @@ const remove = async (req, res, next) => {
 
     try {
         // Query SQL untuk menandai pengguna sebagai dihapus
-        await db.query('UPDATE users SET deleted_at = $1 WHERE id = $2', [currentDate, userId]);
+        await db.query('UPDATE users SET deleted_at = $1 WHERE id_user = $2', [currentDate, userId]);
 
         // Kirimkan respons sukses
         res.status(200).json({ message: 'User deleted successfully' });

@@ -20,6 +20,7 @@ export default function Header() {
             localStorage.removeItem('token');
             localStorage.removeItem('name');
             localStorage.removeItem('email');
+			localStorage.removeItem('id_user');
             }
             // Redirect pengguna ke halaman login atau halaman lainnya jika diperlukan
             window.location.href = '/login';
@@ -29,6 +30,10 @@ export default function Header() {
             alert('Failed to logout. Please try again.');
         }
     };
+
+	const handleProfile = () => {
+		navigate('/profile')
+	}
 
 	return (
 		<div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
@@ -121,7 +126,7 @@ export default function Header() {
 							<Menu.Item>
 								{({ active }) => (
 									<div
-										onClick={() => navigate('/profile')}
+										onClick={handleProfile}
 										className={classNames(
 											active && 'bg-gray-100',
 											'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'

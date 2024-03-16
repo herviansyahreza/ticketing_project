@@ -7,6 +7,8 @@ import Login from './components/login';
 import RegisterForm from './components/Register';
 import Aset from './components/Aset';
 import FormAset from './components/FormAset';
+import Notfound from './components/Notfound';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -18,9 +20,11 @@ function App() {
           <Route path="form-ticket" element={<FormTicket/>} />
           <Route path="aset" element={<Aset/>} />
           <Route path="form-aset" element={<FormAset/>} />
+          <Route path="profile" element={<Profile/>} />
         </Route>
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<RegisterForm/>} />
+        <Route path="*" element={<Notfound/>} />
       </Routes>
     </Router>
   );

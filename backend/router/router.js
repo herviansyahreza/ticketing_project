@@ -16,7 +16,7 @@ router.post('/register', userController.register)
 
 router.post('/login', userController.login)
 
-router.post('/logout', Auth.verifyToken, userController.logout)
+router.post('/logout', userController.logout)
 
 router.post('/verify', Auth.verifyToken, userController.verify)
 

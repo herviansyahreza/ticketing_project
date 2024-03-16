@@ -3,10 +3,13 @@ const jwt = require('jsonwebtoken');
 const Auth = {
     verifyToken(req, res, next) {
         try {
-            const token = req.body.token;
-            if (!token) {
-                return res.status(403).json({ message: 'You are not authenticated, please login first' });
+            const authHeader = req.headers.authorization;
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                return res.status(401).json({ message: 'Access denied, no token provided' });
             }
+            
+            // Mengambil token dari header
+            const token = authHeader.split(' ')[1];
 
             // jwt verify
             const verified = jwt.verify(token, 'kuncirahasia');

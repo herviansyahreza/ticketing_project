@@ -22,6 +22,7 @@ export default function Login() {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('name', response.data.username);
                 localStorage.setItem('email', response.data.email);
+                localStorage.setItem('id_user', response.data.id_user);
                 navigate('/');
             } else {
                 // Login gagal karena username atau password salah
@@ -51,7 +52,7 @@ export default function Login() {
                 </h2>
             </div>
     
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm cursor-pointer" >
                 <form  onSubmit={handleSubmitLogin} className="space-y-6" action="#" method="POST">
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -75,7 +76,7 @@ export default function Login() {
                         Password
                     </label>
                     <div className="text-sm">
-                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
                         Forgot password?
                         </a>
                     </div>
@@ -95,7 +96,7 @@ export default function Login() {
                 <div>
                     <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                     >
                     Sign in
                     </button>
@@ -104,7 +105,7 @@ export default function Login() {
     
                 <p className="mt-10 text-center text-sm text-gray-500">
                 Don't have an account? 
-                <a onClick={handleClickRegister} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2">
+                <a onClick={handleClickRegister} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2 cursor-pointer">
                     Register
                 </a>
                 </p>

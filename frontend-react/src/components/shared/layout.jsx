@@ -13,12 +13,15 @@ export default function Layout() {
         const id = localStorage.getItem('id');
 
         if (!token || token === '' || !id || id === '') {
+            alert('Please log in first');
             navigate('/login');
         } else {
             const verify = async () => {
                 try {
                     const response = await axios.post('http://localhost:3001/verify', null, {
-                        token: localStorage.getItem('token')
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
                     });
                     if (response.status === 200) {
                         setIsLogin(true);

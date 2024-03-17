@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
 
 const users = [
     {
@@ -25,17 +24,10 @@ const users = [
     // Add the remaining users here...
 ];
 
-export default function AsetList() {
-    const navigate = useNavigate()
+export default function UsersList() {
 
     return (
         <div>
-            <Link to="/form-aset">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-aset')}>
-                Buat Aset
-            </button>
-        </Link>
-
             <table>
             <thead>
                 <tr>

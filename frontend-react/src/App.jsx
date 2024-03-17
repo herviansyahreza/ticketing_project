@@ -9,6 +9,7 @@ import Aset from './components/Aset';
 import FormAset from './components/FormAset';
 import Notfound from './components/Notfound';
 import Profile from './components/Profile';
+import Users from './components/Users';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="aset" element={<Aset/>} />
           <Route path="form-aset" element={<FormAset/>} />
           <Route path="profile" element={<Profile/>} />
+          <Route path="users" element={<Users/>} />
         </Route>
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<RegisterForm/>} />

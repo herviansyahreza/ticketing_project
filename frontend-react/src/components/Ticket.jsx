@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 
 
-const users = [
+const tiket = [
     {
         judul: 'Laporan Wifi Perpustakaan Lt.2 Rusak',
         pelapor: 'roberto',
@@ -52,7 +52,7 @@ export default function TicketList () {
             </tr>
         </thead>
         <tbody>
-            {users.map((user, index) => (
+            {tiket.map((user, index) => (
             <tr key={index}>
                 <td>{user.judul}</td>
                 <td>{user.pelapor}</td>

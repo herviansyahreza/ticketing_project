@@ -1,34 +1,40 @@
-import React from "react";
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'
+import React, {useState, useEffect} from "react";
+import { useNavigate, Link } from 'react-router-dom'
+import axios from 'axios';
 
-
-const tiket = [
-    {
-        judul: 'Laporan Wifi Perpustakaan Lt.2 Rusak',
-        pelapor: 'roberto',
-        email: 'roberto@gmail.com',
-        aset: 'Wifi Perpustakaan kanan',
-        laporan: 'Sudah 3 hari wifi tidak menyala dan mengganggu perkuliahan karena tidak ada internet',
-        status: 'Open',
-        created_at: '2021-10-10',
-        edited_at: '2021-10-11',
-    },
-    {
-        judul: 'Laporan Wifi Kelas Informatika Mati',
-        pelapor: 'santiago',
-        email: 'santiago@gmail.com',
-        aset: 'Wifi Unhan 2nd-class',
-        laporan: 'Sudah 4 jam wifi tidak menyala dan mengganggu perkuliahan karena tidak ada internet',
-        status: 'Open',
-        created_at: '2021-10-10',
-        edited_at: '2021-10-11',
-    },
-    // Add the remaining users here...
-];
 
 export default function TicketList () {
     const navigate = useNavigate()
+    const [tiket, setTiket] = useState([]);
+
+        useEffect(() => {
+        axios.get('http://localhost:3001/show_tiket')
+            .then(response => {
+            setTiket(response.data);
+            })
+            .catch(error => {
+            console.error('Error fetching tiket:', error);
+            });
+        }, []);
+
+        const handleDelete = async (id) => {
+            try {
+                const response = await axios.delete('http://localhost:3001/remove_tiket/id_tiket={id}');
+                console.log(response);
+                if (response.status === 200) {
+                    // Hapus tiket berhasil
+                    // Lakukan refresh data tiket
+                    const updatedTiket = tiket.filter(item => item.id !== id);
+                    setTiket(updatedTiket);
+                } else {
+                    // Hapus tiket gagal
+                    alert('Hapus tiket gagal');
+                }
+            } catch (error) {
+                // Terjadi kesalahan saat melakukan permintaan hapus tiket
+                alert('Terjadi kesalahan saat menghapus tiket');
+            }
+        };
 
 	return (
     <div>
@@ -52,21 +58,25 @@ export default function TicketList () {
             </tr>
         </thead>
         <tbody>
-            {tiket.map((user, index) => (
+            {tiket.map((item, index) => (
             <tr key={index}>
-                <td>{user.judul}</td>
-                <td>{user.pelapor}</td>
-                <td>{user.email}</td>
-                <td>{user.aset}</td>
-                <td>{user.laporan}</td>
-                <td>{user.status}</td>
-                <td>{user.created_at}</td>
-                <td>{user.edited_at}</td>
+                <td>{item.judul}</td>
+                <td>{item.nama_client}</td>
+                <td>{item.email_client}</td>
+                <td>{item.aset}</td>
+                <td>{item.laporan}</td>
+                <td>{item.status}</td>
+                <td>{item.created_at}</td>
+                <td>{item.edited_at}</td>
                 <td>
+
                 <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">
                     Edit
                 </button>
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">
+
+                <button 
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+                onClick={() => handleDelete(item.id)}>
                     Hapus
                 </button>
             </td>

@@ -12,7 +12,11 @@ export default function Header() {
         try {
             // Kirim permintaan ke endpoint logout
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/logout', {token});
+            const response = await axios.post('http://localhost:3001/logout', null,{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
 
             // Handle respons dari server jika diperlukan
             if (response.status === 200) {
@@ -22,6 +26,7 @@ export default function Header() {
             localStorage.removeItem('email');
 			localStorage.removeItem('id_user');
             }
+			alert('Logout Succesfully');
             // Redirect pengguna ke halaman login atau halaman lainnya jika diperlukan
             window.location.href = '/login';
         } catch (error) {

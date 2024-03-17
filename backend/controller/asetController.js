@@ -15,6 +15,18 @@ const add_aset = async(req, res, next) => {
     }
 }
 
+const show_aset = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const asets = await db.query('SELECT * FROM aset');
+
+        res.status(200).json(asets.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching asets:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const edit_aset = async(req, res, next) => {
     const id_aset = req.body.id_aset;
     const { nama,tempat } = req.body;
@@ -52,6 +64,7 @@ const remove_aset = async(req, res, next) => {
 
 module.exports = {
     add_aset,
+    show_aset,
     edit_aset,
     remove_aset,
 }

@@ -1,11 +1,44 @@
-import React from "react";
-// import { Link } from "react-router-dom";
-
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import  axios  from "axios";
 import { PhotoIcon } from '@heroicons/react/24/solid'
 
-export default function Ticket() {
+export default function TicketForm() {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        judul: '',
+        nama_client: '',
+        email_client: '',
+        aset: '',
+        laporan: '',
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log(formData);
+
+        try {
+            const response = await axios.post('http://localhost:3001/add_tiket', formData);
+            console.log(response);
+            if (response.status === 200||201) {
+                // Register berhasil
+                navigate('/ticket');
+            } else {
+                // Register gagal
+                alert('Submit form gagal');
+            }
+        } catch (error) {
+            // Terjadi kesalahan saat melakukan permintaan submit form tiket
+            alert('Terjadi kesalahan saat submit form tiket');
+        }
+    };
+
     return (
-    <form>
+    <form onSubmit={handleSubmit}>
         <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">Form Ticket</h2>
@@ -25,6 +58,7 @@ export default function Ticket() {
                         name="judul"
                         id="judul"
                         autoComplete="judul"
+                        onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder="Judul Tiket..."
                         required
@@ -44,6 +78,7 @@ export default function Ticket() {
                         name="nama_client"
                         id="nama_client"
                         autoComplete="nama_client"
+                        onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder="Nama Pelapor..."
                         required
@@ -63,6 +98,7 @@ export default function Ticket() {
                         name="email_client"
                         id="email_client"
                         autoComplete="email_client"
+                        onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder="Email Pelapor..."
                         required
@@ -82,6 +118,7 @@ export default function Ticket() {
                         name="aset"
                         id="aset"
                         autoComplete="aset"
+                        onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder="Aset..."
                         required
@@ -99,6 +136,7 @@ export default function Ticket() {
                     id="laporan"
                     name="laporan"
                     rows={5}
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={''}
                     required
@@ -142,7 +180,7 @@ export default function Ticket() {
                     <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                     </div>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-gray-600">Lampirkan foto pada pc atau aset yang bermasalah.</p>
+                <p className="mt-3 text-sm leading-6 text-gray-600">Lampirkan foto pada pc atau aset yang bermasalah (jika ada).</p>
                 </div>
             </div>
 

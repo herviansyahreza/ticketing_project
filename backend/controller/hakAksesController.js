@@ -17,6 +17,18 @@ const add_hakAkses = async(req, res, next) => {
     }
 }
 
+const show_hakAkses = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const hak_akses = await db.query('SELECT * FROM hak_akses');
+
+        res.status(200).json(hak_akses.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching hak akses:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const edit_hakAkses = async(req, res, next) => {
     const id_hakakses = req.body.id_hakakses;
     const { nama, deskripsi } = req.body; // Ambil nama hakAkses dari body request
@@ -60,6 +72,7 @@ const remove_hakAkses = async(req, res, next) => {
 
 module.exports = {
     add_hakAkses,
+    show_hakAkses,
     edit_hakAkses,
     remove_hakAkses,
 }

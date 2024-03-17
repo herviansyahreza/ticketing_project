@@ -19,6 +19,18 @@ const add_tiket = async(req, res, next) => {
     }
 }
 
+const show_tiket = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const tikets = await db.query('SELECT * FROM tiket');
+
+        res.status(200).json(tikets.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching tickets:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const edit_tiket = async(req, res, next) => {
     const { id_tiket, judul, laporan, nama_client, email_client, aset } = req.body;
     try {
@@ -35,7 +47,7 @@ const edit_tiket = async(req, res, next) => {
 }
 
 const remove_tiket = async(req, res, next) => {
-    const id_tiket = req.body.id_tiket;
+    const id_tiket = req.params.id;
     try {
         const result = await db.query('DELETE FROM tiket WHERE id_tiket = $1', [id_tiket]);
         if (result.rowCount > 0) {
@@ -51,6 +63,7 @@ const remove_tiket = async(req, res, next) => {
 
 module.exports = {
     add_tiket,
+    show_tiket,
     edit_tiket,
     remove_tiket,
 }

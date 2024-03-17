@@ -17,6 +17,18 @@ const add_status = async(req, res, next) => {
     }
 }
 
+const show_status = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const status = await db.query('SELECT * FROM status');
+
+        res.status(200).json(status.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching status:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const edit_status = async(req, res, next) => {
     const id_status = req.body.id_status;
     const { nama, deskripsi } = req.body; // Ambil nama status dari body request
@@ -60,6 +72,7 @@ const remove_status = async(req, res, next) => {
 
 module.exports = {
     add_status,
+    show_status,
     edit_status,
     remove_status,
 }

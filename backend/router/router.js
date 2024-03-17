@@ -16,9 +16,11 @@ router.post('/register', userController.register)
 
 router.post('/login', userController.login)
 
-router.post('/logout', userController.logout)
+router.post('/logout', Auth.verifyToken, userController.logout)
 
 router.post('/verify', Auth.verifyToken, userController.verify)
+
+router.get('/show_user', userController.show_user)
 
 router.put('/update', userController.update)
 
@@ -27,12 +29,16 @@ router.delete('/delete', userController.remove)
 //tiket
 router.post('/add_tiket', tiketController.add_tiket)
 
+router.get('/show_tiket', tiketController.show_tiket)
+
 router.put('/edit_tiket', tiketController.edit_tiket)
 
 router.delete('/remove_tiket', tiketController.remove_tiket)
 
 //aset
 router.post('/add_aset', asetController.add_aset)
+
+router.get('/show_aset', asetController.show_aset)
 
 router.put('/edit_aset', asetController.edit_aset)
 
@@ -41,12 +47,16 @@ router.delete('/remove_aset', asetController.remove_aset)
 //status
 router.post('/add_status', statusController.add_status)
 
+router.get('/show_status', statusController.show_status)
+
 router.put('/edit_status', statusController.edit_status)
 
 router.delete('/remove_status', statusController.remove_status)
 
 //prioritas
 router.post('/add_prioritas', prioritasController.add_prioritas)
+
+router.get('/show_prioritas', prioritasController.show_prioritas)
 
 router.put('/edit_prioritas', prioritasController.edit_prioritas)
 
@@ -55,12 +65,16 @@ router.delete('/remove_prioritas', prioritasController.remove_prioritas)
 //peran
 router.post('/add_peran', peranController.add_peran)
 
+router.get('/show_peran', peranController.show_peran)
+
 router.put('/edit_peran', peranController.edit_peran)
 
 router.delete('/remove_peran', peranController.remove_peran)
 
 //hak akses
 router.post('/add_hakAkses', hakAksesController.add_hakAkses)
+
+router.get('/show_hakAkses', hakAksesController.show_hakAkses)
 
 router.put('/edit_hakAkses', hakAksesController.edit_hakAkses)
 

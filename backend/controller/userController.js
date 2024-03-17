@@ -67,6 +67,7 @@ const logout = (req, res) => {
         // Menghapus cookie JWT dengan mengatur waktu kedaluwarsa ke masa lalu
         res.clearCookie("JWT", { httpOnly: true, sameSite: "strict", expires: new Date(0) });
         res.status(200).json({ message: "Logout successful" });
+        console.log('Logout Berhasil')
     } catch (error) {
         console.error('Logout failed:', error);
         res.status(500).json({ message: "Logout failed" });
@@ -106,6 +107,18 @@ const verify = async (req, res, next) => {
         }
     }
 };
+
+const show_user = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const users = await db.query('SELECT * FROM users');
+
+        res.status(200).json(users.rows); // Mengirim data user sebagai respons
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 
 const update = async (req, res, next) => {
     const userId = req.body.id_user;
@@ -197,6 +210,7 @@ module.exports = {
     login,
     logout,
     verify,
+    show_user,
     update,
     remove,
 }

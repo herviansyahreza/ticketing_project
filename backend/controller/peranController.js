@@ -17,6 +17,18 @@ const add_peran = async(req, res, next) => {
     }
 }
 
+const show_peran = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const peran = await db.query('SELECT * FROM peran');
+
+        res.status(200).json(peran.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching peran:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const edit_peran = async(req, res, next) => {
     const id_peran = req.body.id_peran;
     const { jenis_peran, deskripsi } = req.body; // Ambil nama peran dari body request
@@ -60,6 +72,7 @@ const remove_peran = async(req, res, next) => {
 
 module.exports = {
     add_peran,
+    show_peran,
     edit_peran,
     remove_peran,
 }

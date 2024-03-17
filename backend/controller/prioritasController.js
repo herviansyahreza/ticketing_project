@@ -17,6 +17,18 @@ const add_prioritas = async(req, res, next) => {
     }
 }
 
+const show_prioritas = async (req, res, next) => {
+    try {
+        // Query untuk mengambil semua data tiket
+        const prioritas = await db.query('SELECT * FROM prioritas');
+
+        res.status(200).json(prioritas.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching prioritas:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const edit_prioritas = async(req, res, next) => {
     const id_prioritas = req.body.id_prioritas;
     const { nama, deskripsi } = req.body; // Ambil nama prioritas dari body request
@@ -60,6 +72,7 @@ const remove_prioritas = async(req, res, next) => {
 
 module.exports = {
     add_prioritas,
+    show_prioritas,
     edit_prioritas,
     remove_prioritas,
 }

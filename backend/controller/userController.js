@@ -4,6 +4,25 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
+// const register = async (req, res, next) => {
+//     const { username, email, password, confirmPassword, jabatan } = req.body;
+    
+//     // Cek apakah password dan confirm password sama
+//     if (password !== confirmPassword) {
+//         return res.status(400).send('Password and confirm password do not match');
+//     }
+//     // Mengubah password menjadi hash
+//     const hashedPwd = await bcrypt.hash(password, 10);
+//     // Input data ke database
+//     try {
+//         await db.query('INSERT INTO users (username, email, password, jabatan, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, jabatan, currentDate]);
+//         res.send('Data added successfully!');
+//     } catch (error) {
+//         console.error('Error:', error.message);
+//         res.status(500).send('Input failure!');
+//     }
+// }
+
 const register = async (req, res, next) => {
     const { username, email, password, confirmPassword, jabatan } = req.body;
     
@@ -11,17 +30,33 @@ const register = async (req, res, next) => {
     if (password !== confirmPassword) {
         return res.status(400).send('Password and confirm password do not match');
     }
+
+    // Mengambil ID peran dari basis data sesuai dengan role yang diberikan
+    let roleId;
+    try {
+        const roleQuery = await db.query('SELECT id_peran FROM peran WHERE jabatan = $1;', [jabatan]);
+        roleId = roleQuery.rows[0]?.id_peran;
+        // const accessQuery = await db.query('SELECT id FROM access_levels WHERE access_name = $1;', [role]);
+        // accessId = accessQuery.rows[0]?.id;
+    } catch (error) {
+        console.error('Error fetching role or access:', error.message);
+        return res.status(500).send('Error fetching role or access levels');
+    }
+
     // Mengubah password menjadi hash
     const hashedPwd = await bcrypt.hash(password, 10);
-    // Input data ke database
+
+    // Input data pengguna beserta ID peran ke database
+    const currentDate = new Date().toISOString();
     try {
-        await db.query('INSERT INTO users (username, email, password, jabatan, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, jabatan, currentDate]);
+        await db.query('INSERT INTO users (username, email, password, id_peran, jabatan, created_at) VALUES ($1, $2, $3, $4, $5, $6);', [username, email, hashedPwd, roleId, jabatan, currentDate]);
         res.send('Data added successfully!');
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error inserting user data:', error.message);
         res.status(500).send('Input failure!');
     }
 }
+
 
 const add_user = async (req, res, next) => {
     const { username, email, password, jabatan } = req.body;

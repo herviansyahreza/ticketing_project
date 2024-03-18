@@ -47,7 +47,7 @@ const edit_tiket = async(req, res, next) => {
 }
 
 const remove_tiket = async(req, res, next) => {
-    const id_tiket = req.params.id;
+    const id_tiket = req.params.id_tiket;
     try {
         const result = await db.query('DELETE FROM tiket WHERE id_tiket = $1', [id_tiket]);
         if (result.rowCount > 0) {

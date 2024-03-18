@@ -2,30 +2,6 @@ import React, {useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// const users = [
-//     {
-//         judul: 'Laporan Wifi Perpustakaan Lt.2 Rusak',
-//         pelapor: 'roberto',
-//         email: 'roberto@gmail.com',
-//         aset: 'Wifi Perpustakaan kanan',
-//         laporan: 'Sudah 3 hari wifi tidak menyala dan mengganggu perkuliahan karena tidak ada internet',
-//         status: 'Open',
-//         created_at: '2021-10-10',
-//         edited_at: '2021-10-11',
-//     },
-//     {
-//         judul: 'Laporan Wifi Kelas Informatika Mati',
-//         pelapor: 'santiago',
-//         email: 'santiago@gmail.com',
-//         aset: 'Wifi Unhan 2nd-class',
-//         laporan: 'Sudah 4 jam wifi tidak menyala dan mengganggu perkuliahan karena tidak ada internet',
-//         status: 'Open',
-//         created_at: '2021-10-10',
-//         edited_at: '2021-10-11',
-//     },
-//     // Add the remaining users here...
-// ];
-
 export default function AsetList() {
     const navigate = useNavigate()
     const [aset, setAset] = useState([]);
@@ -51,6 +27,7 @@ export default function AsetList() {
             <table>
             <thead>
                 <tr>
+                <th>No</th>
                 <th>Nama Aset</th>
                 <th>Lokasi Aset</th>
                 <th>Aksi</th>
@@ -59,6 +36,7 @@ export default function AsetList() {
             <tbody>
                 {aset.map((item, index) => (
                 <tr key={index}>
+                    <td>{index + 1}</td>
                     <td>{item.nama}</td>
                     <td>{item.lokasi}</td>
                     <td>

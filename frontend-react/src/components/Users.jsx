@@ -1,33 +1,10 @@
 import React, {useState, useEffect} from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-
-// const users = [
-//     {
-//         judul: 'Laporan Wifi Perpustakaan Lt.2 Rusak',
-//         pelapor: 'roberto',
-//         email: 'roberto@gmail.com',
-//         aset: 'Wifi Perpustakaan kanan',
-//         laporan: 'Sudah 3 hari wifi tidak menyala dan mengganggu perkuliahan karena tidak ada internet',
-//         status: 'Open',
-//         created_at: '2021-10-10',
-//         edited_at: '2021-10-11',
-//     },
-//     {
-//         judul: 'Laporan Wifi Kelas Informatika Mati',
-//         pelapor: 'santiago',
-//         email: 'santiago@gmail.com',
-//         aset: 'Wifi Unhan 2nd-class',
-//         laporan: 'Sudah 4 jam wifi tidak menyala dan mengganggu perkuliahan karena tidak ada internet',
-//         status: 'Open',
-//         created_at: '2021-10-10',
-//         edited_at: '2021-10-11',
-//     },
-//     // Add the remaining users here...
-// ];
+import { parseISO, format } from "date-fns";
 
 export default function UsersList() {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const [user, setUser] = useState([]);
 
         useEffect(() => {
@@ -42,9 +19,15 @@ export default function UsersList() {
 
     return (
         <div>
+            <Link to="/form-user">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-user')}>
+                Buat User
+            </button>
+        </Link>
             <table>
             <thead>
                 <tr>
+                <th>No</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Jabatan</th>
@@ -56,11 +39,12 @@ export default function UsersList() {
             <tbody>
                 {user.map((item, index) => (
                 <tr key={index}>
+                    <td>{index + 1}</td>
                     <td>{item.username}</td>
                     <td>{item.email}</td>
                     <td>{item.jabatan}</td>
-                    <td>{item.created_at}</td>
-                    <td>{item.edited_at}</td>
+                    <td>{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
+                    <td>{item.edited_at} WIB</td>
                     <td>
                     <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">
                         Edit

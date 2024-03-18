@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
+// import { Card } from "@material-tailwind/react";
+import { parseISO, format } from "date-fns";
 
 
 export default function TicketList () {
@@ -17,14 +19,14 @@ export default function TicketList () {
             });
         }, []);
 
-        const handleDelete = async (id) => {
+        const handleDelete = async (id_tiket) => {
             try {
-                const response = await axios.delete('http://localhost:3001/remove_tiket/id_tiket={id}');
+                const response = await axios.delete(`http://localhost:3001/remove_tiket/${id_tiket}`);
                 console.log(response);
                 if (response.status === 200) {
                     // Hapus tiket berhasil
                     // Lakukan refresh data tiket
-                    const updatedTiket = tiket.filter(item => item.id !== id);
+                    const updatedTiket = tiket.filter(item => item.id !== id_tiket);
                     setTiket(updatedTiket);
                 } else {
                     // Hapus tiket gagal
@@ -36,6 +38,14 @@ export default function TicketList () {
             }
         };
 
+        const getStatusColor = async(id_status) => {
+            try {
+                const response = await axios.get(`http://localhost:3001/show_status/id_status=${id_status}`);
+            } catch (error) {
+                console.error('Error fetching status:', error);
+            }
+        };
+
 	return (
     <div>
         <Link to="/form-ticket">
@@ -43,13 +53,16 @@ export default function TicketList () {
                 Buat Tiket
             </button>
         </Link>
+    {/* <Card className="h-full w-full overflow-scroll"> */}
     <table>
         <thead>
             <tr>
+            <th>No</th>
             <th className="w-64">Judul</th>
             <th>Pelapor</th>
             <th>Email</th>
             <th>Aset</th>
+            <th>Prioritas</th>
             <th className="w-64">Laporan</th>
             <th>Status</th>
             <th>Created at</th>
@@ -60,14 +73,16 @@ export default function TicketList () {
         <tbody>
             {tiket.map((item, index) => (
             <tr key={index}>
+                <td>{index + 1}</td>
                 <td>{item.judul}</td>
                 <td>{item.nama_client}</td>
                 <td>{item.email_client}</td>
                 <td>{item.aset}</td>
+                <td>{item.prioritas}</td>
                 <td>{item.laporan}</td>
                 <td>{item.status}</td>
-                <td>{item.created_at}</td>
-                <td>{item.edited_at}</td>
+                <td>{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
+                <td>{item.edited_at} WIB</td>
                 <td>
 
                 <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">
@@ -84,6 +99,7 @@ export default function TicketList () {
             ))}
         </tbody>
         </table>
+        {/* </Card> */}
         </div>
     )
 };

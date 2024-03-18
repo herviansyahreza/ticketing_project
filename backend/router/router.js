@@ -14,6 +14,8 @@ const Auth = require('../middleware/auth')
 //user
 router.post('/register', userController.register)
 
+router.post('/add_user', userController.add_user)
+
 router.post('/login', userController.login)
 
 router.post('/logout', Auth.verifyToken, userController.logout)

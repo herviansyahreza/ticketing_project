@@ -23,6 +23,26 @@ const register = async (req, res, next) => {
     }
 }
 
+const add_user = async (req, res, next) => {
+    const { username, email, password, jabatan } = req.body;
+    
+    // Cek apakah password dan confirm password sama
+    // if (password !== confirmPassword) {
+    //     return res.status(400).send('Password and confirm password do not match');
+    // }
+
+    // Mengubah password menjadi hash
+    const hashedPwd = await bcrypt.hash(password, 10);
+    // Input data ke database
+    try {
+        await db.query('INSERT INTO users (username, email, password, jabatan, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, jabatan, currentDate]);
+        res.send('Data added successfully!');
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).send('Input failure!');
+    }
+}
+
 const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -149,7 +169,7 @@ const remove = async (req, res, next) => {
 
     try {
         // Query SQL untuk menandai pengguna sebagai dihapus
-        await db.query('UPDATE users SET deleted_at = $1 WHERE id_user = $2', [currentDate, userId]);
+        await db.query('DELETE FROM users WHERE id_user = $1', [userId]);
 
         // Kirimkan respons sukses
         res.status(200).json({ message: 'User deleted successfully' });
@@ -207,6 +227,7 @@ const remove = async (req, res, next) => {
 
 module.exports = {
     register,
+    add_user,
     login,
     logout,
     verify,

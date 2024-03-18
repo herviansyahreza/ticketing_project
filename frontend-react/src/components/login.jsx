@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import LogoDefenceDesk from './DefenceTicketingLogo.png'
 
 export default function Login() {
     const navigate = useNavigate();
@@ -40,13 +41,17 @@ export default function Login() {
 
     return (
         <div className='bg-neutral-100 h-screen w-screen overflow-hidden flex flex-row'>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="flex min-h-full flex-1 flex-col justify-center px-4 py-8 lg:px-6">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm py-8">
                 <img
-                className="mx-auto h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
+                className="mx-auto h-40 w-auto"
+                src={LogoDefenceDesk}
+                alt="LogoDefenceDesk"
                 />
+                <div className='flex justify-between items-center m-2'>
+            <p className='text-xl font-bold'>Welcome to DefenceDesk Ticketing Universitas Pertahanan RI</p>
+            </div>
+
             </div>
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-auto my-auto">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm" >

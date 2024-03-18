@@ -24,6 +24,7 @@ export default function Aset() {
             if (response.status === 200||201) {
                 // Register berhasil
                 navigate('/aset');
+                alert('Submit form berhasil')
             } else {
                 // Register gagal
                 alert('Submit form gagal');

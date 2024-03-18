@@ -27,6 +27,7 @@ export default function TicketForm() {
             if (response.status === 200||201) {
                 // Register berhasil
                 navigate('/ticket');
+                alert('Submit form berhasil')
             } else {
                 // Register gagal
                 alert('Submit form gagal');
@@ -197,5 +198,3 @@ export default function TicketForm() {
     </form>
     );
 }
-
-export const pageTitle = 'Form Ticket';

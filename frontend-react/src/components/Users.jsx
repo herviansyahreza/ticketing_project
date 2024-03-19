@@ -51,6 +51,7 @@ export default function UsersList() {
                 <th>Username</th>
                 <th>Email</th>
                 <th>Jabatan</th>
+                <th>Peran</th>
                 <th>Created at</th>
                 <th>Edited at</th>
                 <th>Aksi</th>
@@ -63,8 +64,9 @@ export default function UsersList() {
                     <td>{item.username}</td>
                     <td>{item.email}</td>
                     <td>{item.jabatan}</td>
+                    <td>{item.id_peran}</td>
                     <td>{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
-                    <td>{item.edited_at} WIB</td>
+                    <td>{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                     <td>
                     <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">
                         Edit

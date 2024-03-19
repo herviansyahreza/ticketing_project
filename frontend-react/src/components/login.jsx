@@ -48,9 +48,9 @@ export default function Login() {
                 src={LogoDefenceDesk}
                 alt="LogoDefenceDesk"
                 />
-                <div className='flex justify-between items-center m-2'>
+            {/* <div className='flex justify-between items-center m-2'>
             <p className='text-xl font-bold'>Welcome to DefenceDesk Ticketing Universitas Pertahanan RI</p>
-            </div>
+            </div> */}
 
             </div>
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-auto my-auto">
@@ -80,11 +80,11 @@ export default function Login() {
                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                         Password
                     </label>
-                    <div className="text-sm">
+                    {/* <div className="text-sm">
                         <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
                         Forgot password?
                         </a>
-                    </div>
+                    </div> */}
                     </div>
                     <div className="mt-2">
                     <input

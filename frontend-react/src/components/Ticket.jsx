@@ -79,11 +79,11 @@ export default function TicketList () {
                 <td>{item.nama_client}</td>
                 <td>{item.email_client}</td>
                 <td>{item.aset}</td>
-                <td>{item.prioritas}</td>
+                <td>{item.prioritas_id}</td>
                 <td>{item.laporan}</td>
-                <td>{item.status}</td>
+                <td>{item.status_id}</td>
                 <td>{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
-                <td>{item.edited_at} WIB</td>
+                <td>{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>
 
                 <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">

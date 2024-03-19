@@ -26,6 +26,7 @@ export default function UserForm() {
             if (response.status === 200||201) {
                 // Register berhasil
                 navigate('/users');
+                alert('Submit form berhasil')
             } else {
                 // Register gagal
                 alert('Submit form gagal');

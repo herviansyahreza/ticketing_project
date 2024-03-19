@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
-import { HiOutlineBell, HiOutlineChatAlt } from 'react-icons/hi'
+import { HiOutlineBell } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 import axios from 'axios'
@@ -46,7 +46,7 @@ export default function Header() {
                 <h1 className="text-xl font-semibold text-gray-900">Judul Halaman</h1>
             </div>
 			<div className="flex items-center gap-2 mr-2">
-				<Popover className="relative">
+				{/* <Popover className="relative">
 					{({ open }) => (
 						<>
 							<Popover.Button
@@ -75,7 +75,7 @@ export default function Header() {
 							</Transition>
 						</>
 					)}
-				</Popover>
+				</Popover> */}
 				<Popover className="relative">
 					{({ open }) => (
 						<>

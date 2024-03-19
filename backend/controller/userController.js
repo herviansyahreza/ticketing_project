@@ -42,9 +42,9 @@ const add_user = async (req, res, next) => {
     const { username, email, password, jabatan } = req.body;
     
     // Cek apakah password dan confirm password sama
-    if (password !== confirmPassword) {
-        return res.status(400).send('Password and confirm password do not match');
-    }
+    // if (password !== confirmPassword) {
+    //     return res.status(400).send('Password and confirm password do not match');
+    // }
 
     // Mengambil ID peran dari basis data sesuai dengan role yang diberikan
     let roleId;
@@ -199,7 +199,7 @@ const remove = async (req, res, next) => {
 
     try {
         // Query SQL untuk menandai pengguna sebagai dihapus
-        await db.query('DELETE FROM users WHERE id_user = $1', [userId]);
+        const result = await db.query('DELETE FROM users WHERE id_user = $1', [userId]);
 
         // Kirimkan respons sukses
         if (result.rowCount > 0) {

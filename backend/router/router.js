@@ -26,7 +26,7 @@ router.get('/show_user', userController.show_user)
 
 router.put('/update', userController.update)
 
-router.delete('/delete', userController.remove)
+router.delete('/remove/:id_user', userController.remove)
 
 //tiket
 router.post('/add_tiket', tiketController.add_tiket)
@@ -35,7 +35,7 @@ router.get('/show_tiket', tiketController.show_tiket)
 
 router.put('/edit_tiket', tiketController.edit_tiket)
 
-router.delete('/remove_tiket', tiketController.remove_tiket)
+router.delete('/remove_tiket/:id_tiket', tiketController.remove_tiket)
 
 //aset
 router.post('/add_aset', asetController.add_aset)
@@ -44,7 +44,7 @@ router.get('/show_aset', asetController.show_aset)
 
 router.put('/edit_aset', asetController.edit_aset)
 
-router.delete('/remove_aset', asetController.remove_aset)
+router.delete('/remove_aset/:id_aset', asetController.remove_aset)
 
 //status
 router.post('/add_status', statusController.add_status)

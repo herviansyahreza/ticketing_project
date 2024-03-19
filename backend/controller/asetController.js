@@ -46,18 +46,17 @@ const edit_aset = async(req, res, next) => {
 }
 
 const remove_aset = async(req, res, next) => {
-    const id_aset = req.body.id_aset;
+    const id_aset = req.params.id_aset;
 
     try {
         const result = await db.query('DELETE FROM aset WHERE id_aset = $1', [id_aset]);
-
         if (result.rowCount > 0) {
-            res.status(200).json({ message: 'Asset deleted successfully' });
+            res.status(200).json({ message: 'Aset deleted successfully' });
         } else {
-            res.status(404).json({ message: 'Asset not found' });
-        }
+            res.status(404).json({ message: 'Aset not found' });
+        } 
     } catch (error) {
-        console.error('Error deleting asset:', error);
+        console.error('Error deleting aset:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }

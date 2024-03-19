@@ -16,6 +16,26 @@ export default function AsetList() {
             });
         }, []);
 
+        const handleDelete = async (id_aset) => {
+            try {
+                const response = await axios.delete(`http://localhost:3001/remove_aset/${id_aset}`);
+                console.log(response);
+                if (response.status === 200) {
+                    // Hapus tiket berhasil
+                    // Lakukan refresh data tiket
+                    const updatedAset = aset.filter(item => item.id_aset !== id_aset);
+                    setAset(updatedAset);
+                    alert('Hapus aset berhasil');
+                } else {
+                    // Hapus tiket gagal
+                    alert('Hapus aset gagal');
+                }
+            } catch (error) {
+                // Terjadi kesalahan saat melakukan permintaan hapus tiket
+                alert('Terjadi kesalahan saat menghapus aset');
+            }
+        };
+
     return (
         <div>
             <Link to="/form-aset">
@@ -43,7 +63,9 @@ export default function AsetList() {
                     <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">
                         Edit
                     </button>
-                    <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">
+                    <button 
+                    onClick={() => handleDelete(item.id_aset)}
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">
                         Hapus
                     </button>
                 </td>

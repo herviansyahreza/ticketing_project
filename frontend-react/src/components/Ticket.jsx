@@ -26,8 +26,9 @@ export default function TicketList () {
                 if (response.status === 200) {
                     // Hapus tiket berhasil
                     // Lakukan refresh data tiket
-                    const updatedTiket = tiket.filter(item => item.id !== id_tiket);
+                    const updatedTiket = tiket.filter(item => item.id_tiket !== id_tiket);
                     setTiket(updatedTiket);
+                    alert('Hapus tiket berhasil');
                 } else {
                     // Hapus tiket gagal
                     alert('Hapus tiket gagal');
@@ -91,7 +92,7 @@ export default function TicketList () {
 
                 <button 
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
-                onClick={() => handleDelete(item.id)}>
+                onClick={() => handleDelete(item.id_tiket)}>
                     Hapus
                 </button>
             </td>

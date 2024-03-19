@@ -5,6 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 export default function AsetList() {
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate()
     const [aset, setAset] = useState([]);
 
@@ -67,10 +68,44 @@ export default function AsetList() {
                     <FaRegEdit className="text-xl"/>
                     </button>
 
-                    <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4"
-                    onClick={() => handleDelete(item.id_aset)}>
+                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4"
+                    onClick={() => setShowModal(true)}>
+                    {/* // {() => handleDelete(item.id_tiket)} */}
                     <MdDeleteOutline className="text-xl" />
                     </button>
+                {showModal && (
+                <div
+                    id="popup-modal"
+                    tabIndex="-1"
+                    className="fixed inset-0 z-50 flex justify-center items-center bg-neutral-100 bg-opacity-50"
+                    onClick={() => setShowModal(false)}
+                >
+                    <div className="relative p-4 w-full max-w-md bg-white rounded-lg shadow">
+                        <div className="p-4 md:p-5 text-center">
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                Apakah anda yakin ingin menghapus aset ini?
+                            </h3>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowModal(false);
+                                    handleDelete(item.id_aset);
+                                }}
+                                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                            >
+                                Ya, Saya yakin
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setShowModal(false)}
+                                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            >
+                                Tidak, Batalkan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
                 </td>
                 </tr>
                 ))}

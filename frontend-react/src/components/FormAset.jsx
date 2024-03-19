@@ -45,7 +45,7 @@ export default function Aset() {
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="aset" className="block text-sm font-medium leading-6 text-gray-900">
                     Nama Aset
                 </label>
                 <div className="mt-2">
@@ -65,7 +65,7 @@ export default function Aset() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="lokasi" className="block text-sm font-medium leading-6 text-gray-900">
                     Lokasi Aset
                 </label>
                 <div className="mt-2">

@@ -49,7 +49,7 @@ export default function TicketForm() {
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="judul" className="block text-sm font-medium leading-6 text-gray-900">
                     Judul Tiket
                 </label>
                 <div className="mt-2">
@@ -69,7 +69,7 @@ export default function TicketForm() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="nama" className="block text-sm font-medium leading-6 text-gray-900">
                     Nama Pelapor
                 </label>
                 <div className="mt-2">
@@ -89,7 +89,7 @@ export default function TicketForm() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Email Pelapor
                 </label>
                 <div className="mt-2">
@@ -109,7 +109,7 @@ export default function TicketForm() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="aset" className="block text-sm font-medium leading-6 text-gray-900">
                     Aset yang bermasalah
                 </label>
                 <div className="mt-2">
@@ -129,7 +129,7 @@ export default function TicketForm() {
                 </div>
                 
                 <div className="col-span-full">
-                <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="deskripsi" className="block text-sm font-medium leading-6 text-gray-900">
                     Deskripsi Laporan
                 </label>
                 <div className="mt-2">

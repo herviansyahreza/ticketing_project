@@ -9,7 +9,7 @@ const linkClass = 'flex items-center gap-2 font-light px-3 py-2 hover:bg-neutral
 
 export default function Sidebar() {
     return (
-    <div className='bg-neutral-700 w-65 flex flex-col text-white'>
+    <div className='bg-neutral-700 w-65 flex flex-col text-white pr-8'>
         <div className='flex items-center gap-3 px-4 py-3'>
         <img
                 className="mx-auto h-10 w-auto"

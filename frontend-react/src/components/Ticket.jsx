@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 // import { Card } from "@material-tailwind/react";
 import { parseISO, format } from "date-fns";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 
 export default function TicketList () {
@@ -48,52 +50,51 @@ export default function TicketList () {
         };
 
 	return (
-    <div>
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <Link to="/form-ticket">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket')}>
+            <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket')}>
                 Buat Tiket
             </button>
         </Link>
     {/* <Card className="h-full w-full overflow-scroll"> */}
-    <table>
-        <thead>
+    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-            <th>No</th>
-            <th className="w-64">Judul</th>
-            <th>Pelapor</th>
-            <th>Email</th>
-            <th>Aset</th>
-            <th>Prioritas</th>
-            <th className="w-64">Laporan</th>
-            <th>Status</th>
-            <th>Created at</th>
-            <th>Edited at</th>
-            <th>Aksi</th>
+            <th scope="col" className="px-6 py-3">No</th>
+            <th scope="col" className="px-6 py-3">Judul</th>
+            <th scope="col" className="px-6 py-3">Pelapor</th>
+            <th scope="col" className="px-6 py-3">Email</th>
+            <th scope="col" className="px-6 py-3">Aset</th>
+            <th scope="col" className="px-6 py-3">Prioritas</th>
+            <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
+            <th scope="col" className="px-6 py-3">Status</th>
+            <th scope="col" className="px-6 py-3">Created at</th>
+            <th scope="col" className="px-6 py-3">Edited at</th>
+            <th scope="col" className="px-6 py-3">Aksi</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
             {tiket.map((item, index) => (
             <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.judul}</td>
-                <td>{item.nama_client}</td>
-                <td>{item.email_client}</td>
-                <td>{item.aset}</td>
-                <td>{item.prioritas_id}</td>
-                <td>{item.laporan}</td>
-                <td>{item.status_id}</td>
-                <td>{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
-                <td>{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.judul}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.nama_client}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email_client}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_id}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.laporan}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_id}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>
 
-                <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded mr-2 mb-4">
-                    Edit
+                <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4">
+                <FaRegEdit className="text-xl"/>
                 </button>
 
-                <button 
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+                <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4"
                 onClick={() => handleDelete(item.id_tiket)}>
-                    Hapus
+                <MdDeleteOutline className="text-xl" />
                 </button>
             </td>
             </tr>

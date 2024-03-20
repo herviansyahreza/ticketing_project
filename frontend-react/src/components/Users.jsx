@@ -20,14 +20,14 @@ export default function UsersList() {
             });
         }, []);
 
-        const handleDelete = async (id_user) => {
+        const handleDelete = async (id) => {
             try {
-                const response = await axios.delete(`http://localhost:3001/remove/${id_user}`);
+                const response = await axios.delete(`http://localhost:3001/remove/${id}`);
                 console.log(response);
                 if (response.status === 200) {
                     // Hapus tiket berhasil
                     // Lakukan refresh data tiket
-                    const updatedUser = user.filter(item => item.id_user !== id_user);
+                    const updatedUser = user.filter(item => item.id !== id);
                     setUser(updatedUser);
                     alert('Hapus user berhasil');
                 } else {
@@ -53,7 +53,6 @@ export default function UsersList() {
                 <th scope="col" className="px-6 py-3">No</th>
                 <th scope="col" className="px-6 py-3">Username</th>
                 <th scope="col" className="px-6 py-3">Email</th>
-                <th scope="col" className="px-6 py-3">Jabatan</th>
                 <th scope="col" className="px-6 py-3">Peran</th>
                 <th scope="col" className="px-6 py-3">Created at</th>
                 <th scope="col" className="px-6 py-3">Edited at</th>
@@ -66,8 +65,7 @@ export default function UsersList() {
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.username}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.jabatan}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.id_peran}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.peran}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                     <td>
@@ -96,7 +94,7 @@ export default function UsersList() {
                                 type="button"
                                 onClick={() => {
                                     setShowModalDelete(false);
-                                    handleDelete(item.id_user);
+                                    handleDelete(item.id);
                                 }}
                                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             >

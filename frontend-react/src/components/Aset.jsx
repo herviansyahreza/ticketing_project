@@ -19,14 +19,14 @@ export default function AsetList() {
             });
         }, []);
 
-        const handleDelete = async (id_aset) => {
+        const handleDelete = async (id) => {
             try {
-                const response = await axios.delete(`http://localhost:3001/remove_aset/${id_aset}`);
+                const response = await axios.delete(`http://localhost:3001/remove_aset/${id}`);
                 console.log(response);
                 if (response.status === 200) {
                     // Hapus tiket berhasil
                     // Lakukan refresh data tiket
-                    const updatedAset = aset.filter(item => item.id_aset !== id_aset);
+                    const updatedAset = aset.filter(item => item.id !== id);
                     setAset(updatedAset);
                     alert('Hapus aset berhasil');
                 } else {
@@ -52,7 +52,8 @@ export default function AsetList() {
                 <tr>
                 <th scope="col" className="px-6 py-3">No</th>
                 <th scope="col" className="px-6 py-3">Nama Aset</th>
-                <th scope="col" className="px-6 py-3">Lokasi Aset</th>
+                <th scope="col" className="px-6 py-3">Kategori</th>
+                <th scope="col" className="px-6 py-3">Lokasi</th>
                 <th scope="col" className="px-6 py-3">Aksi</th>
                 </tr>
             </thead>
@@ -61,6 +62,7 @@ export default function AsetList() {
                 <tr key={index}>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.nama}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.kategori}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.lokasi}</td>
                     <td>
                         
@@ -89,7 +91,7 @@ export default function AsetList() {
                                 type="button"
                                 onClick={() => {
                                     setShowModal(false);
-                                    handleDelete(item.id_aset);
+                                    handleDelete(item.id);
                                 }}
                                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             >

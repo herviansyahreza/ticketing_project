@@ -183,11 +183,11 @@ const update = async (req, res, next) => {
 }
 
 const remove = async (req, res, next) => {
-    const userId = req.params.id_user;
+    const userId = req.params.id;
 
     try {
         // Query SQL untuk menandai pengguna sebagai dihapus
-        const result = await db.query('DELETE FROM users WHERE id_user = $1', [userId]);
+        const result = await db.query('DELETE FROM users WHERE id = $1', [userId]);
 
         // Kirimkan respons sukses
         if (result.rowCount > 0) {

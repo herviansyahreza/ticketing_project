@@ -7,6 +7,7 @@ export default function Aset() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         nama: '',
+        kategori:'',
         lokasi: '',
     });
 
@@ -66,20 +67,50 @@ export default function Aset() {
 
                 <div className="sm:col-span-4">
                 <label htmlFor="lokasi" className="block text-sm font-medium leading-6 text-gray-900">
-                    Lokasi Aset
+                    Kategori
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                        type="text"
-                        name="lokasi"
-                        id="lokasi"
-                        autoComplete="lokasi"
-                        onChange={handleChange}
-                        className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Lokasi Aset..."
+                    <select 
+                        name="kategori" 
+                        id="kategori" 
+                        value={formData.kategori} 
+                        onChange={handleChange} 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
-                    />
+                    >
+                        <option value="">Pilih Kategori</option>
+                        <option value="Wifi">Wifi</option>
+                        <option value="Komputer">Komputer</option>
+                        <option value="Website">Website</option>
+                        <option value="Router">Router</option>
+                        <option value="Switch">Switch</option>
+                        <option value="Server">Server</option>
+                    </select>
+                    </div>
+                </div>
+                </div>
+
+                <div className="sm:col-span-4">
+                <label htmlFor="lokasi" className="block text-sm font-medium leading-6 text-gray-900">
+                    Lokasi
+                </label>
+                <div className="mt-2">
+                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                    <select 
+                        name="lokasi" 
+                        id="lokasi" 
+                        value={formData.lokasi} 
+                        onChange={handleChange} 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required
+                    >
+                        <option value="">Pilih Lokasi</option>
+                        <option value="Gedung Rektorat">Gedung Rektorat</option>
+                        <option value="Gedung Roak">Gedung Roak</option>
+                        <option value="Gedung Roum">Gedung Roum</option>
+                        <option value="Gedung Auditorium">Gedung Auditorium</option>
+                    </select>
                     </div>
                 </div>
                 </div>

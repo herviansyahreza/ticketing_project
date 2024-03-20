@@ -3,10 +3,23 @@ const db = require('../db.config/db.config')
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const add_aset = async(req, res, next) => {
-    const { nama,lokasi } = req.body;
+    const { nama, kategori, lokasi } = req.body;
 
     try {
-        await db.query('INSERT INTO aset (nama, lokasi) VALUES ($1, $2)', [nama, lokasi]);
+        const kategoriIdQuery = await db.query('SELECT id FROM aset_kategori WHERE nama = $1', [kategori]);
+        const kategoriId = kategoriIdQuery.rows[0]?.id;
+        if (!kategoriId) {
+            return res.status(400).send('Invalid kategori');
+        }
+
+        const lokasiIdQuery = await db.query('SELECT id FROM lokasi WHERE nama = $1', [lokasi]);
+        const lokasiId = lokasiIdQuery.rows[0]?.id;
+        if (!lokasiId) {
+            return res.status(400).send('Invalid status');
+        }
+
+        await db.query('INSERT INTO aset (nama, kategori, lokasi) VALUES ($1, $2, $3)'
+        , [nama, kategoriId, lokasiId]);
 
         res.status(201).json({ message: 'Asset added successfully' });
     } catch (error) {
@@ -46,10 +59,10 @@ const edit_aset = async(req, res, next) => {
 }
 
 const remove_aset = async(req, res, next) => {
-    const id_aset = req.params.id_aset;
+    const id = req.params.id;
 
     try {
-        const result = await db.query('DELETE FROM aset WHERE id_aset = $1', [id_aset]);
+        const result = await db.query('DELETE FROM aset WHERE id = $1', [id]);
         if (result.rowCount > 0) {
             res.status(200).json({ message: 'Aset deleted successfully' });
         } else {

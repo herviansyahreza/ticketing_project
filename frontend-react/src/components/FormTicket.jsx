@@ -7,10 +7,10 @@ export default function TicketForm() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         judul: '',
-        nama_client: '',
-        email_client: '',
-        aset: '',
         laporan: '',
+        user: localStorage.getItem('name'),
+        status: '',
+        prioritas: '',
     });
 
     const handleChange = (e) => {
@@ -61,69 +61,80 @@ export default function TicketForm() {
                         autoComplete="judul"
                         onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Judul Tiket..."
+                        placeholder=""
                         required
                     />
                     </div>
                 </div>
                 </div>
 
-                <div className="sm:col-span-4">
+                {/* <div className="sm:col-span-4">
                 <label htmlFor="nama" className="block text-sm font-medium leading-6 text-gray-900">
-                    Nama Pelapor
+                    Pelapor
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                     <input
                         type="text"
-                        name="nama_client"
-                        id="nama_client"
-                        autoComplete="nama_client"
+                        name="user"
+                        id="user"
+                        autoComplete="user"
                         onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Nama Pelapor..."
+                        placeholder=""
                         required
                     />
                     </div>
                 </div>
-                </div>
+                </div> */}
 
                 <div className="sm:col-span-4">
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                    Email Pelapor
+                    Status
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                        type="text"
-                        name="email_client"
-                        id="email_client"
-                        autoComplete="email_client"
-                        onChange={handleChange}
-                        className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Email Pelapor..."
+                    <select 
+                        name="status" 
+                        id="status" 
+                        value={formData.status}
+                        defaultValue="Open" 
+                        onChange={handleChange} 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
-                    />
-                    </div>
+                    >
+                        <option value="">Pilih Status</option>
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Closed">Closed</option>
+                        <option value="Reopened">Reopened</option>
+                    </select>
+                </div>
                 </div>
                 </div>
 
                 <div className="sm:col-span-4">
                 <label htmlFor="aset" className="block text-sm font-medium leading-6 text-gray-900">
-                    Aset yang bermasalah
+                    Prioritas
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                        type="text"
-                        name="aset"
-                        id="aset"
-                        autoComplete="aset"
-                        onChange={handleChange}
-                        className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Aset..."
+                    <select 
+                        name="prioritas" 
+                        id="prioritas" 
+                        value={formData.prioritas} 
+                        onChange={handleChange} 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
-                    />
+                    >
+                        <option value="">Pilih Prioritas</option>
+                        <option value="Urgent">Urgent</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
                     </div>
                 </div>
                 </div>

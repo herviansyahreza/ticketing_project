@@ -23,7 +23,7 @@ export default function Login() {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('name', response.data.username);
                 localStorage.setItem('email', response.data.email);
-                localStorage.setItem('id_user', response.data.id_user);
+                localStorage.setItem('id', response.data.id);
                 navigate('/');
             } else {
                 // Login gagal karena username atau password salah

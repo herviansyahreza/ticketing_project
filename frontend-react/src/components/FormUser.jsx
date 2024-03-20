@@ -9,7 +9,7 @@ export default function UserForm() {
         username: '',
         email: '',
         password: '',
-        jabatan: '',
+        peran: '',
     });
 
     const handleChange = (e) => {
@@ -108,21 +108,24 @@ export default function UserForm() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="jabatan" className="block text-sm font-medium leading-6 text-gray-900">
-                    Jabatan
+                <label htmlFor="peran" className="block text-sm font-medium leading-6 text-gray-900">
+                    Peran
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                        type="text"
-                        name="jabatan"
-                        id="jabatan"
-                        autoComplete="jabatan"
-                        onChange={handleChange}
-                        className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder="Jabatan..."
+                    <select 
+                        name="peran" 
+                        id="peran" 
+                        value={formData.peran} 
+                        onChange={handleChange} 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
-                    />
+                    >
+                        <option value="">Pilih Peran</option>
+                        <option value="Administrator">Admin</option>
+                        <option value="Teknisi">Teknisi</option>
+                        <option value="Pengguna">Pengguna</option>
+                    </select>
                     </div>
                 </div>
                 </div>

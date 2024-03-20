@@ -2,31 +2,34 @@ const express = require('express')
 const db = require('../db.config/db.config')
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
-// const add_tiket = async(req, res, next) => {
-//     const { judul,laporan,nama_client,email_client,aset } = req.body;
-
-//     try {
-//         // Insert data tiket jaringan ke database
-//         const newTicket = await db.query(
-//             'INSERT INTO tiket (judul,laporan,nama_client,email_client,aset,created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-//             [judul,laporan,nama_client,email_client,aset,currentDate]
-//         );
-
-//         res.status(201).json(newTicket.rows[0]);
-//     } catch (error) {
-//         console.error('Error adding network ticket:', error);
-//         res.status(500).json({ message: 'Internal Server Error' });
-//     }
-// }
-
 const add_tiket = async (req, res, next) => {
-    const { judul, laporan, nama_client, email_client, aset } = req.body;
+    const { judul, laporan, user, status, prioritas } = req.body;
 
     try {
+        // Ambil ID user, status, dan prioritas dari database berdasarkan nama yang diberikan
+        const userIdQuery = await db.query('SELECT id FROM users WHERE username = $1', [user]);
+        const userId = userIdQuery.rows[0]?.id;
+        if (!userId) {
+            return res.status(400).send('Invalid user');
+        }
+
+        const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
+        const statusId = statusIdQuery.rows[0]?.id;
+        if (!statusId) {
+            return res.status(400).send('Invalid status');
+        }
+
+        const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
+        const prioritasId = prioritasIdQuery.rows[0]?.id;
+        if (!prioritasId) {
+            return res.status(400).send('Invalid prioritas');
+        }
+
         // Insert data tiket jaringan ke database
+        const currentDate = new Date().toISOString();
         const newTicket = await db.query(
-            'INSERT INTO tiket (judul, laporan, nama_client, email_client, aset, status_id, created_at) VALUES ($1, $2, $3, $4, $5, (SELECT id_status FROM status WHERE nama = $6), $7) RETURNING *',
-            [judul, laporan, nama_client, email_client, aset, 'Open', currentDate]
+            'INSERT INTO tiket (judul, laporan, user, status, prioritas, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [judul, laporan, userId, statusId, prioritasId, currentDate]
         );
 
         res.status(201).json(newTicket.rows[0]);

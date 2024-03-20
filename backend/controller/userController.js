@@ -5,23 +5,11 @@ const bcrypt = require('bcrypt');
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const register = async (req, res, next) => {
-    const { username, email, password, confirmPassword, jabatan } = req.body;
+    const { username, email, password, peran, confirmPassword } = req.body;
     
     // Cek apakah password dan confirm password sama
     if (password !== confirmPassword) {
         return res.status(400).send('Password and confirm password do not match');
-    }
-
-    // Mengambil ID peran dari basis data sesuai dengan role yang diberikan
-    let roleId;
-    try {
-        const roleQuery = await db.query('SELECT id_peran FROM peran WHERE jabatan = $1;', [jabatan]);
-        roleId = roleQuery.rows[0]?.id_peran;
-        // const accessQuery = await db.query('SELECT id FROM access_levels WHERE access_name = $1;', [role]);
-        // accessId = accessQuery.rows[0]?.id;
-    } catch (error) {
-        console.error('Error fetching role or access:', error.message);
-        return res.status(500).send('Error fetching role or access levels');
     }
 
     // Mengubah password menjadi hash
@@ -30,7 +18,13 @@ const register = async (req, res, next) => {
     // Input data pengguna beserta ID peran ke database
     const currentDate = new Date().toISOString();
     try {
-        await db.query('INSERT INTO users (username, email, password, id_peran, jabatan, created_at) VALUES ($1, $2, $3, $4, $5, $6);', [username, email, hashedPwd, roleId, jabatan, currentDate]);
+        const peranIdQuery = await db.query('SELECT id FROM peran WHERE nama = $1', [peran]);
+        const peranId = peranIdQuery.rows[0]?.id;
+        if (!peranId) {
+            return res.status(400).send('Invalid role');
+        }
+
+        await db.query('INSERT INTO users (username, email, password, peran, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, peranId, currentDate]);
         res.send('Data added successfully!');
     } catch (error) {
         console.error('Error inserting user data:', error.message);
@@ -39,24 +33,12 @@ const register = async (req, res, next) => {
 }
 
 const add_user = async (req, res, next) => {
-    const { username, email, password, jabatan } = req.body;
+    const { username, email, password, peran } = req.body;
     
     // Cek apakah password dan confirm password sama
     // if (password !== confirmPassword) {
     //     return res.status(400).send('Password and confirm password do not match');
     // }
-
-    // Mengambil ID peran dari basis data sesuai dengan role yang diberikan
-    let roleId;
-    try {
-        const roleQuery = await db.query('SELECT id_peran FROM peran WHERE jabatan = $1;', [jabatan]);
-        roleId = roleQuery.rows[0]?.id_peran;
-        // const accessQuery = await db.query('SELECT id FROM access_levels WHERE access_name = $1;', [role]);
-        // accessId = accessQuery.rows[0]?.id;
-    } catch (error) {
-        console.error('Error fetching role or access:', error.message);
-        return res.status(500).send('Error fetching role or access levels');
-    }
 
     // Mengubah password menjadi hash
     const hashedPwd = await bcrypt.hash(password, 10);
@@ -64,7 +46,13 @@ const add_user = async (req, res, next) => {
     // Input data pengguna beserta ID peran ke database
     const currentDate = new Date().toISOString();
     try {
-        await db.query('INSERT INTO users (username, email, password, id_peran, jabatan, created_at) VALUES ($1, $2, $3, $4, $5, $6);', [username, email, hashedPwd, roleId, jabatan, currentDate]);
+        const peranIdQuery = await db.query('SELECT id FROM peran WHERE nama = $1', [peran]);
+        const peranId = peranIdQuery.rows[0]?.id;
+        if (!peranId) {
+            return res.status(400).send('Invalid role');
+        }
+
+        await db.query('INSERT INTO users (username, email, password, peran, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, peranId, currentDate]);
         res.send('Data added successfully!');
     } catch (error) {
         console.error('Error inserting user data:', error.message);
@@ -86,13 +74,13 @@ const login = async (req, res, next) => {
                 // Menghasilkan token dengan JWT
                 const jwtSecretKey = 'kuncirahasia';
                 const tokenData = {
-                    userId: user.rows[0].id_user // Hanya menyimpan ID pengguna dalam token
+                    userId: user.rows[0].id // Hanya menyimpan ID pengguna dalam token
                 };
                 const token = jwt.sign(tokenData, jwtSecretKey);
                 
                 // Mengembalikan ID, username, dan email
                 res.cookie("JWT", token, { httpOnly: true, sameSite: "strict" }).status(200).json({
-                    id_user: user.rows[0].id_user,
+                    id: user.rows[0].id,
                     username: user.rows[0].username,
                     email: user.rows[0].email,
                     token: token
@@ -141,7 +129,7 @@ const verify = async (req, res, next) => {
         const userId = decoded.userId;
 
         // Periksa apakah pengguna ada dalam database
-        const user = await db.query('SELECT * FROM users WHERE id_user = $1', [userId]);
+        const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
         if (user.rowCount === 0) {
             return res.status(404).json({ message: 'User not found' });
         }

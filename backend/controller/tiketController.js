@@ -3,7 +3,7 @@ const db = require('../db.config/db.config')
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const add_tiket = async (req, res, next) => {
-    const { judul, laporan, user, status, prioritas } = req.body;
+    const { judul, deskripsi, user, status, prioritas } = req.body;
 
     try {
         // Ambil ID user, status, dan prioritas dari database berdasarkan nama yang diberikan
@@ -28,8 +28,8 @@ const add_tiket = async (req, res, next) => {
         // Insert data tiket jaringan ke database
         const currentDate = new Date().toISOString();
         const newTicket = await db.query(
-            'INSERT INTO tiket (judul, laporan, user, status, prioritas, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [judul, laporan, userId, statusId, prioritasId, currentDate]
+            'INSERT INTO tiket (judul, deskripsi, user_id, status, prioritas, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [judul, deskripsi, userId, statusId, prioritasId, currentDate]
         );
 
         res.status(201).json(newTicket.rows[0]);

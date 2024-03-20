@@ -7,8 +7,7 @@ export default function TicketForm() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         judul: '',
-        laporan: '',
-        user: localStorage.getItem('name'),
+        deskripsi: '',
         status: '',
         prioritas: '',
     });
@@ -17,26 +16,43 @@ export default function TicketForm() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const username = localStorage.getItem('name');
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(formData);
+        const data = {
+            judul: formData.judul,
+            deskripsi: formData.deskripsi,
+            user: username,
+            status: formData.status,
+            prioritas: formData.prioritas,
+        };
 
         try {
-            const response = await axios.post('http://localhost:3001/add_tiket', formData);
+            const response = await axios.post('http://localhost:3001/add_tiket', data);
             console.log(response);
-            if (response.status === 200||201) {
+            if (response.status === 200 || response.status === 201) {
                 // Register berhasil
                 navigate('/ticket');
-                alert('Submit form berhasil')
+                alert('Submit form berhasil');
             } else {
                 // Register gagal
                 alert('Submit form gagal');
             }
         } catch (error) {
-            // Terjadi kesalahan saat melakukan permintaan submit form tiket
-            alert('Terjadi kesalahan saat submit form tiket');
+            // Menangani kesalahan dengan lebih rinci
+            if (error.response) {
+                console.error('Error response:', error.response.data);
+                alert('Submit form gagal: ' + error.response.data.message);
+            } else if (error.request) {
+                console.error('Error request:', error.request);
+                alert('Terjadi kesalahan saat mengirimkan permintaan');
+            } else {
+                console.error('Error:', error.message);
+                alert('Terjadi kesalahan: ' + error.message);
+            }
         }
     };
+
 
     return (
     <form onSubmit={handleSubmit}>
@@ -145,8 +161,8 @@ export default function TicketForm() {
                 </label>
                 <div className="mt-2">
                     <textarea
-                    id="laporan"
-                    name="laporan"
+                    id="deskripsi"
+                    name="deskripsi"
                     rows={5}
                     onChange={handleChange}
                     className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

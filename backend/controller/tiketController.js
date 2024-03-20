@@ -52,9 +52,9 @@ const show_tiket = async (req, res, next) => {
 }
 
 const edit_tiket = async(req, res, next) => {
-    const { id_tiket, judul, laporan, nama_client, email_client, aset } = req.body;
+    const { id, judul, laporan, nama_client, email_client, aset } = req.body;
     try {
-        const result = await db.query('UPDATE tiket SET judul = $1, laporan = $2, nama_client = $3, email_client = $4, aset = $5, edited_at = $6 WHERE id_tiket = $7', [judul, laporan, nama_client, email_client, aset, currentDate, id_tiket]);
+        const result = await db.query('UPDATE tiket SET judul = $1, laporan = $2, nama_client = $3, email_client = $4, aset = $5, edited_at = $6 WHERE id = $7', [judul, laporan, nama_client, email_client, aset, currentDate, id]);
         if (result.rowCount > 0) {
             res.status(200).json({ message: 'Ticket updated successfully' });
         } else {
@@ -67,9 +67,9 @@ const edit_tiket = async(req, res, next) => {
 }
 
 const remove_tiket = async(req, res, next) => {
-    const id_tiket = req.params.id_tiket;
+    const id = req.params.id;
     try {
-        const result = await db.query('DELETE FROM tiket WHERE id_tiket = $1', [id_tiket]);
+        const result = await db.query('DELETE FROM tiket WHERE id = $1', [id]);
         if (result.rowCount > 0) {
             res.status(200).json({ message: 'Ticket deleted successfully' });
         } else {

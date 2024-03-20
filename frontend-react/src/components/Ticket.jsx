@@ -24,14 +24,14 @@ export default function TicketList () {
             });
         }, []);
 
-        const handleDelete = async (id_tiket) => {
+        const handleDelete = async (id) => {
             try {
-                const response = await axios.delete(`http://localhost:3001/remove_tiket/${id_tiket}`);
+                const response = await axios.delete(`http://localhost:3001/remove_tiket/${id}`);
                 console.log(response);
                 if (response.status === 200) {
                     // Hapus tiket berhasil
                     // Lakukan refresh data tiket
-                    const updatedTiket = tiket.filter(item => item.id_tiket !== id_tiket);
+                    const updatedTiket = tiket.filter(item => item.id !== id);
                     setTiket(updatedTiket);
                     alert('Hapus tiket berhasil');
                 } else {
@@ -95,6 +95,7 @@ export default function TicketList () {
             <th scope="col" className="px-6 py-3">Status</th>
             <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
             <th scope="col" className="px-6 py-3">Prioritas</th>
+            <th scope="col" className="px-6 py-3">id</th>
             <th scope="col" className="px-6 py-3">Created at</th>
             <th scope="col" className="px-6 py-3">Edited at</th>
             <th scope="col" className="px-6 py-3">Aksi</th>
@@ -106,11 +107,10 @@ export default function TicketList () {
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.judul}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.user_id}</td>
-                {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email_client}</td> */}
-                {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset}</td> */}
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.id}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>
@@ -213,7 +213,7 @@ export default function TicketList () {
                                 type="button"
                                 onClick={() => {
                                     setShowModalDelete(false);
-                                    handleDelete(item.id_tiket);
+                                    handleDelete(item.id);
                                 }}
                                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             >

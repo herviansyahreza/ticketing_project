@@ -1,5 +1,6 @@
 const express = require('express')
-const db = require('../db.config/db.config')
+const db = require('../db.config/db.config');
+const { get } = require('../router/router');
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const add_aset = async(req, res, next) => {
@@ -36,6 +37,21 @@ const show_aset = async (req, res, next) => {
         res.status(200).json(asets.rows); // Mengirim data tiket sebagai respons
     } catch (error) {
         console.error('Error fetching asets:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const get_aset = async (req, res, next) => {
+    const id_aset = req.params.id;
+    try {
+        const asetr = await db.query('SELECT * FROM aset WHERE id = $1', [id_aset]);
+        if (aset.rowCount > 0) {
+            res.status(200).json(aset.rows[0]);
+        } else {
+            res.status(404).json({ message: 'Aset not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching aset:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
@@ -77,6 +93,7 @@ const remove_aset = async(req, res, next) => {
 module.exports = {
     add_aset,
     show_aset,
+    get_aset,
     edit_aset,
     remove_aset,
 }

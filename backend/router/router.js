@@ -24,6 +24,8 @@ router.post('/verify', Auth.verifyToken, userController.verify)
 
 router.get('/show_user', userController.show_user)
 
+router.get('/get_user/:id', userController.get_user)
+
 router.put('/update', userController.update)
 
 router.delete('/remove/:id', userController.remove)
@@ -43,6 +45,8 @@ router.delete('/remove_tiket/:id', tiketController.remove_tiket)
 router.post('/add_aset', asetController.add_aset)
 
 router.get('/show_aset', asetController.show_aset)
+
+router.get('/get_aset/:id', asetController.get_aset)
 
 router.put('/edit_aset', asetController.edit_aset)
 

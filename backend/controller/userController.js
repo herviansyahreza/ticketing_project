@@ -158,6 +158,21 @@ const show_user = async (req, res, next) => {
     }
 }
 
+const get_user = async (req, res, next) => {
+    const id_user = req.params.id;
+    try {
+        const user = await db.query('SELECT * FROM user WHERE id = $1', [id_user]);
+        if (user.rowCount > 0) {
+            res.status(200).json(user.rows[0]);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const update = async (req, res, next) => {
     const userId = req.body.id_user;
     const { username, email, password } = req.body;
@@ -254,6 +269,7 @@ module.exports = {
     logout,
     verify,
     show_user,
+    get_user,
     update,
     remove,
 }

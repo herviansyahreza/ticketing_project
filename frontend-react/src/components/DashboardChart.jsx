@@ -4,70 +4,95 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 const data = [
 	{
 		name: 'Jan',
-		Expense: 4000,
-		Income: 2400
+		Urgent: 20,
+		High: 30,
+		Medium: 50,
+		Low: 80,
+
 	},
 	{
 		name: 'Feb',
-		Expense: 3000,
-		Income: 1398
+		Urgent: 10,
+		High: 20,
+		Medium: 30,
+		Low: 40,
 	},
 	{
 		name: 'Mar',
-		Expense: 2000,
-		Income: 9800
+		Urgent: 15,
+		High: 32,
+		Medium: 48,
+		Low: 49,
 	},
 	{
 		name: 'Apr',
-		Expense: 2780,
-		Income: 3908
+		Urgent: 8,
+		High: 10,
+		Medium: 17,
+		Low: 20,
 	},
 	{
 		name: 'May',
-		Expense: 1890,
-		Income: 4800
+		Urgent: 2,
+		High: 5,
+		Medium: 50,
+		Low: 40,
 	},
 	{
 		name: 'Jun',
-		Expense: 2390,
-		Income: 3800
+		Urgent: 10,
+		High: 20,
+		Medium: 50,
+		Low: 100,
 	},
 	{
 		name: 'July',
-		Expense: 3490,
-		Income: 4300
+		Urgent: 28,
+		High: 25,
+		Medium: 55,
+		Low: 88,
 	},
 	{
 		name: 'Aug',
-		Expense: 2000,
-		Income: 9800
+		Urgent: 1,
+		High: 28,
+		Medium: 30,
+		Low: 50,
 	},
 	{
 		name: 'Sep',
-		Expense: 2780,
-		Income: 3908
+		Urgent: 8,
+		High: 10,
+		Medium: 25,
+		Low: 49,
 	},
 	{
 		name: 'Oct',
-		Expense: 1890,
-		Income: 4800
+		Urgent: 15,
+		High: 20,
+		Medium: 20,
+		Low: 30,
 	},
 	{
 		name: 'Nov',
-		Expense: 2390,
-		Income: 3800
+		Urgent: 4,
+		High: 14,
+		Medium: 40,
+		Low: 59,
 	},
 	{
 		name: 'Dec',
-		Expense: 3490,
-		Income: 4300
+		Urgent: 15,
+		High: 20,
+		Medium: 15,
+		Low: 40,
 	}
 ]
 
-export default function TransactionChart() {
+export default function TicketReportChart() {
 	return (
 		<div className="h-[22rem] bg-white p-4 rounded-sm border border-gray-200 flex flex-col flex-1">
-			<strong className="text-gray-700 font-medium">Transactions</strong>
+			<strong className="text-gray-700 font-medium">Ticket Report</strong>
 			<div className="mt-3 w-full flex-1 text-xs">
 				<ResponsiveContainer width="100%" height="100%">
 					<BarChart
@@ -86,8 +111,10 @@ export default function TransactionChart() {
 						<YAxis />
 						<Tooltip />
 						<Legend />
-						<Bar dataKey="Income" fill="#0ea5e9" />
-						<Bar dataKey="Expense" fill="#ea580c" />
+						<Bar dataKey="Urgent" fill="#171717" />
+						<Bar dataKey="High" fill="#b91c1c" />
+						<Bar dataKey="Medium" fill="#fbbf24" />
+						<Bar dataKey="Low" fill="#a3e635" />
 					</BarChart>
 				</ResponsiveContainer>
 			</div>

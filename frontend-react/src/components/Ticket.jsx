@@ -43,6 +43,30 @@ export default function TicketList () {
             }
         };
 
+        const handleEdit = async (idTiket, tiketData) => {
+            try {
+                // Menyiapkan data yang akan dikirim, pastikan 'edited_at' diisi dengan tanggal saat ini di frontend atau backend
+                const payload = {
+                    ...tiketData,
+                    edited_at: new Date().toISOString(), // Contoh, bisa juga dihandle di backend
+                };
+        
+                // Kirim permintaan PUT ke server
+                const response = await axios.put(`http://localhost:3001/edit_tiket/${idTiket}`, payload);
+        
+                if (response.status === 200) {
+                    alert('Tiket berhasil diperbarui');
+                    // Refresh data tiket di sini atau navigasi pengguna ke halaman lain
+                } else {
+                    // Handle jika respon bukan 200 OK
+                    alert('Gagal memperbarui tiket');
+                }
+            } catch (error) {
+                console.error('Gagal memperbarui tiket:', error);
+                alert('Terjadi kesalahan saat memperbarui tiket');
+            }
+        };
+
         const getStatusColor = async(id_status) => {
             try {
                 const response = await axios.get(`http://localhost:3001/show_status/id_status=${id_status}`);
@@ -90,11 +114,11 @@ export default function TicketList () {
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>
 
-                <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4">
+                <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black">
                 <FaRegEdit className="text-xl"/>
                 </button>
 
-                <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4"
+                <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                 onClick={() => setShowModalDelete(true)}>
                 <MdDeleteOutline className="text-xl" />
                 </button>

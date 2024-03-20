@@ -64,11 +64,11 @@ export default function AsetList() {
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.lokasi}</td>
                     <td>
                         
-                    <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4">
+                    <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black">
                     <FaRegEdit className="text-xl"/>
                     </button>
 
-                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4"
+                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                     onClick={() => setShowModal(true)}>
                     {/* // {() => handleDelete(item.id_tiket)} */}
                     <MdDeleteOutline className="text-xl" />

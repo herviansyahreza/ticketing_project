@@ -43,8 +43,9 @@ export default function Header() {
 	return (
 		<div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
             <div className=" relative bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
-                <h1 className="text-xl font-semibold text-gray-900">Judul Halaman</h1>
+                <h1 className="text-xl font-semibold text-gray-900"></h1>
             </div>
+
 			<div className="flex items-center gap-2 mr-2">
 				{/* <Popover className="relative">
 					{({ open }) => (

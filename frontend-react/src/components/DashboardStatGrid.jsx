@@ -12,7 +12,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-xl text-black font-light whitespace-nowrap">Open</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-900 font-semibold">20</strong>
+						<strong className="text-xl text-gray-900 font-semibold">200</strong>
 					</div>
 				</div>
 			</div>
@@ -24,7 +24,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-xl text-black font-light whitespace-nowrap">In Progress</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-900 font-semibold">10</strong>
+						<strong className="text-xl text-gray-900 font-semibold">100</strong>
 					</div>
 				</div>
 			</div>
@@ -36,7 +36,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-xl text-black font-light whitespace-nowrap">On Hold</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-900 font-semibold">7</strong>
+						<strong className="text-xl text-gray-900 font-semibold">70</strong>
 					</div>
 				</div>
 			</div>
@@ -48,7 +48,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-xl text-black font-light whitespace-nowrap">Resolved</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-900 font-semibold">25</strong>
+						<strong className="text-xl text-gray-900 font-semibold">250</strong>
 					</div>
 				</div>
 			</div>
@@ -60,7 +60,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-xl text-black font-light whitespace-nowrap">Closed</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-900 font-semibold">8</strong>
+						<strong className="text-xl text-gray-900 font-semibold">80</strong>
 					</div>
 				</div>
 			</div>
@@ -72,7 +72,7 @@ export default function DashboardStatsGrid() {
 				<div className="pl-4">
 					<span className="text-xl text-black font-light whitespace-nowrap">Reopened</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-900 font-semibold">8</strong>
+						<strong className="text-xl text-gray-900 font-semibold">80</strong>
 					</div>
 				</div>
 			</div>

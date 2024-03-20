@@ -7,6 +7,7 @@ import {
 } from 'react-icons/hi'
 import { IoTicketOutline } from "react-icons/io5";
 import { BiBarChart, BiServer } from "react-icons/bi";
+import { AiOutlineSolution } from "react-icons/ai";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
@@ -34,17 +35,23 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiOutlineUsers />
 	},
 	{
-		key: 'history',
-		label: 'History',
-		path: '/history',
-		icon: <HiOutlineDocumentText />
+		key: 'solusi',
+		label: 'Solusi Populer',
+		path: '/solusi',
+		icon: <AiOutlineSolution />
 	},
-	{
-		key: 'messages',
-		label: 'Messages',
-		path: '/messages',
-		icon: <HiOutlineAnnotation />
-	}
+	// {
+	// 	key: 'history',
+	// 	label: 'History',
+	// 	path: '/history',
+	// 	icon: <HiOutlineDocumentText />
+	// },
+	// {
+	// 	key: 'messages',
+	// 	label: 'Messages',
+	// 	path: '/messages',
+	// 	icon: <HiOutlineAnnotation />
+	// }
 ]
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [

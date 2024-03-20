@@ -70,7 +70,9 @@ export default function UsersList() {
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                     <td>
 
-                    <button className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black">
+                    <button 
+                    className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
+                    onClick={ () => navigate(`/edit-user/${item.id}`) }>
                     <FaRegEdit className="text-xl"/>
                     </button>
 

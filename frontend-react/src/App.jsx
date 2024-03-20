@@ -11,6 +11,9 @@ import Notfound from './components/Notfound';
 import Profile from './components/Profile';
 import Users from './components/Users';
 import FormUser from './components/FormUser';
+import EditTicket from './components/EditTicket';
+import EditAset from './components/EditAset';
+import Edituser from './components/EditUser';
 
 function App() {
   return (
@@ -20,11 +23,15 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="ticket" element={<Ticket />} />
           <Route path="form-ticket" element={<FormTicket/>} />
+          <Route path="edit-ticket/:id" element={<EditTicket/>} />
           <Route path="aset" element={<Aset/>} />
           <Route path="form-aset" element={<FormAset/>} />
+          <Route path="edit-aset/:id" element={<EditAset/>} />
           <Route path="profile" element={<Profile/>} />
           <Route path="users" element={<Users/>} />
           <Route path="form-user" element={<FormUser/>}/>
+          <Route path="edit-user/:id" element={<Edituser/>} />
+          
         </Route>
         <Route path="login" element={<Login/>} />
         <Route path="register" element={<RegisterForm/>} />

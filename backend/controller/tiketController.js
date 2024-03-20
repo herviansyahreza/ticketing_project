@@ -51,11 +51,50 @@ const show_tiket = async (req, res, next) => {
     }
 }
 
-const edit_tiket = async(req, res, next) => {
-    const { id_tiket, judul, laporan, nama_client, email_client, aset } = req.body;
+const get_tiket = async (req, res, next) => {
+    const id_tiket = req.params.id;
     try {
-        const result = await db.query('UPDATE tiket SET judul = $1, laporan = $2, nama_client = $3, email_client = $4, aset = $5, edited_at = $6 WHERE id = $7', [judul, laporan, nama_client, email_client, aset, currentDate, id]);
-        if (result.rowCount > 0) {
+        const tiket = await db.query('SELECT * FROM tiket WHERE id = $1', [id_tiket]);
+        if (tiket.rowCount > 0) {
+            res.status(200).json(tiket.rows[0]);
+        } else {
+            res.status(404).json({ message: 'Ticket not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching ticket:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+const edit_tiket = async(req, res, next) => {
+    const { id, judul, deskripsi,status, prioritas } = req.body;
+    console.log(id)
+
+    try {
+        // Ambil ID user, status, dan prioritas dari database berdasarkan nama yang diberikan
+        // const userIdQuery = await db.query('SELECT id FROM users WHERE username = $1', [user]);
+        // const userId = userIdQuery.rows[0]?.id;
+        // if (!userId) {
+        //     return res.status(400).send('Invalid user');
+        // }
+
+        const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
+        const statusId = statusIdQuery.rows[0]?.id;
+        if (!statusId) {
+            return res.status(400).send('Invalid status');
+        }
+
+        const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
+        const prioritasId = prioritasIdQuery.rows[0]?.id;
+        if (!prioritasId) {
+            return res.status(400).send('Invalid prioritas');
+        }
+    
+        const currentDate = new Date().toISOString();
+        const updateTicket = await db.query('UPDATE tiket SET judul = $1, deskripsi = $2, status = $3, prioritas = $4, edited_at = $5 WHERE id = $6 RETURNING *'
+        , [judul, deskripsi, statusId, prioritasId, currentDate, id]);
+
+        if (updateTicket.rowCount > 0) {
             res.status(200).json({ message: 'Ticket updated successfully' });
         } else {
             res.status(404).json({ message: 'Ticket not found' });
@@ -84,6 +123,7 @@ const remove_tiket = async(req, res, next) => {
 module.exports = {
     add_tiket,
     show_tiket,
+    get_tiket,
     edit_tiket,
     remove_tiket,
 }

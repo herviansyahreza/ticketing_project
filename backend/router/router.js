@@ -33,7 +33,9 @@ router.post('/add_tiket', tiketController.add_tiket)
 
 router.get('/show_tiket', tiketController.show_tiket)
 
-router.put('/edit_tiket', tiketController.edit_tiket)
+router.get('/get_tiket/:id', tiketController.get_tiket)
+
+router.put('/edit_tiket/:id', tiketController.edit_tiket)
 
 router.delete('/remove_tiket/:id', tiketController.remove_tiket)
 

@@ -8,7 +8,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 
 export default function TicketList () {
-    const [showModalEdit, setShowModalEdit] = useState(false);
+    // const [showModalEdit, setShowModalEdit] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
 
     const navigate = useNavigate()
@@ -41,38 +41,6 @@ export default function TicketList () {
             } catch (error) {
                 // Terjadi kesalahan saat melakukan permintaan hapus tiket
                 alert('Terjadi kesalahan saat menghapus tiket');
-            }
-        };
-
-        const handleEdit = async (idTiket, tiketData) => {
-            try {
-                // Menyiapkan data yang akan dikirim, pastikan 'edited_at' diisi dengan tanggal saat ini di frontend atau backend
-                const payload = {
-                    ...tiketData,
-                    edited_at: new Date().toISOString(), // Contoh, bisa juga dihandle di backend
-                };
-        
-                // Kirim permintaan PUT ke server
-                const response = await axios.put(`http://localhost:3001/edit_tiket/${idTiket}`, payload);
-        
-                if (response.status === 200) {
-                    alert('Tiket berhasil diperbarui');
-                    // Refresh data tiket di sini atau navigasi pengguna ke halaman lain
-                } else {
-                    // Handle jika respon bukan 200 OK
-                    alert('Gagal memperbarui tiket');
-                }
-            } catch (error) {
-                console.error('Gagal memperbarui tiket:', error);
-                alert('Terjadi kesalahan saat memperbarui tiket');
-            }
-        };
-
-        const getStatusColor = async(id_status) => {
-            try {
-                const response = await axios.get(`http://localhost:3001/show_status/id_status=${id_status}`);
-            } catch (error) {
-                console.error('Error fetching status:', error);
             }
         };
 
@@ -115,12 +83,14 @@ export default function TicketList () {
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>
 
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
-                onClick={() => setShowModalEdit(true)}
+                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" 
+                className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
+                onClick={ () => navigate(`/edit-ticket/${item.id}`) }
                 >
                 <FaRegEdit className="text-xl"/>
                 </button>
-                {showModalEdit && (
+                
+                {/* {showModalEdit && (
                 <div
                     id="crud-modal"
                     tabIndex="-1"
@@ -154,11 +124,11 @@ export default function TicketList () {
                                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                                     Password
                                 </label>
-                                {/* <div className="text-sm">
+                                <div className="text-sm">
                                     <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
                                     Forgot password?
                                     </a>
-                                </div> */}
+                                </div>
                                 </div>
                                 <div className="mt-2">
                                 <input
@@ -191,7 +161,7 @@ export default function TicketList () {
                         </div>
                         </div>
                     </div>
-                )}
+                )} */}
 
                 <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                 onClick={() => setShowModalDelete(true)}>

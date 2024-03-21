@@ -120,10 +120,28 @@ const remove_tiket = async(req, res, next) => {
     }
 }
 
+const get_username = async (req, res, next) => {
+    const userIds = req.body;
+
+    try {
+        // Query SQL untuk mendapatkan usernames berdasarkan user_id
+        const result = await db.query('SELECT id, username FROM users WHERE id = ANY($1)', [userIds]);
+        const username = {};
+        result.rows.forEach(row => {
+            username[row.id] = row.username;
+        });
+        res.json(username);
+    } catch (error) {
+        console.error('Error fetching usernames:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 module.exports = {
     add_tiket,
     show_tiket,
     get_tiket,
+    get_username, 
     edit_tiket,
     remove_tiket,
 }

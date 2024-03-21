@@ -24,6 +24,38 @@ export default function TicketList () {
             });
         }, []);
 
+        // useEffect(() => {
+        //     // Mengambil data tiket dari backend
+        //     axios.get('http://localhost:3001/show_tiket')
+        //         .then(response => {
+        //             // Mendapatkan data tiket dari respons
+        //             const tiketData = response.data;
+        //             // Mengambil user_id dari setiap item tiket
+        //             const userIds = tiketData.map(item => item.user_id);
+        //             // Mengambil username dari tabel users berdasarkan user_id
+        //             axios.post('http://localhost:3001/get_username', userIds)
+        //                 .then(usernameResponse => {
+        //                     // Mendapatkan data usernames dari respons
+        //                     const usernameData = usernameResponse.data;
+        //                     // Menggabungkan username dengan data tiket
+        //                     const tiketWithUsername = tiketData.map(item => ({
+        //                         ...item,
+        //                         username: usernameData[item.user_id],
+        //                     }));
+        //                     // Set data tiket beserta username ke state
+        //                     setTiket(tiketWithUsername);
+        //                 })
+        //                 .catch(error => {
+        //                     console.error('Error fetching usernames:', error);
+        //                     alert('Terjadi kesalahan saat mengambil data usernames');
+        //                 });
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching tiket:', error);
+        //             alert('Terjadi kesalahan saat mengambil data tiket');
+        //         });
+        // }, []);
+
         const handleDelete = async (id) => {
             try {
                 const response = await axios.delete(`http://localhost:3001/remove_tiket/${id}`);

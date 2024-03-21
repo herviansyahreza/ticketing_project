@@ -6,6 +6,7 @@ import { PhotoIcon } from '@heroicons/react/24/solid'
 export default function Aset() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
+        id: '',
         nama: '',
         kategori:'',
         lokasi: '',

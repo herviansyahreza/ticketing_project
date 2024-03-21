@@ -26,7 +26,7 @@ router.get('/show_user', userController.show_user)
 
 router.get('/get_user/:id', userController.get_user)
 
-router.put('/update', userController.update)
+router.put('/update/:id', userController.update)
 
 router.delete('/remove/:id', userController.remove)
 
@@ -48,7 +48,7 @@ router.get('/show_aset', asetController.show_aset)
 
 router.get('/get_aset/:id', asetController.get_aset)
 
-router.put('/edit_aset', asetController.edit_aset)
+router.put('/edit_aset/:id', asetController.edit_aset)
 
 router.delete('/remove_aset/:id', asetController.remove_aset)
 

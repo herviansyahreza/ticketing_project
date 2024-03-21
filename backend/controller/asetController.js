@@ -44,7 +44,7 @@ const show_aset = async (req, res, next) => {
 const get_aset = async (req, res, next) => {
     const id_aset = req.params.id;
     try {
-        const asetr = await db.query('SELECT * FROM aset WHERE id = $1', [id_aset]);
+        const aset = await db.query('SELECT * FROM aset WHERE id = $1', [id_aset]);
         if (aset.rowCount > 0) {
             res.status(200).json(aset.rows[0]);
         } else {
@@ -57,11 +57,22 @@ const get_aset = async (req, res, next) => {
 }
 
 const edit_aset = async(req, res, next) => {
-    const id_aset = req.body.id_aset;
-    const { nama,tempat } = req.body;
+    const { id, nama, kategori, lokasi } = req.body;
 
     try {
-        const result = await db.query('UPDATE aset SET nama = $1, lokasi = $2 WHERE id_aset = $3', [nama,tempat,id_aset]);
+        const kategoriIdQuery = await db.query('SELECT id FROM aset_kategori WHERE nama = $1', [kategori]);
+        const kategoriId = kategoriIdQuery.rows[0]?.id;
+        if (!kategoriId) {
+            return res.status(400).send('Invalid kategori');
+        }
+
+        const lokasiIdQuery = await db.query('SELECT id FROM lokasi WHERE nama = $1', [lokasi]);
+        const lokasiId = lokasiIdQuery.rows[0]?.id;
+        if (!lokasiId) {
+            return res.status(400).send('Invalid status');
+        }
+        
+        const result = await db.query('UPDATE aset SET nama = $1, kategori = $2, lokasi = $3 WHERE id = $4', [nama, kategoriId, lokasiId, id]);
 
         if (result.rowCount > 0) {
             res.status(200).json({ message: 'Asset updated successfully' });

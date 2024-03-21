@@ -33,9 +33,9 @@ export default function EditAset() {
         event.preventDefault();
         const newData = {
             id: id,
-            nama: formData.judul,
-            kategori: formData.deskripsi,
-            lokasi: formData.status,
+            nama: formData.nama,
+            kategori: formData.kategori,
+            lokasi: formData.lokasi,
         };
 
         try {

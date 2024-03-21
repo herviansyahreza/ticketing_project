@@ -43,11 +43,11 @@ export default function EditUser() {
         };
 
         try {
-            const response = await axios.put(`http://localhost:3001/edit_user/${id}`, newData);
+            const response = await axios.put(`http://localhost:3001/update/${id}`, newData);
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
-                navigate('/user');
+                navigate('/users');
                 alert('Edit form berhasil');
             } else {
                 // Edit gagal
@@ -91,7 +91,7 @@ export default function EditUser() {
                             autoComplete="username"
                             onChange={handleChange}
                             className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                            placeholder="username..."
+                            placeholder=""
                             required
                         />
                         </div>
@@ -111,7 +111,7 @@ export default function EditUser() {
                             autoComplete="email"
                             onChange={handleChange}
                             className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                            placeholder="email..."
+                            placeholder=""
                             required
                         />
                         </div>
@@ -132,7 +132,6 @@ export default function EditUser() {
                             onChange={handleChange}
                             className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                             placeholder="••••••••"
-                            required
                         />
                         </div>
                     </div>

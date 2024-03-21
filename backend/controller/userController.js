@@ -161,7 +161,7 @@ const show_user = async (req, res, next) => {
 const get_user = async (req, res, next) => {
     const id_user = req.params.id;
     try {
-        const user = await db.query('SELECT * FROM user WHERE id = $1', [id_user]);
+        const user = await db.query('SELECT * FROM users WHERE id = $1', [id_user]);
         if (user.rowCount > 0) {
             res.status(200).json(user.rows[0]);
         } else {
@@ -174,18 +174,22 @@ const get_user = async (req, res, next) => {
 }
 
 const update = async (req, res, next) => {
-    const userId = req.body.id_user;
-    const { username, email, password } = req.body;
+    const { id, username, email, password, peran } = req.body;
 
     try {
+        const peranIdQuery = await db.query('SELECT id FROM peran WHERE nama = $1', [peran]);
+        const peranId = peranIdQuery.rows[0]?.id;
+        if (!peranId) {
+            return res.status(400).send('Invalid role');
+        }
         // Query SQL untuk memperbarui data pengguna
         if (password) {
             // Jika password diubah, hash password baru
             const hashedPassword = await bcrypt.hash(password, 10);
-            await db.query('UPDATE users SET username = $1, email = $2, password = $3, edited_at = $4 WHERE id_user = $5', [username, email, hashedPassword, currentDate, userId]);
+            await db.query('UPDATE users SET username = $1, email = $2, password = $3, peran = $4, edited_at = $5 WHERE id = $6', [username, email, hashedPassword, peranId, currentDate, id]);
         } else {
             // Jika password tidak diubah, hanya perbarui username, email, dan edited_at
-            await db.query('UPDATE users SET username = $1, email = $2, edited_at = $3 WHERE id_user = $4', [username, email, currentDate, userId]);
+            await db.query('UPDATE users SET username = $1, email = $2, peran = $3, edited_at = $4 WHERE id = $5', [username, email, peranId, currentDate, id]);
         }
 
         // Kirimkan respons sukses

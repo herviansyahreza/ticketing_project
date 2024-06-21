@@ -31,12 +31,20 @@ const add_aset = async(req, res, next) => {
 
 const show_aset = async (req, res, next) => {
     try {
-        // Query untuk mengambil semua data tiket
-        const asets = await db.query('SELECT * FROM aset');
+        // Query untuk mengambil data tiket dan nama pengguna
+        const query = `
+        SELECT aset.*, 
+                aset_kategori.nama AS kategori_nama, 
+                lokasi.nama AS lokasi_nama 
+        FROM aset
+                JOIN aset_kategori ON aset.kategori = aset_kategori.id
+                JOIN lokasi ON aset.lokasi = lokasi.id
+        `;
+        const asets = await db.query(query);
 
         res.status(200).json(asets.rows); // Mengirim data tiket sebagai respons
     } catch (error) {
-        console.error('Error fetching asets:', error);
+        console.error('Error fetching tickets:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }

@@ -62,8 +62,8 @@ export default function AsetList() {
                 <tr key={index}>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.nama}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.kategori}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.lokasi}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.kategori_nama}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.lokasi_nama}</td>
                     <td>
                         
                     <button 

@@ -105,12 +105,12 @@ export default function TicketList () {
             <tr key={index}>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.judul}</td>
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.user_id}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.users_username}</td>
                 {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email_client}</td> */}
                 {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset}</td> */}
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>

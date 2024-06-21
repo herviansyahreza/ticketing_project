@@ -148,12 +148,18 @@ const verify = async (req, res, next) => {
 
 const show_user = async (req, res, next) => {
     try {
-        // Query untuk mengambil semua data tiket
-        const users = await db.query('SELECT * FROM users');
+        // Query untuk mengambil data tiket dan nama pengguna
+        const query = `
+        SELECT users.*, 
+                peran.nama AS peran_nama  
+        FROM users
+                JOIN peran ON users.peran = peran.id
+        `;
+        const users = await db.query(query);
 
-        res.status(200).json(users.rows); // Mengirim data user sebagai respons
+        res.status(200).json(users.rows); // Mengirim data tiket sebagai respons
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching tickets:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
@@ -220,51 +226,6 @@ const remove = async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
-
-//UNTUK OTOMATIS MEMBERIKAN PERAN DAN HAK AKSES PADA USER YANG BARU DAFTAR
-// const assignDefaultRoleAndPermissions = async (userId) => {
-//     try {
-//         // Cari ID peran default dari database
-//         const defaultRoleId = await db.query('SELECT id_peran FROM peran WHERE nama = $1', ['DefaultRole']);
-//         if (defaultRoleId.rowCount === 0) {
-//             throw new Error('Default role not found');
-//         }
-
-//         // Tetapkan peran default ke pengguna
-//         await db.query('UPDATE users SET id_peran = $1 WHERE id_user = $2', [defaultRoleId.rows[0].id_peran, userId]);
-
-//         // Cari hak akses default dari database
-//         const defaultPermissions = await db.query('SELECT id_hakAkses FROM hak_akses WHERE nama IN ($1, $2)', ['Read', 'Write']);
-//         if (defaultPermissions.rowCount === 0) {
-//             throw new Error('Default permissions not found');
-//         }
-
-//         // Tetapkan hak akses default ke pengguna
-//         const permissionsValues = defaultPermissions.rows.map(permission => `(${userId}, ${permission.id_hakAkses})`).join(',');
-//         await db.query(`INSERT INTO user_permissions (id_user, id_hakAkses) VALUES ${permissionsValues}`);
-
-//         console.log('Default role and permissions assigned successfully');
-//     } catch (error) {
-//         console.error('Error assigning default role and permissions:', error);
-//         throw error;
-//     }
-// };
-
-// const registerUser = async (req, res, next) => {
-//     // Logika untuk registrasi pengguna
-//     try {
-//         // Simpan pengguna ke database
-//         // ...
-
-//         // Panggil fungsi untuk menetapkan peran dan hak akses default
-//         await assignDefaultRoleAndPermissions(newUser.id);
-
-//         res.status(201).json({ message: 'User registered successfully' });
-//     } catch (error) {
-//         console.error('Error registering user:', error);
-//         res.status(500).json({ message: 'Internal Server Error' });
-//     }
-// };
 
 module.exports = {
     register,

@@ -65,7 +65,7 @@ export default function UsersList() {
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.username}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.peran}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.peran_nama}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                     <td>

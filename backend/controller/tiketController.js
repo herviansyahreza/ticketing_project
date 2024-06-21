@@ -41,8 +41,18 @@ const add_tiket = async (req, res, next) => {
 
 const show_tiket = async (req, res, next) => {
     try {
-        // Query untuk mengambil semua data tiket
-        const tikets = await db.query('SELECT * FROM tiket');
+        // Query untuk mengambil data tiket dan nama pengguna
+        const query = `
+        SELECT tiket.*, 
+                users.username AS users_username, 
+                status.nama AS status_nama, 
+                prioritas.nama AS prioritas_nama
+        FROM tiket
+                JOIN users ON tiket.user_id = users.id
+                JOIN status ON tiket.status = status.id
+                JOIN prioritas ON tiket.prioritas = prioritas.id
+        `;
+        const tikets = await db.query(query);
 
         res.status(200).json(tikets.rows); // Mengirim data tiket sebagai respons
     } catch (error) {

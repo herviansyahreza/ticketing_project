@@ -153,7 +153,8 @@ const show_user = async (req, res, next) => {
         SELECT users.*, 
                 peran.nama AS peran_nama  
         FROM users
-                JOIN peran ON users.peran = peran.id
+            JOIN peran ON users.peran = peran.id
+        ORDER BY created_at ASC
         `;
         const users = await db.query(query);
 

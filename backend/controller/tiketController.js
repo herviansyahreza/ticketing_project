@@ -51,6 +51,7 @@ const show_tiket = async (req, res, next) => {
                 JOIN users ON tiket.user_id = users.id
                 JOIN status ON tiket.status = status.id
                 JOIN prioritas ON tiket.prioritas = prioritas.id
+        ORDER BY created_at ASC
         `;
         const tikets = await db.query(query);
 

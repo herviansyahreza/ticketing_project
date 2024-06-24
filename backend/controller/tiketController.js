@@ -116,6 +116,29 @@ const edit_tiket = async(req, res, next) => {
     }
 }
 
+const get_chart = async (req, res, next) => {
+    try {
+        const query = `
+            SELECT 
+                EXTRACT(MONTH FROM created_at) AS month, 
+                SUM(CASE WHEN prioritas = 4 THEN 1 ELSE 0 END) AS urgent,
+                SUM(CASE WHEN prioritas = 3 THEN 1 ELSE 0 END) AS high,
+                SUM(CASE WHEN prioritas = 2 THEN 1 ELSE 0 END) AS medium,
+                SUM(CASE WHEN prioritas = 1 THEN 1 ELSE 0 END) AS low
+            FROM tiket
+            GROUP BY month
+            ORDER BY month;
+        `;
+        const result = await db.query(query);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching tickets:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+
 const remove_tiket = async(req, res, next) => {
     const id_tiket = req.params.id;
     try {
@@ -153,6 +176,7 @@ module.exports = {
     show_tiket,
     get_tiket,
     get_username, 
+    get_chart,
     edit_tiket,
     remove_tiket,
 }

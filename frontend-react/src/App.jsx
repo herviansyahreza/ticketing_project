@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard';
 import Ticket from './components/Ticket';
 import FormTicket from './components/FormTicket';
 import Login from './components/login';
-import RegisterForm from './components/Register';
+import RegisterForm from './components/register';
 import Aset from './components/Aset';
 import FormAset from './components/FormAset';
 import Notfound from './components/Notfound';

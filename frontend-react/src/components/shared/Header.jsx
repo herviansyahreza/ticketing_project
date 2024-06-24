@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
 import { HiOutlineBell } from 'react-icons/hi'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import axios from 'axios'
 
 export default function Header() {
 	const navigate = useNavigate()
+
+	const location = useLocation();
 
     const handleLogout = async () => {
         try {
@@ -40,10 +42,43 @@ export default function Header() {
 		navigate('/profile')
 	}
 
+	const getPageTitle = (pathname) => {
+        switch (pathname) {
+            case '/':
+                return 'Dashboard';
+            case '/ticket':
+                return 'Tickets';
+            case '/form-ticket':
+                return 'Create Ticket';
+            case '/edit-ticket/:id':
+                return 'Edit Ticket';
+            case '/aset':
+                return 'Assets';
+            case '/form-aset':
+                return 'Create Asset';
+            case '/edit-aset/:id':
+                return 'Edit Asset';
+            case '/profile':
+                return 'Profile';
+            case '/users':
+                return 'Users';
+            case '/form-user':
+                return 'Create User';
+            case '/edit-user/:id':
+                return 'Edit User';
+            case '/login':
+                return 'Login';
+            case '/register':
+                return 'Register';
+            default:
+                return 'Page Not Found';
+        }
+    };
+
 	return (
 		<div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
             <div className=" relative bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
-                <h1 className="text-xl font-semibold text-gray-900"></h1>
+                <h1 className="text-xl font-semibold text-gray-900">{getPageTitle(location.pathname)}</h1>
             </div>
 
 			<div className="flex items-center gap-2 mr-2">

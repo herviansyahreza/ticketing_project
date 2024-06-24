@@ -87,6 +87,7 @@ export default function EditTicket() {
                         name="judul"
                         id="judul"
                         autoComplete="judul"
+                        value={formData.judul}
                         onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder=""
@@ -176,6 +177,7 @@ export default function EditTicket() {
                     id="deskripsi"
                     name="deskripsi"
                     rows={5}
+                    value={formData.deskripsi}
                     onChange={handleChange}
                     className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={''}

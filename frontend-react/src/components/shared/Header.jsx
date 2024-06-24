@@ -71,7 +71,7 @@ export default function Header() {
             case '/register':
                 return 'Register';
             default:
-                return 'Page Not Found';
+                return '';
         }
     };
 

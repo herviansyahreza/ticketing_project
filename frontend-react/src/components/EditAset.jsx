@@ -85,6 +85,7 @@ export default function EditAset() {
                         name="nama"
                         id="nama"
                         autoComplete="nama"
+                        value={formData.nama}
                         onChange={handleChange}
                         className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         placeholder="Nama Aset..."

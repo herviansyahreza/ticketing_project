@@ -9,6 +9,7 @@ export default function UsersList() {
     const [showModalDelete, setShowModalDelete] = useState(false);
     const navigate = useNavigate()
     const [user, setUser] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(null);  // State untuk menyimpan ID user yang dipilih untuk dihapus
 
         useEffect(() => {
         axios.get('http://localhost:3001/show_user')
@@ -77,7 +78,9 @@ export default function UsersList() {
                     </button>
 
                     <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
-                onClick={() => setShowModalDelete(true)}>
+                onClick={() => {
+                    setSelectedUserId(item.id);  // Set ID user yang dipilih untuk dihapus
+                    setShowModalDelete(true)}}>
                 <MdDeleteOutline className="text-xl" />
                 </button>
                 {showModalDelete && (
@@ -96,7 +99,8 @@ export default function UsersList() {
                                 type="button"
                                 onClick={() => {
                                     setShowModalDelete(false);
-                                    handleDelete(item.id);
+                                    handleDelete(selectedUserId);  // Hapus user dengan ID yang dipilih
+                                    // handleDelete(item.id);
                                 }}
                                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             >

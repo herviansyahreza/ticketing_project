@@ -10,6 +10,7 @@ import { MdDeleteOutline } from "react-icons/md";
 export default function TicketList () {
     // const [showModalEdit, setShowModalEdit] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
+    const [selectedTicketId, setSelectedTicketId] = useState(null);  // State untuk menyimpan ID tiket yang dipilih untuk dihapus
 
     const navigate = useNavigate()
     const [tiket, setTiket] = useState([]);
@@ -57,6 +58,7 @@ export default function TicketList () {
         // }, []);
 
         const handleDelete = async (id) => {
+
             try {
                 const response = await axios.delete(`http://localhost:3001/remove_tiket/${id}`);
                 console.log(response);
@@ -75,6 +77,7 @@ export default function TicketList () {
                 alert('Terjadi kesalahan saat menghapus tiket');
             }
         };
+
 
 	return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -196,7 +199,10 @@ export default function TicketList () {
                 )} */}
 
                 <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
-                onClick={() => setShowModalDelete(true)}>
+                onClick={() => {
+                    setSelectedTicketId(item.id);  // Set ID tiket yang dipilih untuk dihapus
+                    setShowModalDelete(true)
+                    }}>
                 <MdDeleteOutline className="text-xl" />
                 </button>
                 {showModalDelete && (
@@ -215,7 +221,8 @@ export default function TicketList () {
                                 type="button"
                                 onClick={() => {
                                     setShowModalDelete(false);
-                                    handleDelete(item.id);
+                                    handleDelete(selectedTicketId);  // Hapus tiket dengan ID yang dipilih
+                                    // handleDelete(item.id);
                                 }}
                                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             >

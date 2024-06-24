@@ -26,6 +26,7 @@ export default function RegisterForm() {
             console.log(response);
             if (response.status === 200) {
                 // Register berhasil
+                alert('Register akun berhasil');
                 navigate('/login');
             } else {
                 // Register gagal

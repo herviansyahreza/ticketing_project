@@ -8,6 +8,7 @@ export default function AsetList() {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate()
     const [aset, setAset] = useState([]);
+    const [selectedAsetId, setSelectedAsetId] = useState(null);  // State untuk menyimpan ID aset yang dipilih untuk dihapus
 
         useEffect(() => {
         axios.get('http://localhost:3001/show_aset')
@@ -73,8 +74,9 @@ export default function AsetList() {
                     </button>
 
                     <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
-                    onClick={() => setShowModal(true)}>
-                    {/* // {() => handleDelete(item.id_tiket)} */}
+                    onClick={() => {
+                        setSelectedAsetId(item.id);  // Set ID aset yang dipilih untuk dihapus
+                        setShowModal(true)}}>
                     <MdDeleteOutline className="text-xl" />
                     </button>
                 {showModal && (
@@ -93,7 +95,8 @@ export default function AsetList() {
                                 type="button"
                                 onClick={() => {
                                     setShowModal(false);
-                                    handleDelete(item.id);
+                                    handleDelete(selectedAsetId);  // Hapus aset dengan ID yang dipilih
+                                    // handleDelete(item.id);
                                 }}
                                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                             >

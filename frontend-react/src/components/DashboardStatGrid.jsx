@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { AiOutlineExclamation, AiOutlineCloseCircle } from "react-icons/ai";
 import { BiTime, BiPauseCircle, BiCheckCircle, BiRefresh } from "react-icons/bi";
 
 export default function DashboardStatsGrid({ setChartType, selectedChart }) {
+    const [ticketCounts, setTicketCounts] = useState({
+        Open: 0,
+        'In Progress': 0,
+        'On Hold': 0,
+        Resolved: 0,
+        Closed: 0,
+        Reopened: 0
+    });
+
+    useEffect(() => {
+        const fetchTicketCounts = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/count_tiket');
+                setTicketCounts(response.data);
+            } catch (error) {
+                console.error('Error fetching ticket counts:', error);
+            }
+        };
+
+        fetchTicketCounts();
+    }, []);
+
+	console.log(ticketCounts);
+
     const getButtonClass = (chartName) => {
         return selectedChart === chartName
             ? 'border-2 border-gray-950' // Menambahkan kelas CSS untuk meredupkan tombol yang dipilih
@@ -21,7 +46,7 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
                 <div className="pl-4">
                     <span className="text-xl text-black font-light whitespace-nowrap">Open</span>
                     <div className="flex items-center">
-                        <strong className="text-xl text-gray-900 font-semibold">200</strong>
+                        <strong className="text-xl text-gray-900 font-semibold">{ticketCounts.Open}</strong>
                     </div>
                 </div>
             </div>
@@ -36,12 +61,11 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
                 <div className="pl-4">
                     <span className="text-xl text-black font-light whitespace-nowrap">In Progress</span>
                     <div className="flex items-center">
-                        <strong className="text-xl text-gray-900 font-semibold">100</strong>
+                        <strong className="text-xl text-gray-900 font-semibold">{ticketCounts['In Progress']}</strong>
                     </div>
                 </div>
             </div>
 
-            {/* Tambahkan properti onClick ke kartu lainnya jika perlu */}
             <div className={`bg-red-500 rounded-xl h-28 w-48 p-6 flex-1 border border-gray-200 flex items-center cursor-pointer ${getButtonClass('chart3')}`}
                 onClick={() => setChartType('chart3')}
 			>
@@ -51,7 +75,7 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
                 <div className="pl-4">
                     <span className="text-xl text-black font-light whitespace-nowrap">On Hold</span>
                     <div className="flex items-center">
-                        <strong className="text-xl text-gray-900 font-semibold">70</strong>
+                        <strong className="text-xl text-gray-900 font-semibold">{ticketCounts['On Hold']}</strong>
                     </div>
                 </div>
             </div>
@@ -65,7 +89,7 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
                 <div className="pl-4">
                     <span className="text-xl text-black font-light whitespace-nowrap">Resolved</span>
                     <div className="flex items-center">
-                        <strong className="text-xl text-gray-900 font-semibold">250</strong>
+                        <strong className="text-xl text-gray-900 font-semibold">{ticketCounts.Resolved}</strong>
                     </div>
                 </div>
             </div>
@@ -79,7 +103,7 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
                 <div className="pl-4">
                     <span className="text-xl text-black font-light whitespace-nowrap">Closed</span>
                     <div className="flex items-center">
-                        <strong className="text-xl text-gray-900 font-semibold">80</strong>
+                        <strong className="text-xl text-gray-900 font-semibold">{ticketCounts.Closed}</strong>
                     </div>
                 </div>
             </div>
@@ -93,7 +117,7 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
                 <div className="pl-4">
                     <span className="text-xl text-black font-light whitespace-nowrap">Reopened</span>
                     <div className="flex items-center">
-                        <strong className="text-xl text-gray-900 font-semibold">80</strong>
+                        <strong className="text-xl text-gray-900 font-semibold">{ticketCounts.Reopened}</strong>
                     </div>
                 </div>
             </div>

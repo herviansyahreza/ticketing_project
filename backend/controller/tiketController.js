@@ -137,6 +137,36 @@ const get_chart = async (req, res, next) => {
     }
 };
 
+const count_tiket = async (req, res, next) => {
+    try {
+        const statuses = ['Open', 'In Progress', 'On Hold', 'Resolved', 'Closed', 'Reopened'];
+        const query = `
+            SELECT s.nama AS status, COALESCE(COUNT(t.status), 0) AS count
+            FROM status s
+            LEFT JOIN tiket t ON t.status = s.id
+            GROUP BY s.nama
+        `;
+
+        const result = await db.query(query);
+
+        if (!result || !result.rows || result.rows.length === 0) {
+            throw new Error('No data found');
+        }
+
+        const formattedResult = {};
+        result.rows.forEach(row => {
+            formattedResult[row.status] = parseInt(row.count);
+        });
+
+        res.json(formattedResult);
+    } catch (error) {
+        console.error('Error fetching ticket counts:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+
 
 
 const remove_tiket = async(req, res, next) => {
@@ -177,6 +207,7 @@ module.exports = {
     get_tiket,
     get_username, 
     get_chart,
+    count_tiket,
     edit_tiket,
     remove_tiket,
 }

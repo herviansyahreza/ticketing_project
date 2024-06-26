@@ -24,6 +24,7 @@ export default function Login() {
                 localStorage.setItem('name', response.data.username);
                 localStorage.setItem('email', response.data.email);
                 localStorage.setItem('id', response.data.id);
+                localStorage.setItem('peran', response.data.peran);
                 navigate('/');
             } else {
                 // Login gagal karena username atau password salah

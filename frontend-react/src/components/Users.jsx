@@ -20,6 +20,7 @@ export default function UsersList() {
             console.error('Error fetching user:', error);
             });
         }, []);
+        console.log(user);
 
         const handleDelete = async (id) => {
             try {

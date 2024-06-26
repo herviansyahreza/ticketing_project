@@ -83,7 +83,8 @@ const login = async (req, res, next) => {
                     id: user.rows[0].id,
                     username: user.rows[0].username,
                     email: user.rows[0].email,
-                    token: token
+                    token: token,
+                    peran: user.rows[0].peran
                     
                 });console.log("Login Berhasil");
             } else {

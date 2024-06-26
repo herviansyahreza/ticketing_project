@@ -41,6 +41,8 @@ router.get('/get_username', tiketController.get_username)
 
 router.get('/get_chart', tiketController.get_chart)
 
+router.get('/count_tiket', tiketController.count_tiket)
+
 router.put('/edit_tiket/:id', tiketController.edit_tiket)
 
 router.delete('/remove_tiket/:id', tiketController.remove_tiket)

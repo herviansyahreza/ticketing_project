@@ -150,7 +150,7 @@ export default function Header() {
 								className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
 								style={{ backgroundImage: 'url("https://source.unsplash.com/80x80?face")' }}
 							>
-								<span className="sr-only">Marc Backes</span>
+								<span className="sr-only"></span>
 							</div>
 						</Menu.Button>
 					</div>

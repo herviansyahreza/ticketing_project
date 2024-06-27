@@ -7,6 +7,7 @@ import axios from 'axios';
 export default function Layout() {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(false);
+    const [userRole, setUserRole] = useState(null); // Menambah state untuk peran pengguna
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -25,6 +26,7 @@ export default function Layout() {
                     });
                     if (response.status === 200) {
                         setIsLogin(true);
+                        setUserRole(localStorage.getItem('peran')); // Setel peran pengguna dari localStorage
                     } else {
                         navigate('/login');
                     }
@@ -38,10 +40,10 @@ export default function Layout() {
         }
     }, [navigate]);
 
-    if (isLogin) {
+    if (isLogin && userRole) {
         return (
             <div className="bg-neutral-100 h-screen w-screen overflow-hidden flex flex-row">
-                <Sidebar />
+                <Sidebar userRole={userRole} /> {/* Mengirimkan peran pengguna ke Sidebar */}
                 <div className="flex flex-col flex-1">
                     <Header />
                     <div className="flex-1 p-4 min-h-0 overflow-auto">

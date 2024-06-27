@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import  axios  from "axios";
-import { PhotoIcon } from '@heroicons/react/24/solid'
+// import { PhotoIcon } from '@heroicons/react/24/solid'
 
 export default function TicketForm() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         judul: '',
+        aset: '',
         deskripsi: '',
         status: '',
         prioritas: '',
@@ -21,6 +22,7 @@ export default function TicketForm() {
         event.preventDefault();
         const data = {
             judul: formData.judul,
+            aset: formData.aset,
             deskripsi: formData.deskripsi,
             user: username,
             status: formData.status,
@@ -84,25 +86,39 @@ export default function TicketForm() {
                 </div>
                 </div>
 
-                {/* <div className="sm:col-span-4">
-                <label htmlFor="nama" className="block text-sm font-medium leading-6 text-gray-900">
-                    Pelapor
+                <div className="sm:col-span-4">
+                <label htmlFor="aset" className="block text-sm font-medium leading-6 text-gray-900">
+                    Aset
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                        type="text"
-                        name="user"
-                        id="user"
-                        autoComplete="user"
-                        onChange={handleChange}
-                        className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        placeholder=""
+                    <select 
+                        name="aset" 
+                        id="aset" 
+                        value={formData.aset} 
+                        onChange={handleChange} 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
-                    />
+                    >
+                        <option value="">Pilih Aset</option>
+                        <option value="Wifi Kemhan go.id">Wifi Kemhan go.id</option>
+                        <option value="Wifi Kadet Mahasiswa">Wifi Kadet Mahasiswa</option>
+                        <option value="Wifi Unhan Mahasiswa">Wifi Unhan Mahasiswa</option>
+                        <option value="Wifi Unhan 1st-Class">Wifi Unhan 1st-Class</option>
+                        <option value="Wifi Unhan 2nd-Class">Wifi Unhan 2nd-Class</option>
+                        <option value="Wifi Unhan 3rd-Class">Wifi Unhan 3rd-Class</option>
+                        <option value="Wifi Unhan 4th-Class">Wifi Unhan 4th-Class</option>
+                        <option value="Wifi Unhan 5th-Class">Wifi Unhan 5th-Class</option>
+                        <option value="Wifi Unhan 6th-Class">Wifi Unhan 6th-Class</option>
+                        <option value="Wifi Unhan 7th-Class">Wifi Unhan 7th-Class</option>
+                        <option value="Wifi Unhan 8th-Class">Wifi Unhan 8th-Class</option>
+                        <option value="Wifi Unhan 9th-Class">Wifi Unhan 9th-Class</option>
+                        <option value="Wifi Unhan 10th-Class">Wifi Unhan 10th-Class</option>
+                        <option value="Wifi Unhan 11th-Class">Wifi Unhan 11th-Class</option>
+                    </select>
                     </div>
                 </div>
-                </div> */}
+                </div>
 
                 <div className="sm:col-span-4">
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -132,7 +148,7 @@ export default function TicketForm() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="aset" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="prioritas" className="block text-sm font-medium leading-6 text-gray-900">
                     Prioritas
                 </label>
                 <div className="mt-2">
@@ -174,21 +190,6 @@ export default function TicketForm() {
                 </div>
 
                 {/* <div className="col-span-full">
-                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                    Photo
-                </label>
-                <div className="mt-2 flex items-center gap-x-3">
-                    <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
-                    <button
-                    type="button"
-                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                    >
-                    Change
-                    </button>
-                </div>
-                </div> */}
-
-                <div className="col-span-full">
                 <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                     Lampiran Foto
                 </label>
@@ -209,7 +210,7 @@ export default function TicketForm() {
                     </div>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Lampirkan foto pada pc atau aset yang bermasalah (jika ada).</p>
-                </div>
+                </div> */}
             </div>
 
             <div className="flex justify-end items-center">

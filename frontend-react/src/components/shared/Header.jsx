@@ -70,6 +70,12 @@ export default function Header() {
                 return 'Login';
             case '/register':
                 return 'Register';
+			case '/teknisi':
+                return 'Teknisi';
+			case '/history':
+                return 'History';
+			case '/report':
+                return 'Summary Report';
             default:
                 return '';
         }

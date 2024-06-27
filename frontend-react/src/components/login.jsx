@@ -25,7 +25,18 @@ export default function Login() {
                 localStorage.setItem('email', response.data.email);
                 localStorage.setItem('id', response.data.id);
                 localStorage.setItem('peran', response.data.peran);
-                navigate('/');
+                // Navigasi berdasarkan peran pengguna
+            const role = response.data.peran;
+            if (role === 1) {
+                // Admin
+                navigate('/'); // Ganti dengan halaman yang sesuai untuk pengguna biasa
+            } else if (role === 2) {
+                // Teknisi
+                navigate('/'); // Ganti dengan halaman yang sesuai untuk teknisi
+            } else if (role === 3) {
+                // Pengguna
+                navigate('/ticket'); // Halaman utama untuk admin
+            }
             } else {
                 // Login gagal karena username atau password salah
                 alert('Email atau password salah');

@@ -1,9 +1,10 @@
 const express = require('express')
 const db = require('../db.config/db.config')
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
+const multer = require('multer')
 
 const add_tiket = async (req, res, next) => {
-    const { judul, deskripsi, user, status, prioritas } = req.body;
+    const { judul, aset, deskripsi, user, status, prioritas } = req.body;
 
     try {
         // Ambil ID user, status, dan prioritas dari database berdasarkan nama yang diberikan
@@ -11,6 +12,12 @@ const add_tiket = async (req, res, next) => {
         const userId = userIdQuery.rows[0]?.id;
         if (!userId) {
             return res.status(400).send('Invalid user');
+        }
+
+        const asetIdQuery = await db.query('SELECT id FROM aset WHERE nama = $1', [aset]);
+        const asetId = asetIdQuery.rows[0]?.id;
+        if (!asetId) {
+            return res.status(400).send('Invalid aset');
         }
 
         const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
@@ -28,8 +35,8 @@ const add_tiket = async (req, res, next) => {
         // Insert data tiket jaringan ke database
         const currentDate = new Date().toISOString();
         const newTicket = await db.query(
-            'INSERT INTO tiket (judul, deskripsi, user_id, status, prioritas, created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [judul, deskripsi, userId, statusId, prioritasId, currentDate]
+            'INSERT INTO tiket (judul, aset, deskripsi, user_id, status, prioritas, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            [judul, asetId, deskripsi, userId, statusId, prioritasId, currentDate]
         );
 
         res.status(201).json(newTicket.rows[0]);
@@ -46,11 +53,13 @@ const show_tiket = async (req, res, next) => {
         SELECT tiket.*, 
                 users.username AS users_username, 
                 status.nama AS status_nama, 
-                prioritas.nama AS prioritas_nama
+                prioritas.nama AS prioritas_nama,
+                aset.nama AS aset_nama
         FROM tiket
                 JOIN users ON tiket.user_id = users.id
                 JOIN status ON tiket.status = status.id
                 JOIN prioritas ON tiket.prioritas = prioritas.id
+                JOIN aset ON tiket.aset = aset.id
         ORDER BY created_at ASC
         `;
         const tikets = await db.query(query);
@@ -77,18 +86,12 @@ const get_tiket = async (req, res, next) => {
     }
 }
 
-const edit_tiket = async(req, res, next) => {
-    const { id, judul, deskripsi,status, prioritas } = req.body;
-    console.log(id)
+const edit_tiket = async (req, res, next) => {
+    const { id, judul, deskripsi, status, prioritas, solusi } = req.body;
+    console.log(id);
 
     try {
-        // Ambil ID user, status, dan prioritas dari database berdasarkan nama yang diberikan
-        // const userIdQuery = await db.query('SELECT id FROM users WHERE username = $1', [user]);
-        // const userId = userIdQuery.rows[0]?.id;
-        // if (!userId) {
-        //     return res.status(400).send('Invalid user');
-        // }
-
+        // Ambil ID status dan prioritas dari database berdasarkan nama yang diberikan
         const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
         const statusId = statusIdQuery.rows[0]?.id;
         if (!statusId) {
@@ -100,13 +103,22 @@ const edit_tiket = async(req, res, next) => {
         if (!prioritasId) {
             return res.status(400).send('Invalid prioritas');
         }
-    
+
         const currentDate = new Date().toISOString();
-        const updateTicket = await db.query('UPDATE tiket SET judul = $1, deskripsi = $2, status = $3, prioritas = $4, edited_at = $5 WHERE id = $6 RETURNING *'
-        , [judul, deskripsi, statusId, prioritasId, currentDate, id]);
+        const updateTicket = await db.query(
+            'UPDATE tiket SET judul = $1, deskripsi = $2, status = $3, prioritas = $4, edited_at = $5 WHERE id = $6 RETURNING *',
+            [judul, deskripsi, statusId, prioritasId, currentDate, id]
+        );
 
         if (updateTicket.rowCount > 0) {
-            res.status(200).json({ message: 'Ticket updated successfully' });
+            // Insert solusi jika ada
+            if (solusi) {
+                await db.query(
+                    'INSERT INTO solusi (tiket, solusi) VALUES ($1, $2)',
+                    [id, solusi]
+                );
+            }
+            res.status(200).json({ message: 'Ticket updated successfully', ticket: updateTicket.rows[0] });
         } else {
             res.status(404).json({ message: 'Ticket not found' });
         }
@@ -115,6 +127,7 @@ const edit_tiket = async(req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
 
 const get_chart = async (req, res, next) => {
     try {

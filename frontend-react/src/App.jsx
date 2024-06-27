@@ -14,23 +14,27 @@ import FormUser from './components/FormUser';
 import EditTicket from './components/EditTicket';
 import EditAset from './components/EditAset';
 import Edituser from './components/EditUser';
+import Teknisi from './components/Teknisi';
+
 
 function App() {
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="ticket" element={<Ticket />} />
-          <Route path="form-ticket" element={<FormTicket/>} />
-          <Route path="edit-ticket/:id" element={<EditTicket/>} />
-          <Route path="aset" element={<Aset/>} />
-          <Route path="form-aset" element={<FormAset/>} />
-          <Route path="edit-aset/:id" element={<EditAset/>} />
-          <Route path="profile" element={<Profile/>} />
-          <Route path="users" element={<Users/>} />
-          <Route path="form-user" element={<FormUser/>}/>
-          <Route path="edit-user/:id" element={<Edituser/>} />
+          {<Route index element={<Dashboard />} />}
+          {<Route path="ticket" element={<Ticket />} />}
+          {<Route path="form-ticket" element={<FormTicket/>} />}
+          {<Route path="edit-ticket/:id" element={<EditTicket/>} />}
+          {<Route path="aset" element={<Aset/>} />}
+          {<Route path="form-aset" element={<FormAset/>} />}
+          {<Route path="edit-aset/:id" element={<EditAset/>} />}
+          {<Route path="profile" element={<Profile/>} />}
+          {<Route path="users" element={<Users/>} />}
+          {<Route path="form-user" element={<FormUser/>}/>}
+          {<Route path="edit-user/:id" element={<Edituser/>} />}
+          {<Route path="teknisi" element={<Teknisi />} />}
           
         </Route>
         <Route path="login" element={<Login/>} />

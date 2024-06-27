@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { PhotoIcon } from '@heroicons/react/24/solid'
+// import { PhotoIcon } from '@heroicons/react/24/solid'
 
 export default function Aset() {
     const navigate = useNavigate();
@@ -148,7 +148,7 @@ export default function Aset() {
                 </div>
                 </div> */}
 
-                <div className="col-span-full">
+                {/* <div className="col-span-full">
                 <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                     Lampiran Foto
                 </label>
@@ -169,7 +169,7 @@ export default function Aset() {
                     </div>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Lampirkan foto aset yang akan ditambahkan (jika ada).</p>
-                </div>
+                </div> */}
             </div>
 
             <div className="flex justify-end items-center">

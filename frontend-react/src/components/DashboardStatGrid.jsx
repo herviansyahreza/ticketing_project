@@ -26,8 +26,6 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
         fetchTicketCounts();
     }, []);
 
-	console.log(ticketCounts);
-
     const getButtonClass = (chartName) => {
         return selectedChart === chartName
             ? 'border-2 border-gray-950' // Menambahkan kelas CSS untuk meredupkan tombol yang dipilih

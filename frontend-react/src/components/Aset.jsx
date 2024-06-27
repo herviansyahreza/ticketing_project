@@ -55,6 +55,7 @@ export default function AsetList() {
                 <th scope="col" className="px-6 py-3">Nama Aset</th>
                 <th scope="col" className="px-6 py-3">Kategori</th>
                 <th scope="col" className="px-6 py-3">Lokasi</th>
+                <th scope="col" className="px-6 py-3">Kerusakan</th>
                 <th scope="col" className="px-6 py-3">Aksi</th>
                 </tr>
             </thead>
@@ -65,6 +66,7 @@ export default function AsetList() {
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.nama}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.kategori_nama}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.lokasi_nama}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.jumlah_kerusakan}</td>
                     <td>
                         
                     <button 

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import  axios  from "axios";
-import { UserCircleIcon } from '@heroicons/react/24/solid'
+// import { UserCircleIcon } from '@heroicons/react/24/solid'
 
 export default function UserForm() {
     const navigate = useNavigate();
@@ -129,26 +129,8 @@ export default function UserForm() {
                     </div>
                 </div>
                 </div>
-                
-                {/* <div className="col-span-full">
-                <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
-                    Deskripsi Laporan
-                </label>
-                <div className="mt-2">
-                    <textarea
-                    id="laporan"
-                    name="laporan"
-                    rows={5}
-                    onChange={handleChange}
-                    className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={''}
-                    required
-                    />
-                </div>
-                <p className="mt-3 text-sm leading-6 text-gray-600">Tulis laporan dengan lengkap.</p>
-                </div> */}
 
-                <div className="col-span-full">
+                {/* <div className="col-span-full">
                 <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                     Photo
                 </label>
@@ -162,7 +144,7 @@ export default function UserForm() {
                         <input id="change-photo" name="fchange-photo" type="file" className="sr-only" />
                         </label>
                 </div>
-                </div>
+                </div> */}
             </div>
 
                 {/* <div className="col-span-full">

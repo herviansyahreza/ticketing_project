@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { UserCircleIcon } from '@heroicons/react/20/solid'
+// import { UserCircleIcon } from '@heroicons/react/20/solid'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
@@ -178,7 +178,7 @@ export default function EditUser() {
                     <p className="mt-3 text-sm leading-6 text-gray-600">Tulis laporan dengan lengkap.</p>
                     </div> */}
     
-                    <div className="col-span-full">
+                    {/* <div className="col-span-full">
                     <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                         Photo
                     </label>
@@ -192,7 +192,7 @@ export default function EditUser() {
                             <input id="change-photo" name="fchange-photo" type="file" className="sr-only" />
                             </label>
                     </div>
-                    </div>
+                    </div> */}
                 </div>
     
                     {/* <div className="col-span-full">

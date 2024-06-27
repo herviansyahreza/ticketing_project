@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { PhotoIcon } from '@heroicons/react/24/solid'
 
 export default function EditTicket() {
     const navigate = useNavigate();
@@ -12,6 +11,7 @@ export default function EditTicket() {
         deskripsi: '',
         status: '',
         prioritas: '',
+        solusi: '',
     });
 
     useEffect(() => {
@@ -38,6 +38,7 @@ export default function EditTicket() {
             deskripsi: formData.deskripsi,
             status: formData.status,
             prioritas: formData.prioritas,
+            solusi: formData.solusi,
         };
 
         try {
@@ -187,6 +188,25 @@ export default function EditTicket() {
                 <p className="mt-3 text-sm leading-6 text-gray-600">Tulis laporan dengan lengkap.</p>
                 </div>
 
+                <div className="col-span-full">
+                <label htmlFor="deskripsi" className="block text-sm font-medium leading-6 text-gray-900">
+                    Solusi Tiket Laporan
+                </label>
+                <div className="mt-2">
+                    <textarea
+                    id="solusi"
+                    name="solusi"
+                    rows={5}
+                    value={formData.solusi}
+                    onChange={handleChange}
+                    className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    defaultValue={''}
+                    required
+                    />
+                </div>
+                <p className="mt-3 text-sm leading-6 text-gray-600">Solusi dari tiket laporan.</p>
+                </div>
+
                 {/* <div className="col-span-full">
                 <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                     Photo
@@ -202,7 +222,7 @@ export default function EditTicket() {
                 </div>
                 </div> */}
 
-                <div className="col-span-full">
+                {/* <div className="col-span-full">
                 <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                     Lampiran Foto
                 </label>
@@ -223,7 +243,7 @@ export default function EditTicket() {
                     </div>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Lampirkan foto pada pc atau aset yang bermasalah (jika ada).</p>
-                </div>
+                </div> */}
             </div>
 
             <div className="flex justify-end items-center">

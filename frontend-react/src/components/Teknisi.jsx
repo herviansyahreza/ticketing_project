@@ -25,6 +25,7 @@ export default function TicketList () {
             });
         }, []);
 
+
         const handleDelete = async (id) => {
 
             try {
@@ -49,11 +50,11 @@ export default function TicketList () {
 
 	return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <Link to="/form-ticket">
+        {/* <Link to="/form-ticket">
             <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket')}>
                 Buat Tiket
             </button>
-        </Link>
+        </Link> */}
     {/* <Card className="h-full w-full overflow-scroll"> */}
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

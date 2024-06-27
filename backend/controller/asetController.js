@@ -33,12 +33,16 @@ const show_aset = async (req, res, next) => {
     try {
         // Query untuk mengambil data tiket dan nama pengguna
         const query = `
-        SELECT aset.*, 
+        SELECT aset.id, 
+                aset.nama,
                 aset_kategori.nama AS kategori_nama, 
-                lokasi.nama AS lokasi_nama 
+                lokasi.nama AS lokasi_nama,
+                COUNT(tiket.id) AS jumlah_kerusakan
         FROM aset
                 JOIN aset_kategori ON aset.kategori = aset_kategori.id
                 JOIN lokasi ON aset.lokasi = lokasi.id
+                LEFT JOIN tiket ON aset.id = tiket.aset
+        GROUP BY aset.id, aset.nama, aset_kategori.nama, lokasi.nama
         `;
         const asets = await db.query(query);
 

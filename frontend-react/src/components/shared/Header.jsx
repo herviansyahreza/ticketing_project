@@ -26,7 +26,9 @@ export default function Header() {
             localStorage.removeItem('token');
             localStorage.removeItem('name');
             localStorage.removeItem('email');
-			localStorage.removeItem('id_user');
+			localStorage.removeItem('id');
+			localStorage.removeItem('peran');
+			localStorage.removeItem('user');
             }
 			alert('Logout Succesfully');
             // Redirect pengguna ke halaman login atau halaman lainnya jika diperlukan

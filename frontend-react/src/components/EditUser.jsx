@@ -118,7 +118,7 @@ export default function EditUser() {
                     </div>
                     </div>
     
-                    <div className="sm:col-span-4">
+                    {/* <div className="sm:col-span-4">
                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                         Password
                     </label>
@@ -135,7 +135,7 @@ export default function EditUser() {
                         />
                         </div>
                     </div>
-                    </div>
+                    </div> */}
     
                     <div className="sm:col-span-4">
                     <label htmlFor="peran" className="block text-sm font-medium leading-6 text-gray-900">

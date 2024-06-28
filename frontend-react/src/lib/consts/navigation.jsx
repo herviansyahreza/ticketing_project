@@ -22,7 +22,14 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		label: 'Ticket',
 		path: '/ticket',
 		icon: <IoTicketOutline />,
-		roles: [1,3]
+		roles: [1]
+	},
+	{
+		key: 'ticket_byUser',
+		label: 'Ticket Saya',
+		path: '/ticket_byUser',
+		icon: <IoTicketOutline />,
+		roles: [3]
 	},
 	{
 		key: 'aset',

@@ -12,7 +12,8 @@ export default function TicketReportChart() {
             try {
                 const response = await axios.get(`http://localhost:3001/get_chart`);
                 const result = response.data;
-                const formattedData = result.map(item => ({
+				const filteredResult = result.filter(item => item.status === 1);
+                const formattedData = filteredResult.map(item => ({
                     name: monthNames[parseInt(item.month) - 1],
 					Urgent: parseInt(item.urgent),
 					High: parseInt(item.high),

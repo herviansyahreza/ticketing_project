@@ -50,6 +50,8 @@ export default function Header() {
                 return 'Dashboard';
             case '/ticket':
                 return 'Tickets';
+			case '/ticket_byUser':
+                return 'Tickets Saya';
             case '/form-ticket':
                 return 'Create Ticket';
             case '/edit-ticket/:id':

@@ -20,16 +20,24 @@ const add_tiket = async (req, res, next) => {
             return res.status(400).send('Invalid aset');
         }
 
-        const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
-        const statusId = statusIdQuery.rows[0]?.id;
-        if (!statusId) {
-            return res.status(400).send('Invalid status');
+        // Ambil ID status dari database berdasarkan nama yang diberikan jika status ada
+        let statusId = null;
+        if (status) {
+            const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
+            statusId = statusIdQuery.rows[0]?.id;
+            if (!statusId) {
+                return res.status(400).send('Invalid status');
+            }
         }
 
-        const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
-        const prioritasId = prioritasIdQuery.rows[0]?.id;
-        if (!prioritasId) {
-            return res.status(400).send('Invalid prioritas');
+        // Ambil ID prioritas dari database berdasarkan nama yang diberikan jika prioritas ada
+        let prioritasId = null;
+        if (prioritas) {
+            const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
+            prioritasId = prioritasIdQuery.rows[0]?.id;
+            if (!prioritasId) {
+                return res.status(400).send('Invalid prioritas');
+            }
         }
 
         // Insert data tiket jaringan ke database
@@ -58,7 +66,7 @@ const show_tiket = async (req, res, next) => {
         FROM tiket
                 JOIN users ON tiket.user_id = users.id
                 JOIN status ON tiket.status = status.id
-                JOIN prioritas ON tiket.prioritas = prioritas.id
+                LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
                 JOIN aset ON tiket.aset = aset.id
         ORDER BY created_at ASC
         `;
@@ -70,6 +78,41 @@ const show_tiket = async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+const show_tiket_byUser = async (req, res, next) => {
+    const { userId } = req.params; // Mengambil user_id dari parameter URL
+    try {
+        // Query untuk mengambil data tiket dan nama pengguna terkait user_id
+        const query = `
+            SELECT tiket.*, 
+                users.username AS users_username, 
+                status.nama AS status_nama, 
+                prioritas.nama AS prioritas_nama,
+                aset.nama AS aset_nama
+            FROM tiket
+            JOIN users ON tiket.user_id = users.id
+            JOIN status ON tiket.status = status.id
+            LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
+            JOIN aset ON tiket.aset = aset.id
+            WHERE tiket.user_id = $1
+            ORDER BY created_at ASC;
+        `;
+        
+        const tikets = await db.query(query, [userId]);
+
+        res.status(200).json(tikets.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Kesalahan dalam mengambil data tiket:', error);
+        res.status(500).json({ message: 'Kesalahan Internal Server' });
+    }
+}
+
+module.exports = {
+    show_tiket_byUser
+};
+
+
+
 
 const get_tiket = async (req, res, next) => {
     const id_tiket = req.params.id;
@@ -98,10 +141,14 @@ const edit_tiket = async (req, res, next) => {
             return res.status(400).send('Invalid status');
         }
 
-        const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
-        const prioritasId = prioritasIdQuery.rows[0]?.id;
-        if (!prioritasId) {
-            return res.status(400).send('Invalid prioritas');
+        // Ambil ID prioritas dari database berdasarkan nama yang diberikan jika prioritas ada
+        let prioritasId = null;
+        if (prioritas) {
+            const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
+            prioritasId = prioritasIdQuery.rows[0]?.id;
+            if (!prioritasId) {
+                return res.status(400).send('Invalid prioritas');
+            }
         }
 
         const currentDate = new Date().toISOString();
@@ -134,12 +181,13 @@ const get_chart = async (req, res, next) => {
         const query = `
             SELECT 
                 EXTRACT(MONTH FROM created_at) AS month, 
+                status,
                 SUM(CASE WHEN prioritas = 4 THEN 1 ELSE 0 END) AS urgent,
                 SUM(CASE WHEN prioritas = 3 THEN 1 ELSE 0 END) AS high,
                 SUM(CASE WHEN prioritas = 2 THEN 1 ELSE 0 END) AS medium,
                 SUM(CASE WHEN prioritas = 1 THEN 1 ELSE 0 END) AS low
             FROM tiket
-            GROUP BY month
+            GROUP BY month, status
             ORDER BY month;
         `;
         const result = await db.query(query);
@@ -217,6 +265,7 @@ const get_username = async (req, res, next) => {
 module.exports = {
     add_tiket,
     show_tiket,
+    show_tiket_byUser,
     get_tiket,
     get_username, 
     get_chart,

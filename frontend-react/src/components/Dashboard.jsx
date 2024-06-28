@@ -21,11 +21,11 @@ export default function Dashboard() {
             <DashboardStatsGrid setChartType={handleSetChartType} selectedChart={selectedChart} />
             <div className="flex flex-row gap-4 m-10">
                 {chartType === 'chart1' && <DashboardChart />}
-                {chartType === 'chart2' && <DashboardClosed />}
-                {chartType === 'chart3' && <DashboardReopened />}
+                {chartType === 'chart5' && <DashboardClosed />}
+                {chartType === 'chart6' && <DashboardReopened />}
                 {chartType === 'chart4' && <DashboardResolved />}
-                {chartType === 'chart5' && <DashboardInProgress />}
-                {chartType === 'chart6' && <DashboardOnHold />}
+                {chartType === 'chart2' && <DashboardInProgress />}
+                {chartType === 'chart3' && <DashboardOnHold />}
             </div>
         </div>
     );

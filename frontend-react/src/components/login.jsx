@@ -29,13 +29,13 @@ export default function Login() {
             const role = response.data.peran;
             if (role === 1) {
                 // Admin
-                navigate('/'); // Ganti dengan halaman yang sesuai untuk pengguna biasa
+                navigate('/'); // Halaman untuk admin
             } else if (role === 2) {
                 // Teknisi
-                navigate('/'); // Ganti dengan halaman yang sesuai untuk teknisi
+                navigate('/'); // Halaman untuk teknisi
             } else if (role === 3) {
                 // Pengguna
-                navigate('/ticket'); // Halaman utama untuk admin
+                navigate('/ticket_byUser'); // Halaman utama untuk pengguna
             }
             } else {
                 // Login gagal karena username atau password salah

@@ -35,6 +35,8 @@ router.post('/add_tiket', tiketController.add_tiket)
 
 router.get('/show_tiket', tiketController.show_tiket)
 
+router.get('/show_tiket_byUser/:userId', tiketController.show_tiket_byUser)
+
 router.get('/get_tiket/:id', tiketController.get_tiket)
 
 router.get('/get_username', tiketController.get_username)

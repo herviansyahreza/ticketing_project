@@ -15,18 +15,26 @@ export default function TicketList () {
     const navigate = useNavigate()
     const [tiket, setTiket] = useState([]);
 
-        useEffect(() => {
-        axios.get('http://localhost:3001/show_tiket')
+    useEffect(() => {
+        // Mengambil userId dari localStorage
+        const userId = localStorage.getItem('id');
+    
+        if (userId) {
+          // Mengirim permintaan GET ke backend dengan userId dari localStorage
+        axios.get(`http://localhost:3001/show_tiket_byUser/${userId}`)
             .then(response => {
-            setTiket(response.data);
+                setTiket(response.data);
+                console.log(response.data);
             })
             .catch(error => {
-            console.error('Error fetching tiket:', error);
+                console.error('Error fetching tiket:', error);
             });
-        }, []);
+        } else {
+            console.error('ID pengguna tidak ditemukan di localStorage');
+        }
+    }, []);
 
         const handleDelete = async (id) => {
-
             try {
                 const response = await axios.delete(`http://localhost:3001/remove_tiket/${id}`);
                 console.log(response);
@@ -49,8 +57,8 @@ export default function TicketList () {
 
 	return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <Link to="/form-ticket">
-            <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket')}>
+        <Link to="/form-ticket-user">
+            <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket-user')}>
                 Buat Tiket
             </button>
         </Link>
@@ -82,18 +90,18 @@ export default function TicketList () {
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || 'Belum Ditentukan'}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || "Belum Ditentukan"}</td>
                 {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">Foto</td> */}
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                 <td>
 
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" 
+                {/* <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" 
                 className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                 onClick={ () => navigate(`/edit-ticket/${item.id}`) }
                 >
                 <FaRegEdit className="text-xl"/>
-                </button>
+                </button> */}
                 
                 {/* {showModalEdit && (
                 <div

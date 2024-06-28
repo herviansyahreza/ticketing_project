@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/shared/layout';
 import Dashboard from './components/Dashboard';
 import Ticket from './components/Ticket';
+import TicketUser from './components/TicketUser';
 import FormTicket from './components/FormTicket';
+import FormTicketUser from './components/FormTicketUser';
 import Login from './components/login';
 import RegisterForm from './components/register';
 import Aset from './components/Aset';
@@ -25,7 +27,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           {<Route index element={<Dashboard />} />}
           {<Route path="ticket" element={<Ticket />} />}
+          {<Route path="ticket_byUser" element={<TicketUser />} />}
           {<Route path="form-ticket" element={<FormTicket/>} />}
+          {<Route path="form-ticket-user" element={<FormTicketUser/>} />}
           {<Route path="edit-ticket/:id" element={<EditTicket/>} />}
           {<Route path="aset" element={<Aset/>} />}
           {<Route path="form-aset" element={<FormAset/>} />}

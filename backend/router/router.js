@@ -37,6 +37,8 @@ router.get('/show_tiket', tiketController.show_tiket)
 
 router.get('/show_tiket_byUser/:userId', tiketController.show_tiket_byUser)
 
+router.get('/show_aset_byDamage/:asetId', tiketController.show_aset_byDamage)
+
 router.get('/get_tiket/:id', tiketController.get_tiket)
 
 router.get('/get_username', tiketController.get_username)

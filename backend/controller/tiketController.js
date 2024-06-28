@@ -111,7 +111,30 @@ module.exports = {
     show_tiket_byUser
 };
 
-
+const show_aset_byDamage = async (req, res, next) => {
+    const { damageId } = req.params; // Mengambil damage_id dari parameter URL
+    try {
+        // Query untuk mengambil data aset dan nama pengguna terkait damage_id
+        const query = `
+            SELECT aset.*,
+                aset_kategori.nama AS kategori_nama,
+                lokasi.nama AS lokasi_nama,
+                COUNT(tiket.id) AS jumlah_kerusakan
+            FROM aset
+            JOIN aset_kategori ON aset.kategori = aset_kategori.id
+            JOIN lokasi ON aset.lokasi = lokasi.id
+            LEFT JOIN tiket ON aset.id = tiket.aset
+            WHERE tiket.kerusakan = $1
+            GROUP BY aset.id, aset.nama, aset_kategori.nama, lokasi.nama
+            ORDER BY aset.id ASC;
+        `;
+        const asets = await db.query(query, [damageId]);
+        res.status(200).json(asets.rows); // Mengirim data aset sebagai respons
+    } catch (error) {
+        console.error('Kesalahan dalam mengambil data aset:', error);
+        res.status(500).json({ message: 'Kesalahan Internal Server' });
+    }
+}
 
 
 const get_tiket = async (req, res, next) => {
@@ -226,10 +249,6 @@ const count_tiket = async (req, res, next) => {
     }
 };
 
-
-
-
-
 const remove_tiket = async(req, res, next) => {
     const id_tiket = req.params.id;
     try {
@@ -266,6 +285,7 @@ module.exports = {
     add_tiket,
     show_tiket,
     show_tiket_byUser,
+    show_aset_byDamage,
     get_tiket,
     get_username, 
     get_chart,

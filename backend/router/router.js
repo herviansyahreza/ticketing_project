@@ -37,7 +37,7 @@ router.get('/show_tiket', tiketController.show_tiket)
 
 router.get('/show_tiket_byUser/:userId', tiketController.show_tiket_byUser)
 
-router.get('/show_aset_byDamage/:asetId', tiketController.show_aset_byDamage)
+router.get('/show_aset_byDamage', tiketController.show_aset_byDamage)
 
 router.get('/get_tiket/:id', tiketController.get_tiket)
 
@@ -50,6 +50,8 @@ router.get('/count_tiket', tiketController.count_tiket)
 router.put('/edit_tiket/:id', tiketController.edit_tiket)
 
 router.delete('/remove_tiket/:id', tiketController.remove_tiket)
+
+router.get('/getNotification', tiketController.getNotification)
 
 //aset
 router.post('/add_aset', asetController.add_aset)

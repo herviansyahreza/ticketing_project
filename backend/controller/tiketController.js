@@ -1,7 +1,6 @@
 const express = require('express')
 const db = require('../db.config/db.config')
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
-const multer = require('multer')
 
 const add_tiket = async (req, res, next) => {
     const { judul, aset, deskripsi, user, status, prioritas } = req.body;
@@ -112,23 +111,31 @@ module.exports = {
 };
 
 const show_aset_byDamage = async (req, res, next) => {
-    const { damageId } = req.params; // Mengambil damage_id dari parameter URL
     try {
-        // Query untuk mengambil data aset dan nama pengguna terkait damage_id
+        // Query untuk mengambil data aset dan nama pengguna
         const query = `
-            SELECT aset.*,
-                aset_kategori.nama AS kategori_nama,
-                lokasi.nama AS lokasi_nama,
-                COUNT(tiket.id) AS jumlah_kerusakan
-            FROM aset
-            JOIN aset_kategori ON aset.kategori = aset_kategori.id
-            JOIN lokasi ON aset.lokasi = lokasi.id
-            LEFT JOIN tiket ON aset.id = tiket.aset
-            WHERE tiket.kerusakan = $1
-            GROUP BY aset.id, aset.nama, aset_kategori.nama, lokasi.nama
-            ORDER BY aset.id ASC;
+            WITH kerusakan_tiket AS (
+                SELECT 
+                status,
+                    tiket.aset, 
+                    COUNT(tiket.id) OVER(PARTITION BY tiket.aset) AS jumlah_kerusakan
+                FROM 
+                    tiket
+            )
+            SELECT 
+                kt.status,
+                kt.aset AS aset_id, 
+                kt.jumlah_kerusakan
+            FROM 
+                kerusakan_tiket kt
+            JOIN 
+                aset ON kt.aset = aset.id
+            GROUP BY 
+                kt.status, kt.aset, kt.jumlah_kerusakan
+            ORDER BY 
+                kt.aset ASC;
         `;
-        const asets = await db.query(query, [damageId]);
+        const asets = await db.query(query);
         res.status(200).json(asets.rows); // Mengirim data aset sebagai respons
     } catch (error) {
         console.error('Kesalahan dalam mengambil data aset:', error);
@@ -281,6 +288,23 @@ const get_username = async (req, res, next) => {
     }
 }
 
+const getNotification = async (req, res, next) => {
+    const { id } = req.body; // Misalnya Anda ingin mengambil notifikasi berdasarkan id
+
+    try {
+        // Ambil notifikasi dari database berdasarkan id
+        const notifications = await db.query(
+            'SELECT * FROM notifikasi WHERE id = $1'
+            [id]
+        );
+
+        res.status(200).json(notifications.rows);
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     add_tiket,
     show_tiket,
@@ -292,4 +316,5 @@ module.exports = {
     count_tiket,
     edit_tiket,
     remove_tiket,
+    getNotification,
 }

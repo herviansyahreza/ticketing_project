@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 
 export default function AsetList() {
     const [showModal, setShowModal] = useState(false);
@@ -42,11 +43,23 @@ export default function AsetList() {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="flex justify-between mb-4">
             <Link to="/form-aset">
             <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-aset')}>
                 Buat Aset
             </button>
         </Link>
+        <div className="flex items-center">
+                <input
+                    type="text"
+                    placeholder="Cari aset..."
+                    className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+                />
+                <button className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded">
+                <FaSearch className="text-xl" />
+                </button>
+            </div>
+        </div>
 
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

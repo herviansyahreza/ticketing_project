@@ -5,6 +5,7 @@ import axios from 'axios';
 import { parseISO, format } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 
 
 export default function TicketList () {
@@ -50,11 +51,23 @@ export default function TicketList () {
 
 	return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="flex justify-between mb-4">
         {/* <Link to="/form-ticket">
             <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket')}>
                 Buat Tiket
             </button>
         </Link> */}
+        <div className="flex items-center">
+                <input
+                    type="text"
+                    placeholder="Cari tiket..."
+                    className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+                />
+                <button className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded">
+                <FaSearch className="text-xl" />
+                </button>
+            </div>
+        </div>
     {/* <Card className="h-full w-full overflow-scroll"> */}
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -83,7 +96,7 @@ export default function TicketList () {
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || 'Belum Ditentukan'}</td>
                 {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">Foto</td> */}
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>

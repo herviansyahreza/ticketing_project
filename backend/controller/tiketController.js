@@ -67,7 +67,7 @@ const show_tiket = async (req, res, next) => {
                 JOIN status ON tiket.status = status.id
                 LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
                 JOIN aset ON tiket.aset = aset.id
-        ORDER BY created_at ASC
+        ORDER BY created_at DESC
         `;
         const tikets = await db.query(query);
 
@@ -94,7 +94,7 @@ const show_tiket_byUser = async (req, res, next) => {
             LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
             JOIN aset ON tiket.aset = aset.id
             WHERE tiket.user_id = $1
-            ORDER BY created_at ASC;
+            ORDER BY created_at DESC;
         `;
         
         const tikets = await db.query(query, [userId]);
@@ -161,10 +161,9 @@ const get_tiket = async (req, res, next) => {
 
 const edit_tiket = async (req, res, next) => {
     const { id, judul, deskripsi, status, prioritas, solusi } = req.body;
-    console.log(id);
 
     try {
-        // Ambil ID status dan prioritas dari database berdasarkan nama yang diberikan
+        // Ambil ID status dari database berdasarkan nama yang diberikan
         const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
         const statusId = statusIdQuery.rows[0]?.id;
         if (!statusId) {
@@ -182,28 +181,27 @@ const edit_tiket = async (req, res, next) => {
         }
 
         const currentDate = new Date().toISOString();
-        const updateTicket = await db.query(
-            'UPDATE tiket SET judul = $1, deskripsi = $2, status = $3, prioritas = $4, edited_at = $5 WHERE id = $6 RETURNING *',
-            [judul, deskripsi, statusId, prioritasId, currentDate, id]
-        );
+        try {
+            const updateTicket = await db.query(
+                'UPDATE tiket SET judul = $1, deskripsi = $2, status = $3, prioritas = $4, solusi = $5, edited_at = $6 WHERE id = $7 RETURNING *',
+                [judul, deskripsi, statusId, prioritasId, solusi, currentDate, id]
+            );
 
-        if (updateTicket.rowCount > 0) {
-            // Insert solusi jika ada
-            if (solusi) {
-                await db.query(
-                    'INSERT INTO solusi (tiket, solusi) VALUES ($1, $2)',
-                    [id, solusi]
-                );
+            if (updateTicket.rowCount > 0) {
+                res.status(200).json({ message: 'Ticket updated successfully', ticket: updateTicket.rows[0] });
+            } else {
+                res.status(404).json({ message: 'Ticket not found' });
             }
-            res.status(200).json({ message: 'Ticket updated successfully', ticket: updateTicket.rows[0] });
-        } else {
-            res.status(404).json({ message: 'Ticket not found' });
+        } catch (error) {
+            console.error('Error updating ticket:', error);
+            res.status(500).json({ message: 'Internal Server Error' });
         }
     } catch (error) {
-        console.error('Error updating ticket:', error);
+        console.error('Error fetching status or priority ID:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
+
 
 
 const get_chart = async (req, res, next) => {
@@ -322,7 +320,8 @@ const search_tiket = async (req, res, next) => {
                 OR users.username ILIKE $1 
                 OR status.nama ILIKE $1 
                 OR prioritas.nama ILIKE $1
-                OR tiket.deskripsi ILIKE $1`,
+                OR tiket.deskripsi ILIKE $1
+                ORDER BY created_at DESC`,
             [`%${search}%`]
         );
 

@@ -43,6 +43,7 @@ const show_aset = async (req, res, next) => {
                 JOIN lokasi ON aset.lokasi = lokasi.id
                 LEFT JOIN tiket ON aset.id = tiket.aset
         GROUP BY aset.id, aset.nama, aset_kategori.nama, lokasi.nama
+        ORDER BY aset.nama ASC;
         `;
         const asets = await db.query(query);
 
@@ -133,7 +134,8 @@ const search_aset = async (req, res, next) => {
                 OR aset_kategori.nama ILIKE $1
                 OR lokasi.nama ILIKE $1
             GROUP BY 
-                aset.id, aset_kategori.nama, lokasi.nama;`,
+                aset.id, aset_kategori.nama, lokasi.nama
+            ORDER BY aset.nama ASC;`,
                         [`%${search}%`]
         );
 

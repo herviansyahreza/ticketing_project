@@ -16,8 +16,6 @@ export default function Login() {
                 password: data.get('password')
             });
 
-            console.log(response);
-
             if (response.status === 200) {
                 // Login berhasil
                 localStorage.setItem('token', response.data.token);

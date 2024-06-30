@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 // import { Card } from "@material-tailwind/react";
-import { parseISO, format } from "date-fns";
+import { parseISO, format, set } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
@@ -25,6 +25,7 @@ export default function TicketList () {
         axios.get(`http://localhost:3001/show_tiket_byUser/${userId}`)
             .then(response => {
                 setTiket(response.data);
+                console.log(response.data);
             })
             .catch(error => {
                 console.error('Error fetching tiket:', error);
@@ -33,6 +34,7 @@ export default function TicketList () {
             console.error('ID pengguna tidak ditemukan di localStorage');
         }
     }, []);
+
 
         const handleDelete = async (id) => {
             try {
@@ -81,16 +83,17 @@ export default function TicketList () {
             <tr>
             <th scope="col" className="px-6 py-3">No</th>
             <th scope="col" className="px-6 py-3">Judul</th>
-            <th scope="col" className="px-6 py-3">Pelapor</th>
+            {/* <th scope="col" className="px-6 py-3">Pelapor</th> */}
             <th scope="col" className="px-6 py-3">Aset</th>
             {/* <th scope="col" className="px-6 py-3">Email</th> */}
             {/* <th scope="col" className="px-6 py-3">Aset</th> */}
             <th scope="col" className="px-6 py-3">Status</th>
             <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
+            <th scope="col" className="px-6 py-3">Solusi Laporan</th>
             <th scope="col" className="px-6 py-3">Prioritas</th>
             {/* <th scope="col" className="px-6 py-3">Lampiran Foto</th> */}
-            <th scope="col" className="px-6 py-3">Created at</th>
-            <th scope="col" className="px-6 py-3">Edited at</th>
+            {/* <th scope="col" className="px-6 py-3">Created at</th>
+            <th scope="col" className="px-6 py-3">Edited at</th> */}
             <th scope="col" className="px-6 py-3">Aksi</th>
             </tr>
         </thead>
@@ -99,14 +102,15 @@ export default function TicketList () {
             <tr key={index}>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.judul}</td>
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.users_username}</td>
+                {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.users_username}</td> */}
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.solusi || "Belum Diproses"}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || "Belum Ditentukan"}</td>
                 {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">Foto</td> */}
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
-                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
+                {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
+                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td> */}
                 <td>
 
                 {/* <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" 

@@ -155,7 +155,7 @@ const show_user = async (req, res, next) => {
                 peran.nama AS peran_nama  
         FROM users
             JOIN peran ON users.peran = peran.id
-        ORDER BY created_at ASC
+        ORDER BY peran.nama DESC
         `;
         const users = await db.query(query);
 
@@ -243,7 +243,7 @@ const search_user = async (req, res, next) => {
                 username ILIKE $1
                 OR email ILIKE $1
                 OR peran.nama ILIKE $1
-            ORDER BY created_at ASC`,
+            ORDER BY peran.nama DESC`,
                     [`%${search}%`]
         );
 

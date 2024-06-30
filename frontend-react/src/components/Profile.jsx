@@ -23,12 +23,12 @@ export default function Profile() {
 
     const getPeranName = (peran) => {
         switch (peran) {
-            case '1':
+            case '3':
                 return 'Pengguna';
             case '2':
                 return 'Teknisi';
-            case '3':
-                return 'Admin';
+            case '1':
+                return 'Administrator';
             default:
                 return 'Unknown';
         }
@@ -42,7 +42,7 @@ export default function Profile() {
                         Informasi User
                     </h3>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                        Details and information about user.
+                        Detail dan informasi tentang user.
                     </p>
                 </div>
                 <div className="border-t border-gray-200">

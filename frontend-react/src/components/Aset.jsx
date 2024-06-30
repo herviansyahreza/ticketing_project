@@ -9,7 +9,8 @@ export default function AsetList() {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate()
     const [aset, setAset] = useState([]);
-    const [selectedAsetId, setSelectedAsetId] = useState(null);  // State untuk menyimpan ID aset yang dipilih untuk dihapus
+    const [selectedAsetId, setSelectedAsetId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
         useEffect(() => {
         axios.get('http://localhost:3001/show_aset')
@@ -20,6 +21,15 @@ export default function AsetList() {
             console.error('Error fetching aset:', error);
             });
         }, []);
+
+        const handleSearch = async () => {
+            try {
+                const response = await axios.post('http://localhost:3001/search_aset', { search: searchTerm });
+                setAset(response.data);
+            } catch (error) {
+                console.error('Error searching tiket:', error);
+            }
+        };
 
         const handleDelete = async (id) => {
             try {
@@ -53,10 +63,15 @@ export default function AsetList() {
                 <input
                     type="text"
                     placeholder="Cari aset..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
                 />
-                <button className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded">
-                <FaSearch className="text-xl" />
+                <button
+                    onClick={handleSearch}
+                    className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded"
+                >
+                    <FaSearch className="text-xl" />
                 </button>
             </div>
         </div>

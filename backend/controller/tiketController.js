@@ -305,6 +305,36 @@ const getNotification = async (req, res, next) => {
     }
 }
 
+const search_tiket = async (req, res, next) => {
+    const { search } = req.body; // Kata kunci pencarian
+
+    try {
+        // Query SQL untuk mencari data
+        const result = await db.query(
+            `SELECT tiket.*, aset.nama as aset_nama, status.nama as status_nama, prioritas.nama as prioritas_nama, users.username as users_username
+                FROM tiket
+                LEFT JOIN aset ON tiket.aset = aset.id
+                LEFT JOIN status ON tiket.status = status.id
+                LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
+                JOIN users ON tiket.user_id = users.id
+                WHERE tiket.judul ILIKE $1 
+                OR aset.nama ILIKE $1 
+                OR users.username ILIKE $1 
+                OR status.nama ILIKE $1 
+                OR prioritas.nama ILIKE $1
+                OR tiket.deskripsi ILIKE $1`,
+            [`%${search}%`]
+        );
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+
 module.exports = {
     add_tiket,
     show_tiket,
@@ -317,4 +347,5 @@ module.exports = {
     edit_tiket,
     remove_tiket,
     getNotification,
+    search_tiket,
 }

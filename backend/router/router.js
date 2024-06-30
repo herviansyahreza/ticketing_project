@@ -30,6 +30,8 @@ router.put('/update/:id', userController.update)
 
 router.delete('/remove/:id', userController.remove)
 
+router.post('/search_user', userController.search_user)
+
 //tiket
 router.post('/add_tiket', tiketController.add_tiket)
 
@@ -53,6 +55,8 @@ router.delete('/remove_tiket/:id', tiketController.remove_tiket)
 
 router.get('/getNotification', tiketController.getNotification)
 
+router.post('/search_tiket', tiketController.search_tiket)
+
 //aset
 router.post('/add_aset', asetController.add_aset)
 
@@ -63,6 +67,8 @@ router.get('/get_aset/:id', asetController.get_aset)
 router.put('/edit_aset/:id', asetController.edit_aset)
 
 router.delete('/remove_aset/:id', asetController.remove_aset)
+
+router.post('/search_aset', asetController.search_aset)
 
 //status
 router.post('/add_status', statusController.add_status)

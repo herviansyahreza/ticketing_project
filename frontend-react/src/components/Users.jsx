@@ -10,7 +10,8 @@ export default function UsersList() {
     const [showModalDelete, setShowModalDelete] = useState(false);
     const navigate = useNavigate()
     const [user, setUser] = useState([]);
-    const [selectedUserId, setSelectedUserId] = useState(null);  // State untuk menyimpan ID user yang dipilih untuk dihapus
+    const [selectedUserId, setSelectedUserId] = useState(null);  
+    const [searchTerm, setSearchTerm] = useState('');
 
         useEffect(() => {
         axios.get('http://localhost:3001/show_user')
@@ -21,7 +22,15 @@ export default function UsersList() {
             console.error('Error fetching user:', error);
             });
         }, []);
-        console.log(user);
+
+        const handleSearch = async () => {
+            try {
+                const response = await axios.post('http://localhost:3001/search_user', { search: searchTerm });
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error searching tiket:', error);
+            }
+        };
 
         const handleDelete = async (id) => {
             try {
@@ -52,15 +61,20 @@ export default function UsersList() {
             </button>
         </Link>
         <div className="flex items-center">
-                <input
-                    type="text"
-                    placeholder="Cari user..."
-                    className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
-                />
-                <button className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded">
-                <FaSearch className="text-xl" />
-                </button>
-            </div>
+                    <input
+                        type="text"
+                        placeholder="Cari tiket..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded"
+                    >
+                        <FaSearch className="text-xl" />
+                    </button>
+                </div>
         </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

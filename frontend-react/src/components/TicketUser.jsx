@@ -25,7 +25,6 @@ export default function TicketList () {
         axios.get(`http://localhost:3001/show_tiket_byUser/${userId}`)
             .then(response => {
                 setTiket(response.data);
-                console.log(response.data);
             })
             .catch(error => {
                 console.error('Error fetching tiket:', error);
@@ -64,7 +63,7 @@ export default function TicketList () {
                 Buat Tiket
             </button>
         </Link>
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
                 <input
                     type="text"
                     placeholder="Cari tiket..."
@@ -73,7 +72,7 @@ export default function TicketList () {
                 <button className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded">
                 <FaSearch className="text-xl" />
                 </button>
-            </div>
+            </div> */}
         </div>
 
     {/* <Card className="h-full w-full overflow-scroll"> */}

@@ -229,6 +229,31 @@ const remove = async (req, res, next) => {
     }
 }
 
+const search_user = async (req, res, next) => {
+    const { search } = req.body; // Kata kunci pencarian
+
+    try {
+        // Query SQL untuk mencari data
+        const result = await db.query(
+            `SELECT users.*, 
+                peran.nama AS peran_nama  
+            FROM users
+                JOIN peran ON users.peran = peran.id
+            WHERE 
+                username ILIKE $1
+                OR email ILIKE $1
+                OR peran.nama ILIKE $1
+            ORDER BY created_at ASC`,
+                    [`%${search}%`]
+        );
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 module.exports = {
     register,
     add_user,
@@ -239,4 +264,5 @@ module.exports = {
     get_user,
     update,
     remove,
+    search_user,
 }

@@ -11,10 +11,11 @@ import { FaSearch } from "react-icons/fa";
 export default function TicketList () {
     // const [showModalEdit, setShowModalEdit] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
-    const [selectedTicketId, setSelectedTicketId] = useState(null);  // State untuk menyimpan ID tiket yang dipilih untuk dihapus
+    const [selectedTicketId, setSelectedTicketId] = useState(null); 
 
     const navigate = useNavigate()
     const [tiket, setTiket] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
         useEffect(() => {
         axios.get('http://localhost:3001/show_tiket')
@@ -26,6 +27,14 @@ export default function TicketList () {
             });
         }, []);
 
+        const handleSearch = async () => {
+            try {
+                const response = await axios.post('http://localhost:3001/search_tiket', { search: searchTerm });
+                setTiket(response.data);
+            } catch (error) {
+                console.error('Error searching tiket:', error);
+            }
+        };
 
         const handleDelete = async (id) => {
 
@@ -58,15 +67,20 @@ export default function TicketList () {
             </button>
         </Link> */}
         <div className="flex items-center">
-                <input
-                    type="text"
-                    placeholder="Cari tiket..."
-                    className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
-                />
-                <button className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded">
-                <FaSearch className="text-xl" />
-                </button>
-            </div>
+                    <input
+                        type="text"
+                        placeholder="Cari tiket..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="ml-2 bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded"
+                    >
+                        <FaSearch className="text-xl" />
+                    </button>
+                </div>
         </div>
     {/* <Card className="h-full w-full overflow-scroll"> */}
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

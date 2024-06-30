@@ -113,10 +113,42 @@ const remove_aset = async(req, res, next) => {
     }
 }
 
+const search_aset = async (req, res, next) => {
+    const { search } = req.body; // Kata kunci pencarian
+
+    try {
+        // Query SQL untuk mencari data
+        const result = await db.query(
+            `SELECT 
+                aset.*,  
+                aset_kategori.nama AS kategori_nama, 
+                lokasi.nama as lokasi_nama,
+                COUNT(tiket.id) AS jumlah_kerusakan
+            FROM aset
+                JOIN aset_kategori ON aset.kategori = aset_kategori.id
+                JOIN lokasi ON aset.lokasi = lokasi.id
+                LEFT JOIN tiket ON aset.id = tiket.aset
+            WHERE 
+                aset.nama ILIKE $1 
+                OR aset_kategori.nama ILIKE $1
+                OR lokasi.nama ILIKE $1
+            GROUP BY 
+                aset.id, aset_kategori.nama, lokasi.nama;`,
+                        [`%${search}%`]
+        );
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 module.exports = {
     add_aset,
     show_aset,
     get_aset,
     edit_aset,
     remove_aset,
+    search_aset,
 }

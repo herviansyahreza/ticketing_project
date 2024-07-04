@@ -32,8 +32,6 @@ router.delete('/remove/:id', userController.remove)
 
 router.post('/search_user', userController.search_user)
 
-
-
 //tiket
 router.post('/add_tiket', tiketController.add_tiket)
 

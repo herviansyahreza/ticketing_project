@@ -43,12 +43,12 @@ return (
             {filteredBottomLinks.map(item => (
             <SidebarLink key={item.key} item={item} />
             ))} */}
-            <div className={classNames('text-red-500 cursor-pointer', linkClass)}>
+            {/* <div className={classNames('text-red-500 cursor-pointer', linkClass)}>
             <span className='text-xl'>
                 <HiOutlineLogout />
             </span>
             Logout
-            </div>
+            </div> */}
         </div>
     );
 };

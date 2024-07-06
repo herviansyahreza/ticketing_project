@@ -32,6 +32,10 @@ router.delete('/remove/:id', userController.remove)
 
 router.post('/search_user', userController.search_user)
 
+router.get('/pending_user', userController.pending_user)
+
+router.put('/approve_user/:id', userController.approve_user)
+
 //tiket
 router.post('/add_tiket', tiketController.add_tiket)
 

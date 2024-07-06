@@ -9,15 +9,15 @@ export default function Login() {
     const handleSubmitLogin = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
+    
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 email: data.get('email'),
                 password: data.get('password')
             });
-
+    
             console.log(response);
-
+    
             if (response.status === 200) {
                 // Login berhasil
                 localStorage.setItem('token', response.data.token);
@@ -26,26 +26,34 @@ export default function Login() {
                 localStorage.setItem('id', response.data.id);
                 localStorage.setItem('peran', response.data.peran);
                 // Navigasi berdasarkan peran pengguna
-            const role = response.data.peran;
-            if (role === 1) {
-                // Admin
-                navigate('/'); // Halaman untuk admin
-            } else if (role === 2) {
-                // Teknisi
-                navigate('/'); // Halaman untuk teknisi
-            } else if (role === 3) {
-                // Pengguna
-                navigate('/ticket_byUser'); // Halaman utama untuk pengguna
-            }
+                const role = response.data.peran;
+                if (role === 1) {
+                    // Admin
+                    navigate('/'); // Halaman untuk admin
+                } else if (role === 2) {
+                    // Teknisi
+                    navigate('/'); // Halaman untuk teknisi
+                } else if (role === 3) {
+                    // Pengguna
+                    navigate('/ticket_byUser'); // Halaman utama untuk pengguna
+                }
             } else {
                 // Login gagal karena username atau password salah
                 alert('Email atau password salah');
             }
         } catch (error) {
-            // Terjadi kesalahan saat melakukan permintaan login
-            alert('Terjadi kesalahan saat login');
+            if (error.response && error.response.status === 403) {
+                // Pengguna belum disetujui
+                alert('Akun Anda belum disetujui oleh admin. Silakan coba lagi nanti.');
+            } else {
+                // Terjadi kesalahan saat melakukan permintaan login
+                alert('Terjadi kesalahan saat login');
+            }
         }
     };
+    
+
+
     const handleClickRegister = () => {
         // Navigate ke halaman register
         navigate('/register');

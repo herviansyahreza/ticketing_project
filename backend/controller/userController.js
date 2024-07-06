@@ -6,10 +6,10 @@ const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam 
 
 const register = async (req, res, next) => {
     const { username, email, password, peran, confirmPassword } = req.body;
-    
+
     // Cek apakah password dan confirm password sama
     if (password !== confirmPassword) {
-        return res.status(400).send('Password and confirm password do not match');
+        return res.status(400).send('Password dan konfirmasi password tidak cocok');
     }
 
     // Mengubah password menjadi hash
@@ -21,16 +21,17 @@ const register = async (req, res, next) => {
         const peranIdQuery = await db.query('SELECT id FROM peran WHERE nama = $1', [peran]);
         const peranId = peranIdQuery.rows[0]?.id;
         if (!peranId) {
-            return res.status(400).send('Invalid role');
+            return res.status(400).send('Peran tidak valid');
         }
 
-        await db.query('INSERT INTO users (username, email, password, peran, created_at) VALUES ($1, $2, $3, $4, $5);', [username, email, hashedPwd, peranId, currentDate]);
-        res.send('Data added successfully!');
+        await db.query('INSERT INTO users (username, email, password, peran, created_at, approved) VALUES ($1, $2, $3, $4, $5, $6);', [username, email, hashedPwd, peranId, currentDate, false]);
+        res.send('Registrasi berhasil! Silakan tunggu persetujuan dari admin.');
     } catch (error) {
-        console.error('Error inserting user data:', error.message);
-        res.status(500).send('Input failure!');
+        console.error('Kesalahan saat memasukkan data pengguna:', error.message);
+        res.status(500).send('Registrasi gagal!');
     }
 }
+
 
 const add_user = async (req, res, next) => {
     const { username, email, password, peran } = req.body;
@@ -64,42 +65,52 @@ const add_user = async (req, res, next) => {
 const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
-        const user = await db.query('SELECT * FROM users WHERE email = $1;', [email]);
+        const userQuery = 'SELECT * FROM users WHERE email = $1;';
+        const userResult = await db.query(userQuery, [email]);
+        
         // Periksa apakah pengguna ada
-        if (user.rowCount > 0) {
+        if (userResult.rowCount > 0) {
+            const user = userResult.rows[0];
+            
             // Memeriksa kesesuaian password
-            const validPass = await bcrypt.compare(password, user.rows[0].password);
-            // Periksa apakah password cocok
+            const validPass = await bcrypt.compare(password, user.password);
+            
             if (validPass) {
+                // Periksa apakah pengguna sudah disetujui oleh admin
+                if (!user.approved) {
+                    return res.status(403).send('Akun belum disetujui oleh admin');
+                }
+
                 // Menghasilkan token dengan JWT
                 const jwtSecretKey = 'kuncirahasia';
                 const tokenData = {
-                    userId: user.rows[0].id // Hanya menyimpan ID pengguna dalam token
+                    userId: user.id // Hanya menyimpan ID pengguna dalam token
                 };
                 const token = jwt.sign(tokenData, jwtSecretKey);
                 
-                // Mengembalikan ID, username, dan email
+                // Mengembalikan ID, username, email, peran, dan token
                 res.cookie("JWT", token, { httpOnly: true, sameSite: "strict" }).status(200).json({
-                    id: user.rows[0].id,
-                    username: user.rows[0].username,
-                    email: user.rows[0].email,
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
                     token: token,
-                    peran: user.rows[0].peran
-                    
-                });console.log("Login Berhasil");
+                    peran: user.peran
+                });
+                console.log("Login Berhasil");
             } else {
-                return res.status(400).send('Wrong password!');   
+                return res.status(400).send('Password salah!');
             }
         } else {
             return res.status(400).json({
-                error: "User is not registered, Sign Up first"
+                error: "Pengguna belum terdaftar, silakan daftar terlebih dahulu"
             });
         }
     } catch (error) {
-        console.error('Login failed:', error);
-        return res.status(500).send('Login failed');
+        console.error('Login gagal:', error);
+        return res.status(500).send('Login gagal');
     }
 }
+
 
 const logout = (req, res) => {
     try {
@@ -149,22 +160,24 @@ const verify = async (req, res, next) => {
 
 const show_user = async (req, res, next) => {
     try {
-        // Query untuk mengambil data tiket dan nama pengguna
+        // Query untuk mengambil data pengguna yang disetujui dan nama peran
         const query = `
         SELECT users.*, 
                 peran.nama AS peran_nama  
         FROM users
             JOIN peran ON users.peran = peran.id
+        WHERE users.approved = true
         ORDER BY created_at ASC
         `;
         const users = await db.query(query);
 
-        res.status(200).json(users.rows); // Mengirim data tiket sebagai respons
+        res.status(200).json(users.rows); // Mengirim data pengguna sebagai respons
     } catch (error) {
-        console.error('Error fetching tickets:', error);
+        console.error('Error fetching users:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
 
 const get_user = async (req, res, next) => {
     const id_user = req.params.id;
@@ -254,6 +267,44 @@ const search_user = async (req, res, next) => {
     }
 };
 
+const pending_user = async (req, res, next) => {
+    try {
+        const query = `
+        SELECT users.*, 
+                peran.nama AS peran_nama  
+        FROM users
+            JOIN peran ON users.peran = peran.id
+        WHERE users.approved = false
+        ORDER BY created_at ASC
+        `;
+        const result = await db.query(query);
+        res.json(result.rows);
+    } catch (error) {
+        res.status(500).json({ message: 'Kesalahan server saat mengambil pengguna' });
+    }
+};
+
+const approve_user = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const query = `
+        WITH updated_user AS (
+            UPDATE users
+            SET approved = true
+            WHERE id = $1
+            RETURNING id, username, email, peran, created_at, edited_at, approved
+        )
+        SELECT updated_user.*, peran.nama AS peran_nama
+        FROM updated_user
+        JOIN peran ON updated_user.peran = peran.id;
+        `;
+        const result = await db.query(query, [id]);
+        res.json(result.rows[0]);
+    } catch (error) {
+        res.status(500).json({ message: 'Kesalahan server saat menyetujui pengguna' });
+    }
+};
+
 module.exports = {
     register,
     add_user,
@@ -265,4 +316,6 @@ module.exports = {
     update,
     remove,
     search_user,
+    pending_user,
+    approve_user,
 }

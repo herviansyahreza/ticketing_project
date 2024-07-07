@@ -61,6 +61,8 @@ router.get('/getNotification', tiketController.getNotification)
 
 router.post('/search_tiket', tiketController.search_tiket)
 
+router.get('/solusi_populer', tiketController.solusi_populer)
+
 //aset
 router.post('/add_aset', asetController.add_aset)
 

@@ -52,27 +52,27 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <MdOutlineEngineering />,
 		roles: [2]
 	},
-	{
-		key: 'history',
-		label: 'History',
-		path: '/history',
-		icon: <MdHistory />,
-		roles: [1,3]
-	},
+	// {
+	// 	key: 'history',
+	// 	label: 'History',
+	// 	path: '/history',
+	// 	icon: <MdHistory />,
+	// 	roles: [1,3]
+	// },
 	{
 		key: 'solusi',
 		label: 'Solusi Populer',
-		path: '/solusi',
+		path: '/solusi-populer',
 		icon: <AiOutlineSolution />,
 		roles: [3,2,1]
 	},
-	{
-		key: 'report',
-		label: 'Summary Report',
-		path: '/report',
-		icon: <HiOutlineDocumentText />,
-		roles: [1]
-	},
+	// {
+	// 	key: 'report',
+	// 	label: 'Summary Report',
+	// 	path: '/report',
+	// 	icon: <HiOutlineDocumentText />,
+	// 	roles: [1]
+	// },
 	
 	
 	// {

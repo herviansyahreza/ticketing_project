@@ -78,6 +78,32 @@ const show_tiket = async (req, res, next) => {
     }
 }
 
+const solusi_populer = async (req, res, next) => {
+    try {
+        // Query untuk mengambil data tiket dan nama pengguna
+        const query = `
+        SELECT tiket.*, 
+                users.username AS users_username, 
+                status.nama AS status_nama, 
+                prioritas.nama AS prioritas_nama,
+                aset.nama AS aset_nama
+        FROM tiket
+                JOIN users ON tiket.user_id = users.id
+                JOIN status ON tiket.status = status.id
+                LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
+                JOIN aset ON tiket.aset = aset.id
+        WHERE status = 5
+        ORDER BY created_at ASC
+        `;
+        const tikets = await db.query(query);
+
+        res.status(200).json(tikets.rows); // Mengirim data tiket sebagai respons
+    } catch (error) {
+        console.error('Error fetching tickets:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const show_tiket_byUser = async (req, res, next) => {
     const { userId } = req.params; // Mengambil user_id dari parameter URL
     try {
@@ -105,10 +131,6 @@ const show_tiket_byUser = async (req, res, next) => {
         res.status(500).json({ message: 'Kesalahan Internal Server' });
     }
 }
-
-module.exports = {
-    show_tiket_byUser
-};
 
 const show_aset_byDamage = async (req, res, next) => {
     try {
@@ -161,7 +183,6 @@ const get_tiket = async (req, res, next) => {
 
 const edit_tiket = async (req, res, next) => {
     const { id, judul, deskripsi, status, prioritas, solusi } = req.body;
-    console.log(id);
 
     try {
         // Ambil ID status dan prioritas dari database berdasarkan nama yang diberikan
@@ -191,7 +212,7 @@ const edit_tiket = async (req, res, next) => {
             // Insert solusi jika ada
             if (solusi) {
                 await db.query(
-                    'INSERT INTO solusi (tiket, solusi) VALUES ($1, $2)',
+                    'UPDATE tiket SET solusi = $2 WHERE id = $1',
                     [id, solusi]
                 );
             }
@@ -348,4 +369,5 @@ module.exports = {
     remove_tiket,
     getNotification,
     search_tiket,
+    solusi_populer,
 }

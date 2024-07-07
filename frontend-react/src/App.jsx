@@ -17,6 +17,7 @@ import EditTicket from './components/EditTicket';
 import EditAset from './components/EditAset';
 import Edituser from './components/EditUser';
 import Teknisi from './components/Teknisi';
+import SolusiPopuler from './components/SolusiPopuler';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           {<Route path="form-user" element={<FormUser/>}/>}
           {<Route path="edit-user/:id" element={<Edituser/>} />}
           {<Route path="teknisi" element={<Teknisi />} />}
+            {<Route path="solusi-populer" element={<SolusiPopuler/>} />}
           
         </Route>
         <Route path="login" element={<Login/>} />

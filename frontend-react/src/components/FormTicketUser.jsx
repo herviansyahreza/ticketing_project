@@ -34,7 +34,7 @@ export default function TicketForm() {
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Register berhasil
-                navigate('/ticket_byUser');
+                navigate('/tiket_byUser');
                 alert('Submit form berhasil');
             } else {
                 // Register gagal

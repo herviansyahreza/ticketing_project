@@ -118,7 +118,7 @@ export default function TicketList () {
 
                 <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" 
                 className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
-                onClick={ () => navigate(`/edit-ticket/${item.id}`) }
+                onClick={ () => navigate(`/edit-tiket/${item.id}`) }
                 >
                 <FaRegEdit className="text-xl"/>
                 </button>

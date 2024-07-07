@@ -27,11 +27,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           {<Route index element={<Dashboard />} />}
-          {<Route path="ticket" element={<Ticket />} />}
-          {<Route path="ticket_byUser" element={<TicketUser />} />}
-          {<Route path="form-ticket" element={<FormTicket/>} />}
-          {<Route path="form-ticket-user" element={<FormTicketUser/>} />}
-          {<Route path="edit-ticket/:id" element={<EditTicket/>} />}
+          {<Route path="tiket" element={<Ticket />} />}
+          {<Route path="tiket_byUser" element={<TicketUser />} />}
+          {<Route path="form-tiket" element={<FormTicket/>} />}
+          {<Route path="form-tiket-user" element={<FormTicketUser/>} />}
+          {<Route path="edit-tiket/:id" element={<EditTicket/>} />}
           {<Route path="aset" element={<Aset/>} />}
           {<Route path="form-aset" element={<FormAset/>} />}
           {<Route path="edit-aset/:id" element={<EditAset/>} />}

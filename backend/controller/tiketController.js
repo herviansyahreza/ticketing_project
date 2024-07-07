@@ -67,7 +67,7 @@ const show_tiket = async (req, res, next) => {
                 JOIN status ON tiket.status = status.id
                 LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
                 JOIN aset ON tiket.aset = aset.id
-        ORDER BY created_at ASC
+        ORDER BY created_at DESC
         `;
         const tikets = await db.query(query);
 
@@ -120,7 +120,7 @@ const show_tiket_byUser = async (req, res, next) => {
             LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
             JOIN aset ON tiket.aset = aset.id
             WHERE tiket.user_id = $1
-            ORDER BY created_at ASC;
+            ORDER BY created_at DESC;
         `;
         
         const tikets = await db.query(query, [userId]);

@@ -58,8 +58,8 @@ export default function TicketList () {
 	return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex justify-between mb-4">
-        <Link to="/form-ticket-user">
-            <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-ticket-user')}>
+        <Link to="/form-tiket-user">
+            <button className="bg-neutral-300 hover:bg-neutral-400 text-black uppercase font-bold py-2 px-4 rounded mb-4" onClick={() => navigate('/form-tiket-user')}>
                 Buat Tiket
             </button>
         </Link>

@@ -43,6 +43,7 @@ const show_aset = async (req, res, next) => {
                 JOIN lokasi ON aset.lokasi = lokasi.id
                 LEFT JOIN tiket ON aset.id = tiket.aset
         GROUP BY aset.id, aset.nama, aset_kategori.nama, lokasi.nama
+        ORDER BY jumlah_kerusakan DESC
         `;
         const asets = await db.query(query);
 

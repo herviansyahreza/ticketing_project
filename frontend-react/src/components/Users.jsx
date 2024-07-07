@@ -104,6 +104,7 @@ export default function UsersList() {
                         <th scope="col" className="px-6 py-3">No</th>
                         <th scope="col" className="px-6 py-3">Username</th>
                         <th scope="col" className="px-6 py-3">Email</th>
+                        <th scope="col" className="px-6 py-3">NIM/NRP/NIP</th>
                         <th scope="col" className="px-6 py-3">Created at</th>
                         <th scope="col" className="px-6 py-3">Aksi</th>
                     </tr>
@@ -114,6 +115,7 @@ export default function UsersList() {
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.username}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email}</td>
+                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.nim}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.created_at ? format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm") : 'Tanggal tidak tersedia'} WIB</td>
                             <td>
                                 <button
@@ -135,6 +137,7 @@ export default function UsersList() {
                         <th scope="col" className="px-6 py-3">No</th>
                         <th scope="col" className="px-6 py-3">Username</th>
                         <th scope="col" className="px-6 py-3">Email</th>
+                        <th scope="col" className="px-6 py-3">NIM/NRP/NIP</th>
                         <th scope="col" className="px-6 py-3">Peran</th>
                         <th scope="col" className="px-6 py-3">Created at</th>
                         <th scope="col" className="px-6 py-3">Edited at</th>
@@ -147,6 +150,7 @@ export default function UsersList() {
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.username}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.email}</td>
+                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.nim}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.peran_nama}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.created_at ? format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm") : 'Tanggal tidak tersedia'} WIB</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>

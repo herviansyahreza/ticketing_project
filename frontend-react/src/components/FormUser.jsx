@@ -10,6 +10,7 @@ export default function UserForm() {
         email: '',
         password: '',
         peran: '',
+        nim: '',
     });
 
     const handleChange = (e) => {
@@ -86,6 +87,26 @@ export default function UserForm() {
                     </div>
                 </div>
                 </div>
+
+                <div className="sm:col-span-4">
+                    <label htmlFor="nim" className="block text-sm font-medium leading-6 text-gray-900">
+                        NIM/NRP/NIP
+                    </label>
+                    <div className="mt-2">
+                        <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                        <input
+                            type="text"
+                            name="nim"
+                            id="nim"
+                            autoComplete="nim"
+                            onChange={handleChange}
+                            className="block flex-1 border-0 bg-transparent py-2 px-3 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            placeholder="NIM/NRP/NIP..."
+                            required
+                        />
+                        </div>
+                    </div>
+                    </div>
 
                 <div className="sm:col-span-4">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">

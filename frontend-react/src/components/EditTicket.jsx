@@ -46,7 +46,7 @@ export default function EditTicket() {
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
-                navigate('/ticket');
+                navigate('/tiket');
                 alert('Edit form berhasil');
             } else {
                 // Edit gagal

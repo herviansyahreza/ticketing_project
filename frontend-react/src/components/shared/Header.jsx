@@ -48,26 +48,26 @@ export default function Header() {
         switch (pathname) {
             case '/':
                 return 'Dashboard';
-            case '/ticket':
-                return 'Tickets';
-			case '/ticket_byUser':
-                return 'Tickets Saya';
-            case '/form-ticket':
-                return 'Create Ticket';
-            case '/edit-ticket/:id':
-                return 'Edit Ticket';
+            case '/tiket':
+                return 'Tikets';
+			case '/tiket_byUser':
+                return 'Tiket Saya';
+            case '/form-tiket':
+                return 'Buat Tiket';
+            case '/edit-tiket/:id':
+                return 'Edit Tiket';
             case '/aset':
-                return 'Assets';
+                return 'Aset';
             case '/form-aset':
-                return 'Create Asset';
+                return 'Buat Aset';
             case '/edit-aset/:id':
-                return 'Edit Asset';
+                return 'Edit Aset';
             case '/profile':
                 return 'Profile';
             case '/users':
                 return 'Users';
             case '/form-user':
-                return 'Create User';
+                return 'Buat User';
             case '/edit-user/:id':
                 return 'Edit User';
             case '/login':
@@ -187,7 +187,7 @@ export default function Header() {
 									</div>
 								)}
 							</Menu.Item>
-							<Menu.Item>
+							{/* <Menu.Item>
 								{({ active }) => (
 									<div
 										onClick={() => navigate('/settings')}
@@ -199,7 +199,7 @@ export default function Header() {
 										Settings
 									</div>
 								)}
-							</Menu.Item>
+							</Menu.Item> */}
 							<Menu.Item>
 								{({ active }) => (
 									<div onClick={handleLogout}

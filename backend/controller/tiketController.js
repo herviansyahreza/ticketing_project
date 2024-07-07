@@ -186,10 +186,13 @@ const edit_tiket = async (req, res, next) => {
 
     try {
         // Ambil ID status dan prioritas dari database berdasarkan nama yang diberikan
-        const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
-        const statusId = statusIdQuery.rows[0]?.id;
-        if (!statusId) {
-            return res.status(400).send('Invalid status');
+        let statusId = null;
+        if (status) {
+            const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
+            statusId = statusIdQuery.rows[0]?.id;
+            if (!statusId) {
+                return res.status(400).send('Invalid status');
+            }
         }
 
         // Ambil ID prioritas dari database berdasarkan nama yang diberikan jika prioritas ada

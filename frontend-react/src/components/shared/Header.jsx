@@ -49,7 +49,7 @@ export default function Header() {
             case '/':
                 return 'Dashboard';
             case '/tiket':
-                return 'Tikets';
+                return 'Tiket';
 			case '/tiket_byUser':
                 return 'Tiket Saya';
             case '/form-tiket':
@@ -80,6 +80,10 @@ export default function Header() {
                 return 'History';
 			case '/report':
                 return 'Summary Report';
+			case '/solusi-populer':
+				return 'Solusi Populer';
+			case '/edit-tiket-user/:id':
+				return 'Feedback Tiket';
             default:
                 return '';
         }

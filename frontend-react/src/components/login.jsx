@@ -35,7 +35,7 @@ export default function Login() {
                     navigate('/'); // Halaman untuk teknisi
                 } else if (role === 3) {
                     // Pengguna
-                    navigate('/ticket_byUser'); // Halaman utama untuk pengguna
+                    navigate('/tiket_byUser'); // Halaman utama untuk pengguna
                 }
             } else {
                 // Login gagal karena username atau password salah

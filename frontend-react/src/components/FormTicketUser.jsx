@@ -13,13 +13,41 @@ export default function TicketForm() {
         prioritas: '',
     });
 
+    const [errors, setErrors] = useState({});
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+
+        if (!formData.judul || formData.judul.length < 3) {
+            formErrors.judul = 'Judul harus memiliki minimal 3 karakter';
+        }
+
+        if (!formData.deskripsi || formData.deskripsi.length < 10) {
+            formErrors.deskripsi = 'Deskripsi harus memiliki minimal 10 karakter';
+        }
+
+        const nameRegex = /^[A-Za-z0-9\s\-\_\.\,]+$/;
+
+        if (!formData.user || !nameRegex.test(formData.user)) {
+            formErrors.user = 'Nama user tidak valid';
+        }
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
     };
 
     const username = localStorage.getItem('name');
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         const data = {
             judul: formData.judul,
             aset: formData.aset,
@@ -82,6 +110,7 @@ export default function TicketForm() {
                         placeholder=""
                         required
                     />
+                    {errors.judul && <p className="text-red-500">{errors.judul}</p>}
                     </div>
                 </div>
                 </div>
@@ -101,7 +130,7 @@ export default function TicketForm() {
                         required
                     >
                         <option value="">Pilih Aset</option>
-                        <option value="Wifi Kemhan go.id">Wifi Kemhan go.id</option>
+                        {/* <option value="Wifi Kemhan go.id">Wifi Kemhan go.id</option> */}
                         <option value="Wifi Kadet Mahasiswa">Wifi Kadet Mahasiswa</option>
                         <option value="Wifi Unhan Mahasiswa">Wifi Unhan Mahasiswa</option>
                         <option value="Wifi Unhan 1st-Class">Wifi Unhan 1st-Class</option>
@@ -185,6 +214,7 @@ export default function TicketForm() {
                     defaultValue={''}
                     required
                     />
+                    {errors.deskripsi && <p className="text-red-500">{errors.deskripsi}</p>}
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Tulis laporan dengan lengkap.</p>
                 </div>

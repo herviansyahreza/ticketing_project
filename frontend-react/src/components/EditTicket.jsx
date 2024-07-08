@@ -14,6 +14,8 @@ export default function EditTicket() {
         solusi: '',
     });
 
+    const [errors, setErrors] = useState({});
+
     useEffect(() => {
         // Mengambil data tiket yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_tiket/${id}`)
@@ -30,8 +32,28 @@ export default function EditTicket() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const validateForm = () => {
+        let formErrors = {};
+
+        if (!formData.judul || formData.judul.length < 3) {
+            formErrors.judul = 'Judul harus memiliki minimal 3 karakter';
+        }
+
+        if (!formData.deskripsi || formData.deskripsi.length < 10) {
+            formErrors.deskripsi = 'Deskripsi harus memiliki minimal 10 karakter';
+        }
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         const newData = {
             id: id,
             judul: formData.judul,
@@ -94,6 +116,7 @@ export default function EditTicket() {
                         placeholder=""
                         required
                     />
+                    {errors.judul && <p className="text-red-500">{errors.judul}</p>}
                     </div>
                 </div>
                 </div>
@@ -184,6 +207,7 @@ export default function EditTicket() {
                     defaultValue={''}
                     required
                     />
+                    {errors.deskripsi && <p className="text-red-500">{errors.deskripsi}</p>}
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Tulis laporan dengan lengkap.</p>
                 </div>
@@ -202,6 +226,7 @@ export default function EditTicket() {
                     className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={''}
                     />
+                    {errors.solusi && <p className="text-red-500">{errors.solusi}</p>}
                 </div>
                 <p className="mt-3 text-sm leading-6 text-gray-600">Solusi dari tiket laporan.</p>
                 </div>

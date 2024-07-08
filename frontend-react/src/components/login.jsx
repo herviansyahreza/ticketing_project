@@ -10,10 +10,27 @@ export default function Login() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
+        const email = data.get('email');
+        const password = data.get('password');
+
+        // Validasi email dengan regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Format email tidak valid');
+            return;
+        }
+
+        // Validasi password dengan regex: minimal 8 karakter, mengandung satu huruf kapital dan satu angka
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert('Password harus memiliki minimal 8 karakter, satu huruf kapital, dan satu angka');
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:3001/login', {
-                email: data.get('email'),
-                password: data.get('password')
+                email: email,
+                password: password
             });
 
             if (response.status === 200) {
@@ -60,8 +77,6 @@ export default function Login() {
             }
         }
     };
-    
-
 
     const handleClickRegister = () => {
         // Navigate ke halaman register

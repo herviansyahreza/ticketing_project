@@ -5,8 +5,25 @@ const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam 
 const add_tiket = async (req, res, next) => {
     const { judul, aset, deskripsi, user, status, prioritas } = req.body;
 
+    // Validasi input menggunakan regex dan aturan lainnya
+    if (!judul || !aset || !deskripsi || !user) {
+        return res.status(400).send('Semua kolom wajib diisi');
+    }
+    if (judul.length < 3) {
+        return res.status(400).send('Judul harus memiliki minimal 3 karakter');
+    }
+    if (deskripsi.length < 10) {
+        return res.status(400).send('Deskripsi harus memiliki minimal 10 karakter');
+    }
+
+    // Validasi nama aset dan user dengan regex (hanya huruf, angka, spasi, dan beberapa karakter khusus)
+    const nameRegex = /^[A-Za-z0-9\s\-\_\.\,]+$/;
+    if (!nameRegex.test(user)) {
+        return res.status(400).send('Nama user tidak valid');
+    }
+
     try {
-        // Ambil ID user, status, dan prioritas dari database berdasarkan nama yang diberikan
+        // Ambil ID user, aset, status, dan prioritas dari database berdasarkan nama yang diberikan
         const userIdQuery = await db.query('SELECT id FROM users WHERE username = $1', [user]);
         const userId = userIdQuery.rows[0]?.id;
         if (!userId) {
@@ -19,7 +36,6 @@ const add_tiket = async (req, res, next) => {
             return res.status(400).send('Invalid aset');
         }
 
-        // Ambil ID status dari database berdasarkan nama yang diberikan jika status ada
         let statusId = null;
         if (status) {
             const statusIdQuery = await db.query('SELECT id FROM status WHERE nama = $1', [status]);
@@ -29,7 +45,6 @@ const add_tiket = async (req, res, next) => {
             }
         }
 
-        // Ambil ID prioritas dari database berdasarkan nama yang diberikan jika prioritas ada
         let prioritasId = null;
         if (prioritas) {
             const prioritasIdQuery = await db.query('SELECT id FROM prioritas WHERE nama = $1', [prioritas]);
@@ -67,7 +82,7 @@ const show_tiket = async (req, res, next) => {
                 JOIN status ON tiket.status = status.id
                 LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
                 JOIN aset ON tiket.aset = aset.id
-        ORDER BY created_at DESC
+        ORDER BY edited_at DESC
         `;
         const tikets = await db.query(query);
 
@@ -183,6 +198,23 @@ const get_tiket = async (req, res, next) => {
 
 const edit_tiket = async (req, res, next) => {
     const { id, judul, deskripsi, status, prioritas, solusi } = req.body;
+
+    // Validasi input menggunakan regex dan aturan lainnya
+    if (!judul || !deskripsi) {
+        return res.status(400).send('Semua kolom wajib diisi');
+    }
+    if (judul.length < 3) {
+        return res.status(400).send('Judul harus memiliki minimal 3 karakter');
+    }
+    if (deskripsi.length < 10) {
+        return res.status(400).send('Deskripsi harus memiliki minimal 10 karakter');
+    }
+
+    // Validasi nama aset dan user dengan regex (hanya huruf, angka, spasi, dan beberapa karakter khusus)
+    const nameRegex = /^[A-Za-z0-9\s\-\_\.\,]+$/;
+    if (!nameRegex.test(user)) {
+        return res.status(400).send('Nama user tidak valid');
+    }
 
     try {
         // Ambil ID status dan prioritas dari database berdasarkan nama yang diberikan

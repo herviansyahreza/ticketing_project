@@ -53,12 +53,24 @@ const register = async (req, res, next) => {
 
 
 const add_user = async (req, res, next) => {
-    const { username, email, password, peran, nim} = req.body;
-    
-    // Cek apakah password dan confirm password sama
-    // if (password !== confirmPassword) {
-    //     return res.status(400).send('Password and confirm password do not match');
-    // }
+    const { username, email, password, peran, nim } = req.body;
+
+    // Validasi dengan Regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const nimRegex = /^\d+$/; 
+
+    if (!emailRegex.test(email)) {
+        return res.status(400).send('Format email tidak valid.');
+    }
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).send('Password tidak valid. Harus setidaknya 8 karakter panjangnya, mengandung setidaknya satu huruf dan satu angka.');
+    }
+
+    if (!nimRegex.test(nim)) {
+        return res.status(400).send('NIM tidak valid. NIM harus berupa angka.');
+    }
 
     // Mengubah password menjadi hash
     const hashedPwd = await bcrypt.hash(password, 10);
@@ -69,23 +81,38 @@ const add_user = async (req, res, next) => {
         const peranIdQuery = await db.query('SELECT id FROM peran WHERE nama = $1', [peran]);
         const peranId = peranIdQuery.rows[0]?.id;
         if (!peranId) {
-            return res.status(400).send('Invalid role');
+            return res.status(400).send('Peran tidak valid.');
         }
 
         await db.query('INSERT INTO users (username, email, password, peran, created_at, nim) VALUES ($1, $2, $3, $4, $5, $6);', [username, email, hashedPwd, peranId, currentDate, nim]);
-        res.send('Data added successfully!');
+        res.send('Data berhasil ditambahkan!');
     } catch (error) {
-        console.error('Error inserting user data:', error.message);
-        res.status(500).send('Input failure!');
+        console.error('Kesalahan saat memasukkan data pengguna:', error.message);
+        res.status(500).send('Kegagalan input!');
     }
 }
 
 
 const login = async (req, res, next) => {
     const { email, password } = req.body;
+
+    // Validasi input pengguna
     if (!email || !password) {
         return res.status(400).send('Email dan password wajib diisi');
     }
+
+    // Validasi email dengan regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).send('Format email tidak valid');
+    }
+
+    // Validasi password dengan regex: minimal 8 karakter, mengandung satu huruf kapital dan satu angka
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).send('Password harus memiliki minimal 8 karakter, satu huruf kapital, dan satu angka');
+    }
+
     try {
         const userQuery = 'SELECT * FROM users WHERE email = $1;';
         const userResult = await db.query(userQuery, [email]);
@@ -136,6 +163,7 @@ const login = async (req, res, next) => {
         return res.status(500).send('Login gagal');
     }
 }
+
 
 
 

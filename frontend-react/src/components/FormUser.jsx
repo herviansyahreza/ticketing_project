@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function UserForm() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const role = localStorage.getItem('peran');
+        console.log(role);
+        if (role !== '1') {
+            alert('Hanya admin yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+        }
+    }, [navigate]);
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',

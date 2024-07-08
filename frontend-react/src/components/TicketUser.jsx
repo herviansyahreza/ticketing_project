@@ -17,6 +17,13 @@ export default function TicketList () {
     const [tiket, setTiket] = useState([]);
 
     useEffect(() => {
+        const role = localStorage.getItem('peran');
+        if (role !== '3') {
+            alert('Hanya pengguna yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+            return;
+        }
+
         // Mengambil userId dari localStorage
         const userId = localStorage.getItem('id');
     

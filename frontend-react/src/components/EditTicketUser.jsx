@@ -17,6 +17,12 @@ export default function EditTicket() {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
+        const role = localStorage.getItem('peran');
+        if (role !== '3') {
+            alert('Hanya pengguna yang bisa mengakses halaman ini.'); 
+            navigate('/unauthorized');
+            return;
+        }
         // Mengambil data tiket yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_tiket/${id}`)
             .then(response => {

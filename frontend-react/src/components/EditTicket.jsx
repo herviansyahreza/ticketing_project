@@ -5,6 +5,7 @@ import axios from 'axios';
 export default function EditTicket() {
     const navigate = useNavigate();
     const { id } = useParams(); // Mengambil ID dari URL menggunakan useParams()
+    const userRole = localStorage.getItem('peran');
     const [formData, setFormData] = useState({
         id: '',
         judul: '',
@@ -17,8 +18,9 @@ export default function EditTicket() {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        // Mengambil data tiket yang akan diubah berdasarkan ID
-        axios.get(`http://localhost:3001/get_tiket/${id}`)
+        const userRole = localStorage.getItem('peran');
+        if (userRole === '1' || userRole === '2') {
+            axios.get(`http://localhost:3001/get_tiket/${id}`)
             .then(response => {
                 setFormData(response.data);
             })
@@ -26,7 +28,11 @@ export default function EditTicket() {
                 console.error('Error fetching ticket data:', error);
                 alert('Terjadi kesalahan saat mengambil data tiket');
             });
-    }, [id]); // Menggunakan id sebagai dependensi untuk efek useEffect()
+        } else {
+            alert('Hanya admin dan teknisi yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+        }
+    }, [userRole, navigate, id]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

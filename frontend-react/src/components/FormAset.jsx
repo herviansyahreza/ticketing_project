@@ -1,10 +1,20 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // import { PhotoIcon } from '@heroicons/react/24/solid'
 
 export default function Aset() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const role = localStorage.getItem('peran');
+        console.log(role);
+        if (role !== '1') {
+            alert('Hanya admin yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+        }
+    }, [navigate]);
+
     const [formData, setFormData] = useState({
         id: '',
         nama: '',

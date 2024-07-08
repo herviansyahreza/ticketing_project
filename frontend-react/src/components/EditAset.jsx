@@ -14,6 +14,12 @@ export default function EditAset() {
     });
 
     useEffect(() => {
+        const role = localStorage.getItem('peran');
+        if (role !== '1') { 
+            alert('Hanya admin yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+            return;
+        }
         // Mengambil data aset yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_aset/${id}`)
             .then(response => {

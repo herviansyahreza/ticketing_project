@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { parseISO, format, set } from "date-fns";
+import { parseISO, format } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
@@ -12,16 +12,23 @@ export default function TicketList() {
     const navigate = useNavigate();
     const [tiket, setTiket] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const userRole = localStorage.getItem('peran');
 
     useEffect(() => {
-        axios.get('http://localhost:3001/show_tiket')
-            .then(response => {
-                setTiket(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching tiket:', error);
-            });
-    }, []);
+        const userRole = localStorage.getItem('peran');
+        if (userRole === '1' || userRole === '2') {
+            axios.get('http://localhost:3001/show_tiket')
+                .then(response => {
+                    setTiket(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching tiket:', error);
+                });
+        } else {
+            alert('Hanya admin dan teknisi yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+        }
+    }, [userRole, navigate]);
 
     const handleSearch = async () => {
         try {
@@ -135,14 +142,7 @@ export default function TicketList() {
                                                     }}
                                                     className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                                                 >
-                                                    Ya, Saya yakin
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowModalDelete(false)}
-                                                    className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                                >
-                                                    Tidak, Batalkan
+                                                    Ya, Hapus
                                                 </button>
                                             </div>
                                         </div>

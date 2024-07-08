@@ -18,6 +18,12 @@ export default function EditUser() {
     });
 
     useEffect(() => {
+        const role = localStorage.getItem('peran');
+        if (role !== '1') { 
+            alert('Hanya admin yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+            return;
+        }
         // Mengambil data user yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_user/${id}`)
             .then(response => {

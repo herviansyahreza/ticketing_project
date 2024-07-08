@@ -14,6 +14,13 @@ export default function UsersList() {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
+        const role = localStorage.getItem('peran');
+        if (role !== '1') {
+            alert('Hanya admin yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+            return;
+        }
+
         axios.get('http://localhost:3001/show_user')
             .then(response => {
                 setUser(response.data);

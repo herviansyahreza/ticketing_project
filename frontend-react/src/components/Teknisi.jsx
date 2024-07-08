@@ -18,6 +18,12 @@ export default function TicketList () {
     const [searchTerm, setSearchTerm] = useState('');
 
         useEffect(() => {
+        const role = localStorage.getItem('peran');
+        if (role !== '2') { 
+            alert('Hanya teknisi yang bisa mengakses halaman ini.');
+            navigate('/unauthorized');
+            return;
+        }
         axios.get('http://localhost:3001/show_tiket')
             .then(response => {
             setTiket(response.data);

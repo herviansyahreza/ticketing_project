@@ -16,12 +16,6 @@ const add_tiket = async (req, res, next) => {
         return res.status(400).send('Deskripsi harus memiliki minimal 10 karakter');
     }
 
-    // Validasi nama aset dan user dengan regex (hanya huruf, angka, spasi, dan beberapa karakter khusus)
-    const nameRegex = /^[A-Za-z0-9\s\-\_\.\,]+$/;
-    if (!nameRegex.test(user)) {
-        return res.status(400).send('Nama user tidak valid');
-    }
-
     try {
         // Ambil ID user, aset, status, dan prioritas dari database berdasarkan nama yang diberikan
         const userIdQuery = await db.query('SELECT id FROM users WHERE username = $1', [user]);
@@ -208,12 +202,6 @@ const edit_tiket = async (req, res, next) => {
     }
     if (deskripsi.length < 10) {
         return res.status(400).send('Deskripsi harus memiliki minimal 10 karakter');
-    }
-
-    // Validasi nama aset dan user dengan regex (hanya huruf, angka, spasi, dan beberapa karakter khusus)
-    const nameRegex = /^[A-Za-z0-9\s\-\_\.\,]+$/;
-    if (!nameRegex.test(user)) {
-        return res.status(400).send('Nama user tidak valid');
     }
 
     try {

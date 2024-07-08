@@ -36,7 +36,7 @@ export default function EditTicket() {
             id: id,
             judul: formData.judul,
             deskripsi: formData.deskripsi,
-            status: 'Open',
+            status: 'Reopened',
             prioritas: 'Urgent',
             solusi: formData.solusi,
         };

@@ -83,17 +83,24 @@ const add_user = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).send('Email dan password wajib diisi');
+    }
     try {
         const userQuery = 'SELECT * FROM users WHERE email = $1;';
         const userResult = await db.query(userQuery, [email]);
-        
+
         // Periksa apakah pengguna ada
         if (userResult.rowCount > 0) {
             const user = userResult.rows[0];
-            
+
+            // Memeriksa apakah field password ada
+            if (!user.password) {
+                return res.status(400).send('Password tidak ditemukan');
+            }
+
             // Memeriksa kesesuaian password
             const validPass = await bcrypt.compare(password, user.password);
-            
             if (validPass) {
                 // Periksa apakah pengguna sudah disetujui oleh admin
                 if (!user.approved) {
@@ -106,7 +113,7 @@ const login = async (req, res, next) => {
                     userId: user.id // Hanya menyimpan ID pengguna dalam token
                 };
                 const token = jwt.sign(tokenData, jwtSecretKey);
-                
+
                 // Mengembalikan ID, username, email, peran, dan token
                 res.cookie("JWT", token, { httpOnly: true, sameSite: "strict" }).status(200).json({
                     id: user.id,
@@ -114,7 +121,7 @@ const login = async (req, res, next) => {
                     email: user.email,
                     token: token,
                     peran: user.peran
-                });
+                });    
                 console.log("Login Berhasil");
             } else {
                 return res.status(400).send('Password salah!');
@@ -129,6 +136,7 @@ const login = async (req, res, next) => {
         return res.status(500).send('Login gagal');
     }
 }
+
 
 
 const logout = (req, res) => {

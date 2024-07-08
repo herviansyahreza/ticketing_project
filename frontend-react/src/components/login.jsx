@@ -9,15 +9,13 @@ export default function Login() {
     const handleSubmitLogin = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-    
+
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 email: data.get('email'),
                 password: data.get('password')
             });
-    
-            console.log(response);
-    
+
             if (response.status === 200) {
                 // Login berhasil
                 localStorage.setItem('token', response.data.token);
@@ -42,12 +40,23 @@ export default function Login() {
                 alert('Email atau password salah');
             }
         } catch (error) {
-            if (error.response && error.response.status === 403) {
-                // Pengguna belum disetujui
-                alert('Akun Anda belum disetujui oleh admin. Silakan coba lagi nanti.');
+            if (error.response) {
+                // Respons dari server diterima tetapi ada masalah
+                if (error.response.status === 403) {
+                    alert('Akun Anda belum disetujui oleh admin. Silakan coba lagi nanti.');
+                } else if (error.response.status === 400) {
+                    alert('Email atau password salah.');
+                } else {
+                    alert('Terjadi kesalahan saat login: ' + error.response.data.message);
+                }
+            } else if (error.request) {
+                // Permintaan dibuat tetapi tidak ada respons
+                console.error('Error request:', error.request);
+                alert('Tidak ada respons dari server. Silakan coba lagi nanti.');
             } else {
-                // Terjadi kesalahan saat melakukan permintaan login
-                alert('Terjadi kesalahan saat login');
+                // Terjadi kesalahan saat mengatur permintaan
+                console.error('Error:', error.message);
+                alert('Terjadi kesalahan saat mengatur permintaan: ' + error.message);
             }
         }
     };

@@ -106,7 +106,7 @@ export default function TicketForm() {
     <form onSubmit={handleSubmit}>
         <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Form Ticket</h2>
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Formulir Tiket</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
                 Isi sesuai dengan keluhan tiket anda.
             </p>
@@ -135,7 +135,7 @@ export default function TicketForm() {
 
                 <div className="sm:col-span-4">
                 <label htmlFor="aset" className="block text-sm font-medium leading-6 text-gray-900">
-                    Aset
+                    Aset Terkait
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -160,7 +160,7 @@ export default function TicketForm() {
 
                 <div className="sm:col-span-4">
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                    Status
+                    Status Tiket
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -187,7 +187,7 @@ export default function TicketForm() {
 
                 <div className="sm:col-span-4">
                 <label htmlFor="prioritas" className="block text-sm font-medium leading-6 text-gray-900">
-                    Prioritas
+                    Prioritas Tiket
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">

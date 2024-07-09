@@ -179,7 +179,7 @@ export default function UsersList() {
                                     <FaRegEdit className="text-xl"/>
                                 </button>
 
-                                <button
+                                {/* <button
                                     className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                                     onClick={() => {
                                         setSelectedUserId(item.id);
@@ -222,7 +222,7 @@ export default function UsersList() {
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </td>
                         </tr>
                     ))}

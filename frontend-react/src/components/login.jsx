@@ -100,7 +100,7 @@ export default function Login() {
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-auto my-auto">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm" >
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
+                Masuk ke akun Anda
                 </h2>
                 <form  onSubmit={handleSubmitLogin} className="space-y-6" action="#" method="POST">
                 <div>
@@ -147,15 +147,15 @@ export default function Login() {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                     >
-                    Sign in
+                    Masuk
                     </button>
                 </div>
                 </form>
     
                 <p className="mt-10 text-center text-sm text-gray-500 py-8">
-                Don't have an account? 
+                Anda belum punya akun? 
                 <a onClick={handleClickRegister} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ml-2 cursor-pointer">
-                    Register
+                    Daftar
                 </a>
                 </p>
             </div>

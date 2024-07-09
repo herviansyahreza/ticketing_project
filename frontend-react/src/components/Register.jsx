@@ -73,11 +73,11 @@ export default function RegisterForm() {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Create an account
+                            Buat Akun
                         </h1>
                         <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
+                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Lengkap</label>
                                 <input
                                     type="text"
                                     name="username"
@@ -91,7 +91,7 @@ export default function RegisterForm() {
                                 {errors.username && <p className="text-red-600 text-sm mt-1">{errors.username}</p>}
                             </div>
                             <div>
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Anda</label>
                                 <input
                                     type="email"
                                     name="email"
@@ -106,7 +106,7 @@ export default function RegisterForm() {
                             </div>
                             <div className="flex space-x-4">
                             <div className="flex-1">
-                                <label htmlFor="nim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your NIM/NRP/NIP</label>
+                                <label htmlFor="nim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIM/NRP/NIP</label>
                                 <input
                                     type="text"
                                     name="nim"
@@ -149,7 +149,7 @@ export default function RegisterForm() {
                                 {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
                             </div>
                             <div>
-                                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
+                                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Konfirmasi Password</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -166,15 +166,15 @@ export default function RegisterForm() {
                                 type="submit"
                                 className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800 cursor-pointer"
                             >
-                                Create an account
+                                Buat Akun
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Already have an account?{' '}
+                                Sudah Punya Akun?{' '}
                                 <a
                                     onClick={handleClickLogin}
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500 cursor-pointer"
                                 >
-                                    Login here
+                                    Login
                                 </a>
                             </p>
                         </form>

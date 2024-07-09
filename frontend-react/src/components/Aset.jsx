@@ -87,9 +87,9 @@ export default function AsetList() {
                 <tr>
                 <th scope="col" className="px-6 py-3">No</th>
                 <th scope="col" className="px-6 py-3">Nama Aset</th>
-                <th scope="col" className="px-6 py-3">Kategori</th>
-                <th scope="col" className="px-6 py-3">Lokasi</th>
-                <th scope="col" className="px-6 py-3">Kerusakan</th>
+                <th scope="col" className="px-6 py-3">Kategori Aset</th>
+                <th scope="col" className="px-6 py-3">Lokasi Aset</th>
+                <th scope="col" className="px-6 py-3">Jumlah Kerusakan</th>
                 <th scope="col" className="px-6 py-3">Aksi</th>
                 </tr>
             </thead>

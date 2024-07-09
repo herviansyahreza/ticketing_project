@@ -84,6 +84,8 @@ export default function Header() {
 				return 'Solusi Populer';
 			case '/edit-tiket-user/:id':
 				return 'Feedback Tiket';
+			case '/form-tiket-user':
+				return 'Buat Tiket';
             default:
                 return '';
         }

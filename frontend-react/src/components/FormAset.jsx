@@ -50,7 +50,7 @@ export default function Aset() {
         <form onSubmit={handleSubmit}>
         <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Form Aset</h2>
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Formulir Aset</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
                 Isi sesuai dengan aset yang akan ditambahkan.
             </p>
@@ -77,8 +77,8 @@ export default function Aset() {
                 </div>
 
                 <div className="sm:col-span-4">
-                <label htmlFor="lokasi" className="block text-sm font-medium leading-6 text-gray-900">
-                    Kategori
+                <label htmlFor="kategori" className="block text-sm font-medium leading-6 text-gray-900">
+                    Kategori Aset
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -104,7 +104,7 @@ export default function Aset() {
 
                 <div className="sm:col-span-4">
                 <label htmlFor="lokasi" className="block text-sm font-medium leading-6 text-gray-900">
-                    Lokasi
+                    Lokasi Aset
                 </label>
                 <div className="mt-2">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">

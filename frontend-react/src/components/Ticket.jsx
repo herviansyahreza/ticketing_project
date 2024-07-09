@@ -89,8 +89,8 @@ export default function TicketList() {
                         <th scope="col" className="px-6 py-3">Status</th>
                         <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
                         <th scope="col" className="px-6 py-3">Prioritas</th>
-                        <th scope="col" className="px-6 py-3">Created at</th>
-                        <th scope="col" className="px-6 py-3">Edited at</th>
+                        <th scope="col" className="px-6 py-3">Waktu dibuat</th>
+                        <th scope="col" className="px-6 py-3">Waktu diubah</th>
                         <th scope="col" className="px-6 py-3">Aksi</th>
                     </tr>
                 </thead>

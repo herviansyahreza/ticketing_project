@@ -69,6 +69,18 @@ const get_aset = async (req, res, next) => {
     }
 }
 
+const getAsets = async (req, res, next) => {
+    try {
+        const query = 'SELECT id, nama FROM aset';
+        const asets = await db.query(query);
+
+        res.status(200).json(asets.rows);
+    } catch (error) {
+        console.error('Error fetching assets:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 const edit_aset = async(req, res, next) => {
     const { id, nama, kategori, lokasi } = req.body;
 
@@ -149,6 +161,7 @@ module.exports = {
     add_aset,
     show_aset,
     get_aset,
+    getAsets,
     edit_aset,
     remove_aset,
     search_aset,

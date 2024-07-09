@@ -8,7 +8,6 @@ export default function TicketForm() {
 
     useEffect(() => {
         const role = localStorage.getItem('peran');
-        console.log(role);
         if (role !== '3') {
             // alert('Hanya pengguna yang bisa mengakses halaman ini.');
             navigate('/unauthorized');
@@ -25,6 +24,21 @@ export default function TicketForm() {
 
     const [errors, setErrors] = useState({});
 
+    const [asets, setAsets] = useState([]);
+    useEffect(() => {
+        // Mengambil daftar aset dari backend
+        const fetchAsets = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/getAsets');
+                setAsets(response.data);
+            } catch (error) {
+                console.error('Error fetching assets:', error);
+            }
+        };
+
+        fetchAsets();
+    }, []);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -38,12 +52,6 @@ export default function TicketForm() {
 
         if (!formData.deskripsi || formData.deskripsi.length < 10) {
             formErrors.deskripsi = 'Deskripsi harus memiliki minimal 10 karakter';
-        }
-
-        const nameRegex = /^[A-Za-z0-9\s\-\_\.\,]+$/;
-
-        if (!formData.user || !nameRegex.test(formData.user)) {
-            formErrors.user = 'Nama user tidak valid';
         }
 
         setErrors(formErrors);
@@ -140,20 +148,11 @@ export default function TicketForm() {
                         required
                     >
                         <option value="">Pilih Aset</option>
-                        {/* <option value="Wifi Kemhan go.id">Wifi Kemhan go.id</option> */}
-                        <option value="Wifi Kadet Mahasiswa">Wifi Kadet Mahasiswa</option>
-                        <option value="Wifi Unhan Mahasiswa">Wifi Unhan Mahasiswa</option>
-                        <option value="Wifi Unhan 1st-Class">Wifi Unhan 1st-Class</option>
-                        <option value="Wifi Unhan 2nd-Class">Wifi Unhan 2nd-Class</option>
-                        <option value="Wifi Unhan 3rd-Class">Wifi Unhan 3rd-Class</option>
-                        <option value="Wifi Unhan 4th-Class">Wifi Unhan 4th-Class</option>
-                        <option value="Wifi Unhan 5th-Class">Wifi Unhan 5th-Class</option>
-                        <option value="Wifi Unhan 6th-Class">Wifi Unhan 6th-Class</option>
-                        <option value="Wifi Unhan 7th-Class">Wifi Unhan 7th-Class</option>
-                        <option value="Wifi Unhan 8th-Class">Wifi Unhan 8th-Class</option>
-                        <option value="Wifi Unhan 9th-Class">Wifi Unhan 9th-Class</option>
-                        <option value="Wifi Unhan 10th-Class">Wifi Unhan 10th-Class</option>
-                        <option value="Wifi Unhan 11th-Class">Wifi Unhan 11th-Class</option>
+                            {asets.map(aset => (
+                                <option key={aset.id} value={aset.nama}>
+                                    {aset.nama}
+                                </option>
+                            ))}
                     </select>
                     </div>
                 </div>

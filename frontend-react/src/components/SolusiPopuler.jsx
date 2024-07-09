@@ -79,7 +79,7 @@ export default function TicketList() {
                         <th scope="col" className="px-6 py-3">Judul</th>
                         {/* <th scope="col" className="px-6 py-3">Pelapor</th> */}
                         <th scope="col" className="px-6 py-3">Aset</th>
-                        {/* <th scope="col" className="px-6 py-3">Status</th> */}
+                        <th scope="col" className="px-6 py-3">Status</th>
                         <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
                         {/* <th scope="col" className="px-6 py-3">Prioritas</th>
                         <th scope="col" className="px-6 py-3">Created at</th>
@@ -95,9 +95,9 @@ export default function TicketList() {
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.judul}</td>
                             {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.users_username}</td> */}
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset_nama}</td>
-                            {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td> */}
+                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
-                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.solusi}</td>
+                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.solusi ? item.solusi:'Belum ada solusi dari teknisi'}</td>
                             {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || 'Belum Ditentukan'}</td> */}
                             {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td> */}

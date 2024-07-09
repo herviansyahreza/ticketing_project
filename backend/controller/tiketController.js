@@ -101,7 +101,7 @@ const solusi_populer = async (req, res, next) => {
                 JOIN status ON tiket.status = status.id
                 LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
                 JOIN aset ON tiket.aset = aset.id
-        WHERE status = 5
+        WHERE status IN (3, 4, 5)
         ORDER BY created_at ASC
         `;
         const tikets = await db.query(query);

@@ -107,7 +107,7 @@ export default function EditUser() {
                     </div>
                     </div>
     
-                    <div className="sm:col-span-4">
+                    {/* <div className="sm:col-span-4">
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                         Email
                     </label>
@@ -126,7 +126,7 @@ export default function EditUser() {
                         />
                         </div>
                     </div>
-                    </div>
+                    </div> */}
 
                     <div className="sm:col-span-4">
                     <label htmlFor="nim" className="block text-sm font-medium leading-6 text-gray-900">

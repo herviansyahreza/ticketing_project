@@ -258,14 +258,30 @@ const update = async (req, res, next) => {
         if (!peranId) {
             return res.status(400).send('Invalid role');
         }
+
+        // Ambil email saat ini dari database untuk membandingkannya
+        const currentUserQuery = await db.query('SELECT email FROM users WHERE id = $1', [id]);
+        const currentEmail = currentUserQuery.rows[0]?.email;
+
         // Query SQL untuk memperbarui data pengguna
         if (password) {
             // Jika password diubah, hash password baru
             const hashedPassword = await bcrypt.hash(password, 10);
-            await db.query('UPDATE users SET username = $1, email = $2, password = $3, peran = $4, edited_at = $5, nim = $6 WHERE id = $7', [username, email, hashedPassword, peranId, currentDate, nim, id]);
+            if (email !== currentEmail) {
+                // Jika email diubah
+                await db.query('UPDATE users SET username = $1, email = $2, password = $3, peran = $4, edited_at = $5, nim = $6 WHERE id = $7', [username, email, hashedPassword, peranId, currentDate, nim, id]);
+            } else {
+                // Jika email tidak diubah
+                await db.query('UPDATE users SET username = $1, password = $2, peran = $3, edited_at = $4, nim = $5 WHERE id = $6', [username, hashedPassword, peranId, currentDate, nim, id]);
+            }
         } else {
-            // Jika password tidak diubah, hanya perbarui username, email, dan edited_at
-            await db.query('UPDATE users SET username = $1, email = $2, peran = $3, edited_at = $4, nim = $5 WHERE id = $6', [username, email, peranId, currentDate, nim, id]);
+            if (email !== currentEmail) {
+                // Jika password tidak diubah dan email diubah
+                await db.query('UPDATE users SET username = $1, email = $2, peran = $3, edited_at = $4, nim = $5 WHERE id = $6', [username, email, peranId, currentDate, nim, id]);
+            } else {
+                // Jika password dan email tidak diubah
+                await db.query('UPDATE users SET username = $1, peran = $2, edited_at = $3, nim = $4 WHERE id = $5', [username, peranId, currentDate, nim, id]);
+            }
         }
 
         // Kirimkan respons sukses
@@ -276,6 +292,7 @@ const update = async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
 
 const remove = async (req, res, next) => {
     const userId = req.params.id;

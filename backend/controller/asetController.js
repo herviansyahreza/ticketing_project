@@ -81,6 +81,7 @@ const getAsets = async (req, res, next) => {
     }
 };
 
+
 const edit_aset = async(req, res, next) => {
     const { id, nama, kategori, lokasi } = req.body;
 

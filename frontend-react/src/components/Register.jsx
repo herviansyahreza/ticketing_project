@@ -12,6 +12,7 @@ export default function RegisterForm() {
         password: '',
         confirmPassword: '',
         nim: '',
+        prodi: '',
     });
     const [errors, setErrors] = useState({});
 
@@ -103,10 +104,11 @@ export default function RegisterForm() {
                                 />
                                 {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
                             </div>
-                            <div>
+                            <div className="flex space-x-4">
+                            <div className="flex-1">
                                 <label htmlFor="nim" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your NIM/NRP/NIP</label>
                                 <input
-                                    type="nim"
+                                    type="text"
                                     name="nim"
                                     id="nim"
                                     value={formData.nim}
@@ -117,6 +119,21 @@ export default function RegisterForm() {
                                 />
                                 {errors.nim && <p className="text-red-600 text-sm mt-1">{errors.nim}</p>}
                             </div>
+                            <div className="flex-1">
+                                <label htmlFor="prodi" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prodi/Unit Kerja</label>
+                                <input
+                                    type="text"
+                                    name="prodi"
+                                    id="prodi"
+                                    value={formData.prodi}
+                                    onChange={handleChange}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Prodi/Unit Kerja"
+                                    required
+                                />
+                                {/* {errors.prodi && <p className="text-red-600 text-sm mt-1">{errors.prodi}</p>} */}
+                            </div>
+                        </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                 <input

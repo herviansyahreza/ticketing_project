@@ -5,10 +5,10 @@ const bcrypt = require('bcrypt');
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const register = async (req, res, next) => {
-    const { username, email, password, nim, peran, confirmPassword } = req.body;
+    const { username, email, password, nim, prodi, peran, confirmPassword } = req.body;
 
     // Validasi input pengguna
-    if (!username || !email || !password || !confirmPassword || !peran || !nim) {
+    if (!username || !email || !password || !confirmPassword || !peran || !nim || !prodi) {
         return res.status(400).send('Semua kolom wajib diisi');
     }
     if (password !== confirmPassword) {
@@ -42,7 +42,7 @@ const register = async (req, res, next) => {
         }
 
         // Masukkan data pengguna ke dalam tabel users
-        await db.query('INSERT INTO users (username, email, password, peran, created_at, approved, nim) VALUES ($1, $2, $3, $4, $5, $6, $7);', [username, email, hashedPwd, peranId, currentDate, false, nim]);
+        await db.query('INSERT INTO users (username, email, password, peran, created_at, approved, nim, prodi) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);', [username, email, hashedPwd, peranId, currentDate, false, nim, prodi]);
 
         res.send('Registrasi berhasil! Silakan tunggu persetujuan dari admin.');
     } catch (error) {
@@ -53,7 +53,7 @@ const register = async (req, res, next) => {
 
 
 const add_user = async (req, res, next) => {
-    const { username, email, password, peran, nim } = req.body;
+    const { username, email, password, peran, nim, prodi } = req.body;
 
     // Validasi dengan Regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -84,7 +84,7 @@ const add_user = async (req, res, next) => {
             return res.status(400).send('Peran tidak valid.');
         }
 
-        await db.query('INSERT INTO users (username, email, password, peran, created_at, nim) VALUES ($1, $2, $3, $4, $5, $6);', [username, email, hashedPwd, peranId, currentDate, nim]);
+        await db.query('INSERT INTO users (username, email, password, peran, created_at, nim, prodi) VALUES ($1, $2, $3, $4, $5, $6, $7);', [username, email, hashedPwd, peranId, currentDate, nim, prodi]);
         res.send('Data berhasil ditambahkan!');
     } catch (error) {
         console.error('Kesalahan saat memasukkan data pengguna:', error.message);
@@ -250,7 +250,7 @@ const get_user = async (req, res, next) => {
 }
 
 const update = async (req, res, next) => {
-    const { id, username, email, password, peran, nim} = req.body;
+    const { id, username, email, password, peran, nim, prodi} = req.body;
 
     try {
         const peranIdQuery = await db.query('SELECT id FROM peran WHERE nama = $1', [peran]);
@@ -269,18 +269,18 @@ const update = async (req, res, next) => {
             const hashedPassword = await bcrypt.hash(password, 10);
             if (email !== currentEmail) {
                 // Jika email diubah
-                await db.query('UPDATE users SET username = $1, email = $2, password = $3, peran = $4, edited_at = $5, nim = $6 WHERE id = $7', [username, email, hashedPassword, peranId, currentDate, nim, id]);
+                await db.query('UPDATE users SET username = $1, email = $2, password = $3, peran = $4, edited_at = $5, nim = $6 , prodi = $7 WHERE id = $8', [username, email, hashedPassword, peranId, currentDate, nim, prodi, id]);
             } else {
                 // Jika email tidak diubah
-                await db.query('UPDATE users SET username = $1, password = $2, peran = $3, edited_at = $4, nim = $5 WHERE id = $6', [username, hashedPassword, peranId, currentDate, nim, id]);
+                await db.query('UPDATE users SET username = $1, password = $2, peran = $3, edited_at = $4, nim = $5, prodi = $6 WHERE id = $7', [username, hashedPassword, peranId, currentDate, nim, prodi,id]);
             }
         } else {
             if (email !== currentEmail) {
                 // Jika password tidak diubah dan email diubah
-                await db.query('UPDATE users SET username = $1, email = $2, peran = $3, edited_at = $4, nim = $5 WHERE id = $6', [username, email, peranId, currentDate, nim, id]);
+                await db.query('UPDATE users SET username = $1, email = $2, peran = $3, edited_at = $4, nim = $5, prodi = $6 WHERE id = $7', [username, email, peranId, currentDate, nim, prodi,id]);
             } else {
                 // Jika password dan email tidak diubah
-                await db.query('UPDATE users SET username = $1, peran = $2, edited_at = $3, nim = $4 WHERE id = $5', [username, peranId, currentDate, nim, id]);
+                await db.query('UPDATE users SET username = $1, peran = $2, edited_at = $3, nim = $4, prodi = $5 WHERE id = $6', [username, peranId, currentDate, nim, prodi, id]);
             }
         }
 
@@ -328,6 +328,8 @@ const search_user = async (req, res, next) => {
                 username ILIKE $1
                 OR email ILIKE $1
                 OR peran.nama ILIKE $1
+                OR nim ILIKE $1
+                OR prodi ILIKE $1
             ORDER BY created_at ASC`,
                     [`%${search}%`]
         );
@@ -364,7 +366,7 @@ const approve_user = async (req, res, next) => {
             UPDATE users
             SET approved = true
             WHERE id = $1
-            RETURNING id, username, email, peran, nim, created_at, edited_at, approved
+            RETURNING id, username, email, peran, nim, prodi, created_at, edited_at, approved
         )
         SELECT updated_user.*, peran.nama AS peran_nama
         FROM updated_user

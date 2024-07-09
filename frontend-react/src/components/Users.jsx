@@ -4,6 +4,7 @@ import axios from 'axios';
 import { parseISO, format } from "date-fns";
 import { FaRegEdit, FaSearch } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { jwtDecode } from 'jwt-decode';
 
 export default function UsersList() {
     const [showModalDelete, setShowModalDelete] = useState(false);
@@ -14,29 +15,46 @@ export default function UsersList() {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        if (role !== '1') {
-            alert('Hanya admin yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login');
             return;
         }
-
-        axios.get('http://localhost:3001/show_user')
-            .then(response => {
-                setUser(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching user:', error);
-            });
-
-        axios.get('http://localhost:3001/pending_user')
-            .then(response => {
-                setPendingUsers(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching pending users:', error);
-            });
-    }, []);
+    
+        try {
+            const decodedToken = jwtDecode(token);
+            const role = decodedToken.peran;
+            if (role !== 1) {
+                alert('Hanya admin yang bisa mengakses halaman ini.');
+                navigate('/unauthorized');
+                return;
+            }
+            
+            // Jika peran adalah admin, ambil data pengguna
+            axios.get('http://localhost:3001/show_user')
+                .then(response => {
+                    setUser(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching user:', error);
+                    alert('Terjadi kesalahan saat mengambil data pengguna');
+                });
+    
+            axios.get('http://localhost:3001/pending_user')
+                .then(response => {
+                    setPendingUsers(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching pending users:', error);
+                    alert('Terjadi kesalahan saat mengambil data pengguna yang menunggu persetujuan');
+                });
+    
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            navigate('/login');
+        }
+    }, [navigate]);
+    
 
     const handleSearch = async () => {
         try {
@@ -155,9 +173,9 @@ export default function UsersList() {
                         <th scope="col" className="px-6 py-3">Prodi/Unit Kerja</th>
                         <th scope="col" className="px-6 py-3">NIM/NRP/NIP</th>
                         <th scope="col" className="px-6 py-3">Peran</th>
-                        <th scope="col" className="px-6 py-3">Created at</th>
-                        <th scope="col" className="px-6 py-3">Edited at</th>
-                        <th scope="col" className="px-6 py-3">Aksi</th>
+                        <th scope="col" className="px-6 py-3">Waktu dibuat</th>
+                        <th scope="col" className="px-6 py-3">Waktu diubah</th>
+                        {/* <th scope="col" className="px-6 py-3">Aksi</th> */}
                     </tr>
                 </thead>
                 <tbody className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -172,12 +190,12 @@ export default function UsersList() {
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.created_at ? format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm") : 'Tanggal tidak tersedia'} WIB</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                             <td>
-                                <button 
+                                {/* <button 
                                     className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                                     onClick={ () => navigate(`/edit-user/${item.id}`) }
                                 >
                                     <FaRegEdit className="text-xl"/>
-                                </button>
+                                </button> */}
 
                                 {/* <button
                                     className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"

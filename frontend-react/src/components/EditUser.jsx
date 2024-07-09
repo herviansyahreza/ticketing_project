@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react'
 // import { UserCircleIcon } from '@heroicons/react/20/solid'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-
-
+import {jwtDecode} from 'jwt-decode'
 
 export default function EditUser() {
     const navigate = useNavigate();
     const { id } = useParams(); // Mengambil ID dari URL menggunakan useParams()
     const [formData, setFormData] = useState({
-        id: '', // Menyimpan ID user
         username: '',
         email: '',
         password: '',
@@ -19,12 +17,26 @@ export default function EditUser() {
     });
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        if (role !== '1') { 
-            alert('Hanya admin yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.peran;
+                if (role !== 1) { 
+                    alert('Hanya admin yang bisa mengakses halaman ini.');
+                    navigate('/unauthorized');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                navigate('/login');
+                return;
+            }
+        } else {
+            navigate('/login');
             return;
         }
+
         // Mengambil data user yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_user/${id}`)
             .then(response => {
@@ -34,7 +46,7 @@ export default function EditUser() {
                 console.error('Error fetching user data:', error);
                 alert('Terjadi kesalahan saat mengambil data user');
             });
-    }, [id]); // Menggunakan id sebagai dependensi untuk efek useEffect()
+    }, [navigate, id]); // Menggunakan navigate dan id sebagai dependensi untuk efek useEffect()
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

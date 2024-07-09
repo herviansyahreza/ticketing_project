@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Layout() {
     const navigate = useNavigate();
@@ -10,33 +11,45 @@ export default function Layout() {
     const [userRole, setUserRole] = useState(null); // Menambah state untuk peran pengguna
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const id = localStorage.getItem('id');
+        const token = localStorage.getItem('accessToken');
 
-        if (!token || token === '' || !id || id === '') {
+        if (!token || token === '') {
             alert('Please log in first');
-            navigate('/login');
+            navigate('/login'); // Ganti dengan routing yang sesuai dengan framework atau library Anda
         } else {
-            const verify = async () => {
+            const verifyToken = async () => {
                 try {
+                    // Dekode token sebelum verifikasi
+                    const decodedToken = jwtDecode(token);
+
                     const response = await axios.post('http://localhost:3001/verify', null, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
                     });
+
                     if (response.status === 200) {
+                        // Verifikasi berhasil
                         setIsLogin(true);
-                        setUserRole(localStorage.getItem('peran')); // Setel peran pengguna dari localStorage
+                        
+                        // Ambil informasi pengguna dari decodedToken
+                        const userRole = decodedToken.peran; // Sesuaikan dengan nama properti yang ada di dalam token
+
+                        setUserRole(userRole);
+
+                        // Lakukan apa pun yang perlu Anda lakukan setelah verifikasi sukses
+
                     } else {
-                        navigate('/login');
+                        // Verifikasi gagal, arahkan pengguna kembali ke halaman login
+                        navigate('/login'); // Ganti dengan routing yang sesuai dengan framework atau library Anda
                     }
                 } catch (error) {
                     console.error('Error while verifying token:', error);
-                    navigate('/login');
+                    navigate('/login'); // Ganti dengan routing yang sesuai dengan framework atau library Anda
                 }
             };
 
-            verify();
+            verifyToken();
         }
     }, [navigate]);
 

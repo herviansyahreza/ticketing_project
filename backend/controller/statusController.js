@@ -1,5 +1,6 @@
 const express = require('express')
 const db = require('../db.config/db.config')
+require('dotenv').config();
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const add_status = async(req, res, next) => {

@@ -1,17 +1,31 @@
 import React, {useState , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import  axios  from "axios";
+import {jwtDecode} from 'jwt-decode';
 // import { PhotoIcon } from '@heroicons/react/24/solid'
 
 export default function TicketForm() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        console.log(role);
-        if (role !== '1') {
-            alert('Hanya admin yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.peran;
+                if (role !== 1) { 
+                    alert('Hanya admin yang bisa mengakses halaman ini.');
+                    navigate('/unauthorized');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                navigate('/login');
+                return;
+            }
+        } else {
+            navigate('/login');
+            return;
         }
     }, [navigate]);
     

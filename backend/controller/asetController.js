@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db.config/db.config');
 const { get } = require('../router/router');
+require('dotenv').config();
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const add_aset = async(req, res, next) => {
@@ -56,6 +57,7 @@ const show_aset = async (req, res, next) => {
 
 const get_aset = async (req, res, next) => {
     const id_aset = req.params.id;
+    console.log(id_aset);
     try {
         const aset = await db.query('SELECT * FROM aset WHERE id = $1', [id_aset]);
         if (aset.rowCount > 0) {
@@ -82,22 +84,25 @@ const getAsets = async (req, res, next) => {
 };
 
 
-const edit_aset = async(req, res, next) => {
+const edit_aset = async (req, res, next) => {
     const { id, nama, kategori, lokasi } = req.body;
 
     try {
+        // Mendapatkan ID kategori berdasarkan nama
         const kategoriIdQuery = await db.query('SELECT id FROM aset_kategori WHERE nama = $1', [kategori]);
         const kategoriId = kategoriIdQuery.rows[0]?.id;
         if (!kategoriId) {
-            return res.status(400).send('Invalid kategori');
+            return res.status(400).json({ message: 'Invalid kategori' });
         }
 
+        // Mendapatkan ID lokasi berdasarkan nama
         const lokasiIdQuery = await db.query('SELECT id FROM lokasi WHERE nama = $1', [lokasi]);
         const lokasiId = lokasiIdQuery.rows[0]?.id;
         if (!lokasiId) {
-            return res.status(400).send('Invalid status');
+            return res.status(400).json({ message: 'Invalid lokasi' });
         }
         
+        // Melakukan update data aset berdasarkan ID
         const result = await db.query('UPDATE aset SET nama = $1, kategori = $2, lokasi = $3 WHERE id = $4', [nama, kategoriId, lokasiId, id]);
 
         if (result.rowCount > 0) {
@@ -110,6 +115,7 @@ const edit_aset = async(req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
 
 const remove_aset = async(req, res, next) => {
     const id = req.params.id;

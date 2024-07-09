@@ -5,6 +5,7 @@ import { parseISO, format } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
+import {jwtDecode} from 'jwt-decode'; 
 
 export default function TicketList() {
     const [showModalDelete, setShowModalDelete] = useState(false);
@@ -12,23 +13,38 @@ export default function TicketList() {
     const navigate = useNavigate();
     const [tiket, setTiket] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const userRole = localStorage.getItem('peran');
 
     useEffect(() => {
-        const userRole = localStorage.getItem('peran');
-        if (userRole === '1' || userRole === '2') {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+    
+        try {
+            const decodedToken = jwtDecode(token);
+            const role = decodedToken.peran;
+            if (role !== 1) {
+                alert('Hanya admin yang bisa mengakses halaman ini.');
+                navigate('/unauthorized');
+                return;
+            }
+            
+            // Jika peran adalah admin, ambil data tiket
             axios.get('http://localhost:3001/show_tiket')
                 .then(response => {
                     setTiket(response.data);
                 })
                 .catch(error => {
                     console.error('Error fetching tiket:', error);
+                    alert('Terjadi kesalahan saat mengambil data tiket');
                 });
-        } else {
-            alert('Hanya admin dan teknisi yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            navigate('/login');
         }
-    }, [userRole, navigate]);
+    }, [navigate]);
+    
 
     const handleSearch = async () => {
         try {

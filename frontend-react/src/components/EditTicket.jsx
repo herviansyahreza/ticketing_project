@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 export default function EditTicket() {
     const navigate = useNavigate();
     const { id } = useParams(); // Mengambil ID dari URL menggunakan useParams()
-    const userRole = localStorage.getItem('peran');
     const [formData, setFormData] = useState({
         id: '',
         judul: '',
@@ -18,21 +18,35 @@ export default function EditTicket() {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        const userRole = localStorage.getItem('peran');
-        if (userRole === '1' || userRole === '2') {
-            axios.get(`http://localhost:3001/get_tiket/${id}`)
-            .then(response => {
-                setFormData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching ticket data:', error);
-                alert('Terjadi kesalahan saat mengambil data tiket');
-            });
-        } else {
-            alert('Hanya admin dan teknisi yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login');
+            return;
         }
-    }, [userRole, navigate, id]);
+    
+        try {
+            const decodedToken = jwtDecode(token);
+            const role = decodedToken.peran;
+            if (role !== 1 && role !== 2) { // Periksa role admin atau technician
+                alert('Hanya admin atau teknisi yang bisa mengakses halaman ini.');
+                navigate('/unauthorized');
+                return;
+            }
+            
+            // Ambil data tiket jika token valid dan role adalah admin atau technician
+            axios.get(`http://localhost:3001/get_tiket/${id}`)
+                .then(response => {
+                    setFormData(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching ticket data:', error);
+                    alert('Terjadi kesalahan saat mengambil data tiket');
+                });
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            navigate('/login');
+        }
+    }, [navigate, id]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -75,10 +89,10 @@ export default function EditTicket() {
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
                 navigate('/tiket');
-                alert('Edit form berhasil');
+                alert('Edit tiket berhasil');
             } else {
                 // Edit gagal
-                alert('Edit form gagal');
+                alert('Edit tiket gagal');
             }
         } catch (error) {
             // Menangani kesalahan dengan lebih rinci

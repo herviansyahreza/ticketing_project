@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 export default function EditTicket() {
     const navigate = useNavigate();
@@ -17,12 +18,26 @@ export default function EditTicket() {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        if (role !== '3') {
-            alert('Hanya pengguna yang bisa mengakses halaman ini.'); 
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.peran;
+                if (role !== 3) { 
+                    alert('Hanya pengguna terkait yang bisa mengakses halaman ini.');
+                    navigate('/unauthorized');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                navigate('/login');
+                return;
+            }
+        } else {
+            navigate('/login');
             return;
         }
+
         // Mengambil data tiket yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_tiket/${id}`)
             .then(response => {
@@ -32,7 +47,7 @@ export default function EditTicket() {
                 console.error('Error fetching ticket data:', error);
                 alert('Terjadi kesalahan saat mengambil data tiket');
             });
-    }, [id]); // Menggunakan id sebagai dependensi untuk efek useEffect()
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -64,21 +79,21 @@ export default function EditTicket() {
             id: id,
             judul: formData.judul,
             deskripsi: formData.deskripsi,
-            status: 'Reopened',
-            prioritas: 'Urgent',
+            status: formData.status, // Tidak mengubah status secara otomatis
+            prioritas: formData.prioritas, // Tidak mengubah prioritas secara otomatis
             solusi: formData.solusi,
         };
-        console.log(newData);
+
         try {
             const response = await axios.put(`http://localhost:3001/edit_tiket/${id}`, newData);
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
                 navigate('/tiket_byUser');
-                alert('Feedback Laporan berhasil');
+                alert('Edit tiket berhasil');
             } else {
                 // Edit gagal
-                alert('Feedback Laporan gagal');
+                alert('Edit tiket gagal');
             }
         } catch (error) {
             // Menangani kesalahan dengan lebih rinci
@@ -93,7 +108,7 @@ export default function EditTicket() {
                 alert('Terjadi kesalahan: ' + error.message);
             }
         }
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit}>

@@ -9,39 +9,37 @@ export default function Login() {
     const handleSubmitLogin = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
+    
         const email = data.get('email');
         const password = data.get('password');
-
+    
         // Validasi email dengan regex
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert('Format email tidak valid');
             return;
         }
-
+    
         // Validasi password dengan regex: minimal 8 karakter, mengandung satu huruf kapital dan satu angka
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
         if (!passwordRegex.test(password)) {
             alert('Password harus memiliki minimal 8 karakter, satu huruf kapital, dan satu angka');
             return;
         }
-
+    
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 email: email,
                 password: password
             });
-
+    
             if (response.status === 200) {
                 // Login berhasil
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('name', response.data.username);
-                localStorage.setItem('email', response.data.email);
-                localStorage.setItem('id', response.data.id);
-                localStorage.setItem('peran', response.data.peran);
+                const accessToken = response.data.accessToken;
+                localStorage.setItem('accessToken', accessToken);
+    
                 // Navigasi berdasarkan peran pengguna
-                const role = response.data.peran;
+                const role = response.data.peran; // Ubah sesuai dengan nama yang tepat dari backend Anda
                 if (role === 1) {
                     // Admin
                     navigate('/'); // Halaman untuk admin
@@ -77,6 +75,7 @@ export default function Login() {
             }
         }
     };
+    
 
     const handleClickRegister = () => {
         // Navigate ke halaman register

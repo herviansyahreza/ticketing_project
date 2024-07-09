@@ -8,6 +8,7 @@ const statusController = require('../controller/statusController')
 const prioritasController = require('../controller/prioritasController')
 const peranController = require('../controller/peranController')
 const hakAksesController = require('../controller/hakAksesController')
+const refreshToken = require('../controller/refreshToken')
 
 const Auth = require('../middleware/auth')
 
@@ -18,7 +19,7 @@ router.post('/add_user', userController.add_user)
 
 router.post('/login', userController.login)
 
-router.post('/logout', Auth.verifyToken, userController.logout)
+router.post('/logout', userController.logout)
 
 router.post('/verify', Auth.verifyToken, userController.verify)
 
@@ -35,6 +36,8 @@ router.post('/search_user', userController.search_user)
 router.get('/pending_user', userController.pending_user)
 
 router.put('/approve_user/:id', userController.approve_user)
+
+router.get('/token', refreshToken.refreshToken)
 
 //tiket
 router.post('/add_tiket', tiketController.add_tiket)

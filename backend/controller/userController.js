@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db.config/db.config')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const register = async (req, res, next) => {
@@ -134,21 +135,33 @@ const login = async (req, res, next) => {
                     return res.status(403).send('Akun belum disetujui oleh admin');
                 }
 
-                // Menghasilkan token dengan JWT
-                const jwtSecretKey = 'kuncirahasia';
-                const tokenData = {
-                    userId: user.id // Hanya menyimpan ID pengguna dalam token
-                };
-                const token = jwt.sign(tokenData, jwtSecretKey);
+                const id = user.id;
+                const peran = user.peran;
+                const username = user.username;
+                const email = user.email;
 
-                // Mengembalikan ID, username, email, peran, dan token
-                res.cookie("JWT", token, { httpOnly: true, sameSite: "strict" }).status(200).json({
-                    id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    token: token,
-                    peran: user.peran
-                });    
+
+                // Generate accessToken
+                const accessToken = jwt.sign({ id, peran, email, username }, process.env.JWT_SECRET, { 
+                    expiresIn: '1d' 
+                });
+
+                // Generate refreshToken
+                const refreshToken = jwt.sign({ id, peran, email, username }, process.env.REFRESH_TOKEN_SECRET, { 
+                    expiresIn: '1d' 
+                });
+
+                // Simpan refreshToken di basis data
+                await db.query('UPDATE users SET refresh_token = $1 WHERE id = $2', [refreshToken, id]);
+
+                // Set cookie refreshToken di response
+                res.cookie('refreshToken', refreshToken, { 
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60 * 1000 
+                });
+
+                // Kirim accessToken sebagai respons
+                res.json({ accessToken, peran, username, email, id});
                 console.log("Login Berhasil");
             } else {
                 return res.status(400).send('Password salah!');
@@ -162,22 +175,40 @@ const login = async (req, res, next) => {
         console.error('Login gagal:', error);
         return res.status(500).send('Login gagal');
     }
-}
+};
 
 
-
-
-const logout = (req, res) => {
+const logout = async (req, res) => {
     try {
-        // Menghapus cookie JWT dengan mengatur waktu kedaluwarsa ke masa lalu
-        res.clearCookie("JWT", { httpOnly: true, sameSite: "strict", expires: new Date(0) });
-        res.status(200).json({ message: "Logout successful" });
-        console.log('Logout Berhasil')
+        const accessToken = req.headers.authorization;
+
+        // Pastikan refreshToken ada dalam cookies
+        if (!accessToken) {
+            return res.status(403).json({ message: 'Refresh token is required' });
+        }
+        
+        // Decode refreshToken untuk mendapatkan payload
+        const token = accessToken.split(' ')[1];
+        const decodedToken = jwt.decode(token);
+
+        // Ambil userId dari payload refreshToken
+        const userId = decodedToken.Id;
+
+        // Hapus refreshToken dari basis data
+        const deleteRefreshTokenQuery = 'UPDATE users SET refresh_token = null WHERE id = $1;';
+        await db.query(deleteRefreshTokenQuery, [userId]);
+
+        // Bersihkan cookie refreshToken dari klien (browser)
+        res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'strict', expires: new Date(0) });
+
+        res.status(200).json({ message: 'Logout successful' });
+        console.log('Logout Berhasil');
     } catch (error) {
         console.error('Logout failed:', error);
-        res.status(500).json({ message: "Logout failed" });
+        res.status(500).json({ message: 'Logout failed' });
     }
-}
+};
+
 
 const verify = async (req, res, next) => {
     try {
@@ -189,11 +220,12 @@ const verify = async (req, res, next) => {
         const token = authHeader.split(' ')[1];
 
         // Memverifikasi token
-        const jwtSecretKey = 'kuncirahasia';
+        const jwtSecretKey = process.env.JWT_SECRET;
         const decoded = jwt.verify(token, jwtSecretKey);
 
         // Mendapatkan data pengguna dari token
-        const userId = decoded.userId;
+        const decodedToken = jwt.decode(token);
+        const userId = decodedToken.id;
 
         // Periksa apakah pengguna ada dalam database
         const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
@@ -217,12 +249,11 @@ const show_user = async (req, res, next) => {
     try {
         // Query untuk mengambil data pengguna yang disetujui dan nama peran
         const query = `
-        SELECT users.*, 
-                peran.nama AS peran_nama  
+        SELECT users.id, users.username, users.email, users.peran, peran.nama AS peran_nama, users.created_at, users.edited_at, users.approved, users.nim, users.prodi, users.refresh_token 
         FROM users
-            JOIN peran ON users.peran = peran.id
+        JOIN peran ON users.peran = peran.id
         WHERE users.approved = true
-        ORDER BY peran.nama DESC, created_at DESC
+        ORDER BY peran.nama DESC, users.created_at DESC;
         `;
         const users = await db.query(query);
 

@@ -6,6 +6,7 @@ import { parseISO, format } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
+import {jwtDecode} from 'jwt-decode';
 
 
 export default function TicketList () {
@@ -18,12 +19,25 @@ export default function TicketList () {
     const [searchTerm, setSearchTerm] = useState('');
 
         useEffect(() => {
-        const role = localStorage.getItem('peran');
-        if (role !== '2') { 
-            alert('Hanya teknisi yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
-            return;
-        }
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token);
+                    const role = decodedToken.peran;
+                    if (role !== 2) { 
+                        alert('Hanya admin yang bisa mengakses halaman ini.');
+                        navigate('/unauthorized');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                    navigate('/login');
+                    return;
+                }
+            } else {
+                navigate('/login');
+                return;
+            }
         axios.get('http://localhost:3001/show_tiket')
             .then(response => {
             setTiket(response.data);
@@ -129,80 +143,8 @@ export default function TicketList () {
                 <FaRegEdit className="text-xl"/>
                 </button>
                 
-                {/* {showModalEdit && (
-                <div
-                    id="crud-modal"
-                    tabIndex="-1"
-                    className="fixed inset-0 z-50 flex justify-center items-center bg-neutral-100 bg-opacity-40"
-                    onClick={() => setShowModalEdit(false)}
-                >
-                    <div className="relative p-4 w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-auto my-auto">
-                        <div className="sm:mx-auto sm:w-full sm:max-w-sm" >
-                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Edit Data Tiket
-                            </h2>
-                            <form  onSubmit={handleEdit} className="space-y-6" action="#" method="POST">
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                Email address
-                                </label>
-                                <div className="mt-2">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    required
-                                    className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
-                                </div>
-                            </div>
-                
-                            <div>
-                                <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Password
-                                </label>
-                                <div className="text-sm">
-                                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
-                                    Forgot password?
-                                    </a>
-                                </div>
-                                </div>
-                                <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
-                                </div>
-                            </div>
-                
-                            <div className="flex justify-between">
-                                <button
-                                type="submit"
-                                className="mb-10 flex justify-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-yellow-400 rounded-lg border border-gray-200 hover:bg-yellow-500 hover:text-neutral-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 cursor-pointer"
-                                >
-                                Edit Data
-                                </button>
 
-                                <button
-                                type="submit"
-                                className="mb-10 flex justify-center py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-neutral-200 rounded-lg border border-gray-200 hover:bg-neutral-300 hover:text-neutral-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 cursor-pointer"
-                                >
-                                Batalkan
-                                </button>
-                            </div>
-                            </form>
-                        </div>
-                        </div>
-                    </div>
-                )} */}
-
-                <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
+                {/* <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                 onClick={() => {
                     setSelectedTicketId(item.id);  // Set ID tiket yang dipilih untuk dihapus
                     setShowModalDelete(true)
@@ -242,7 +184,7 @@ export default function TicketList () {
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
             </td>
             </tr>
             ))}
@@ -252,3 +194,4 @@ export default function TicketList () {
         </div>
     )
 };
+

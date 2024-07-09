@@ -1,16 +1,30 @@
 import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {jwtDecode} from 'jwt-decode';
 
 export default function UserForm() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        console.log(role);
-        if (role !== '1') {
-            alert('Hanya admin yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.peran;
+                if (role !== 1) { 
+                    alert('Hanya admin yang bisa mengakses halaman ini.');
+                    navigate('/unauthorized');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                navigate('/login');
+                return;
+            }
+        } else {
+            navigate('/login');
+            return;
         }
     }, [navigate]);
 
@@ -57,17 +71,14 @@ export default function UserForm() {
 
         try {
             const response = await axios.post('http://localhost:3001/add_user', formData);
-            console.log(response);
             if (response.status === 200 || response.status === 201) {
-                // Register berhasil
                 navigate('/users');
-                alert('Submit form berhasil')
+                alert('Submit form berhasil');
             } else {
-                // Register gagal
                 alert('Submit form gagal');
             }
         } catch (error) {
-            // Terjadi kesalahan saat melakukan permintaan submit form tiket
+            console.error('Terjadi kesalahan saat submit form:', error);
             alert('Terjadi kesalahan saat submit form tiket');
         }
     };

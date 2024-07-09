@@ -6,6 +6,7 @@ import { parseISO, format } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
+import {jwtDecode} from 'jwt-decode';
 
 
 export default function TicketList () {
@@ -17,29 +18,45 @@ export default function TicketList () {
     const [tiket, setTiket] = useState([]);
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        if (role !== '3') {
-            alert('Hanya pengguna yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        let decodedToken;
+    
+        if (token) {
+            try {
+                decodedToken = jwtDecode(token);
+                const role = decodedToken.peran;
+                if (role !== 3) { 
+                    alert('Hanya pengguna terkait yang bisa mengakses halaman ini.');
+                    navigate('/unauthorized');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                navigate('/login');
+                return;
+            }
+        } else {
+            navigate('/login');
             return;
         }
-
-        // Mengambil userId dari localStorage
-        const userId = localStorage.getItem('id');
     
+        // Mengambil userId dari decodedToken
+        const userId = decodedToken.id;
+        
         if (userId) {
-          // Mengirim permintaan GET ke backend dengan userId dari localStorage
-        axios.get(`http://localhost:3001/show_tiket_byUser/${userId}`)
-            .then(response => {
-                setTiket(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching tiket:', error);
-            });
+            // Mengirim permintaan GET ke backend dengan userId dari decodedToken
+            axios.get(`http://localhost:3001/show_tiket_byUser/${userId}`)
+                .then(response => {
+                    setTiket(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching tiket:', error);
+                });
         } else {
-            console.error('ID pengguna tidak ditemukan di localStorage');
+            console.error('ID pengguna tidak ditemukan di decoded token');
         }
-    }, []);
+    }, [navigate]);
+    
 
         const handleDelete = async (id) => {
             try {

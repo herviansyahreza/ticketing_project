@@ -1,24 +1,36 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 
 export default function Notfound() {
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        switch (role) {
-            case '1':
-                // Redirect to / if role is 1 (admin)
-                window.location.href = '/';
-                break;
-            case '2':
-                // Redirect to /dashboard if role is 2 (technician)
-                window.location.href = '/';
-                break;
-            case '3':
-                // Redirect to /tiket_byUser if role is 3 (regular user)
-                window.location.href = '/tiket_byUser';
-                break;
-            default:
-                break;
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.peran;
+                switch (role) {
+                    case 1:
+                        // Redirect to / if role is 1 (admin)
+                        window.location.href = '/';
+                        break;
+                    case 2:
+                        // Redirect to / if role is 2 (technician)
+                        window.location.href = '/';
+                        break;
+                    case 3:
+                        // Redirect to /tiket_byUser if role is 3 (regular user)
+                        window.location.href = '/tiket_byUser';
+                        break;
+                    default:
+                        break;
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                window.location.href = '/login'; // Redirect to login if token decoding fails
+            }
+        } else {
+            window.location.href = '/login'; // Redirect to login if no token is found
         }
     }, []);
 

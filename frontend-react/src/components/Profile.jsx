@@ -1,34 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode';
 
 export default function Profile() {
     const [user, setUser] = useState({
         username: '',
         email: '',
-        peran_nama: ''
+        peran: ''
     });
 
     useEffect(() => {
         // Ambil data user dari localStorage
-        const username = localStorage.getItem('name');
-        const email = localStorage.getItem('email');
-        const peran = localStorage.getItem('peran');
-        
-        // Set state user dengan data yang diambil dari localStorage
-        setUser({
-            username: username || '',
-            email: email || '',
-            peran: peran || ''
-        });
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const { username, email, peran } = decodedToken;
+                
+                // Set state user dengan data yang diambil dari token
+                setUser({
+                    username: username || '',
+                    email: email || '',
+                    peran: peran || ''
+                });
+            } catch (error) {
+                console.error('Error decoding token:', error);
+            }
+        }
     }, []);
 
     const getPeranName = (peran) => {
         switch (peran) {
-            case '1':
-                return 'Pengguna';
-            case '2':
+            case 1:
+                return 'Administrator';
+            case 2:
                 return 'Teknisi';
-            case '3':
-                return 'Admin';
+            case 3:
+                return 'Pengguna';
             default:
                 return 'Unknown';
         }

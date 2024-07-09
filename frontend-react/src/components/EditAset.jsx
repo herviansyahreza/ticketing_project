@@ -2,24 +2,39 @@ import React, { useState, useEffect}from 'react'
 import { PhotoIcon } from '@heroicons/react/20/solid'
 import { useNavigate, useParams} from 'react-router-dom'
 import axios from 'axios'
+import {jwtDecode} from 'jwt-decode'
 
 export default function EditAset() {
     const navigate = useNavigate();
     const { id } = useParams(); // Mengambil ID dari URL menggunakan useParams()
     const [formData, setFormData] = useState({
-        id:'', // Tambahkan ID sebagai state untuk mengirim ID ke backend
+        id: '', // Tambahkan ID sebagai state untuk mengirim ID ke backend
         nama: '',
-        kategori:'',
+        kategori: '',
         lokasi: '',
     });
 
     useEffect(() => {
-        const role = localStorage.getItem('peran');
-        if (role !== '1') { 
-            alert('Hanya admin yang bisa mengakses halaman ini.');
-            navigate('/unauthorized');
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            navigate('/login');
             return;
         }
+
+        try {
+            const decodedToken = jwtDecode(token);
+            const role = decodedToken.peran;
+            if (role !== 1) {
+                alert('Hanya admin yang bisa mengakses halaman ini.');
+                navigate('/unauthorized');
+                return;
+            }
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            navigate('/login');
+            return;
+        }
+
         // Mengambil data aset yang akan diubah berdasarkan ID
         axios.get(`http://localhost:3001/get_aset/${id}`)
             .then(response => {
@@ -29,7 +44,7 @@ export default function EditAset() {
                 console.error('Error fetching aset data:', error);
                 alert('Terjadi kesalahan saat mengambil data aset yang akan diubah');
             });
-    }, [id]); // Menggunakan id sebagai dependensi untuk efek useEffect()
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,10 +65,10 @@ export default function EditAset() {
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
                 navigate('/aset');
-                alert('Edit form berhasil');
+                alert('Edit aset berhasil');
             } else {
                 // Edit gagal
-                alert('Edit form gagal');
+                alert('Edit aset gagal');
             }
         } catch (error) {
             // Menangani kesalahan dengan lebih rinci

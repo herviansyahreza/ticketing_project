@@ -3,6 +3,7 @@ const db = require('../db.config/db.config')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
+const {jwtDecode}  = require('jwt-decode');
 const currentDate = new Date().toISOString(); // Mengambil waktu saat ini dalam format ISO
 
 const register = async (req, res, next) => {
@@ -189,11 +190,11 @@ const logout = async (req, res) => {
         
         // Decode refreshToken untuk mendapatkan payload
         const token = accessToken.split(' ')[1];
-        const decodedToken = jwt.decode(token);
+        const decodedToken = jwtDecode(token);
 
         // Ambil userId dari payload refreshToken
-        const userId = decodedToken.Id;
-
+        const userId = decodedToken.id;
+        
         // Hapus refreshToken dari basis data
         const deleteRefreshTokenQuery = 'UPDATE users SET refresh_token = null WHERE id = $1;';
         await db.query(deleteRefreshTokenQuery, [userId]);

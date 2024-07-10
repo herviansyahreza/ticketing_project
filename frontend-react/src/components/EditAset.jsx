@@ -6,13 +6,14 @@ import {jwtDecode} from 'jwt-decode'
 
 export default function EditAset() {
     const navigate = useNavigate();
-    const { id } = useParams(); // Mengambil ID dari URL menggunakan useParams()
+    const { id } = useParams();
     const [formData, setFormData] = useState({
-        id: '', // Tambahkan ID sebagai state untuk mengirim ID ke backend
+        id: '', 
         nama: '',
         kategori: '',
         lokasi: '',
     });
+    console.log(formData);
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -29,21 +30,21 @@ export default function EditAset() {
                 navigate('/unauthorized');
                 return;
             }
+
+            // Mengambil data aset yang akan diubah berdasarkan ID
+            axios.get(`http://localhost:3001/get_aset/${id}`)
+                .then(response => {
+                    setFormData(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching aset data:', error);
+                    alert('Terjadi kesalahan saat mengambil data aset yang akan diubah');
+                });
+
         } catch (error) {
             console.error('Error decoding token:', error);
             navigate('/login');
-            return;
         }
-
-        // Mengambil data aset yang akan diubah berdasarkan ID
-        axios.get(`http://localhost:3001/get_aset/${id}`)
-            .then(response => {
-                setFormData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching aset data:', error);
-                alert('Terjadi kesalahan saat mengambil data aset yang akan diubah');
-            });
     }, [id, navigate]);
 
     const handleChange = (e) => {

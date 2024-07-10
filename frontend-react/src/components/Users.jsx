@@ -175,7 +175,7 @@ export default function UsersList() {
                         <th scope="col" className="px-6 py-3">Peran</th>
                         <th scope="col" className="px-6 py-3">Waktu dibuat</th>
                         <th scope="col" className="px-6 py-3">Waktu diubah</th>
-                        {/* <th scope="col" className="px-6 py-3">Aksi</th> */}
+                        <th scope="col" className="px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
                 <tbody className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -197,7 +197,7 @@ export default function UsersList() {
                                     <FaRegEdit className="text-xl"/>
                                 </button> */}
 
-                                {/* <button
+                                <button
                                     className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"
                                     onClick={() => {
                                         setSelectedUserId(item.id);
@@ -240,7 +240,7 @@ export default function UsersList() {
                                             </div>
                                         </div>
                                     </div>
-                                )} */}
+                                )}
                             </td>
                         </tr>
                     ))}

@@ -6,6 +6,7 @@ import {jwtDecode} from 'jwt-decode';
 
 export default function TicketForm() {
     const navigate = useNavigate();
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -13,11 +14,12 @@ export default function TicketForm() {
             try {
                 const decodedToken = jwtDecode(token);
                 const role = decodedToken.peran;
-                if (role !== 1) { 
+                if (role !== 1) {
                     alert('Hanya admin yang bisa mengakses halaman ini.');
                     navigate('/unauthorized');
                     return;
                 }
+                setUsername(decodedToken.username);
             } catch (error) {
                 console.error('Error decoding token:', error);
                 navigate('/login');
@@ -72,7 +74,6 @@ export default function TicketForm() {
         return Object.keys(formErrors).length === 0;
     };
 
-    const username = localStorage.getItem('name');
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -88,6 +89,7 @@ export default function TicketForm() {
             status: formData.status,
             prioritas: formData.prioritas,
         };
+        console.log(data);
 
         try {
             const response = await axios.post('http://localhost:3001/add_tiket', data);

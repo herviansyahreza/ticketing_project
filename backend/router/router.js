@@ -71,7 +71,7 @@ router.post('/add_aset', asetController.add_aset)
 
 router.get('/show_aset', asetController.show_aset)
 
-router.get('/get_aset', asetController.get_aset)
+router.get('/get_aset/:id', asetController.get_aset)
 
 router.get('/getAsets', asetController.getAsets)
 

@@ -57,7 +57,6 @@ const show_aset = async (req, res, next) => {
 
 const get_aset = async (req, res, next) => {
     const id_aset = req.params.id;
-    console.log(id_aset);
     try {
         const aset = await db.query('SELECT * FROM aset WHERE id = $1', [id_aset]);
         if (aset.rowCount > 0) {

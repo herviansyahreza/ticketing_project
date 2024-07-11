@@ -89,7 +89,6 @@ export default function TicketForm() {
             status: formData.status,
             prioritas: formData.prioritas,
         };
-        console.log(data);
 
         try {
             const response = await axios.post('http://localhost:3001/add_tiket', data);

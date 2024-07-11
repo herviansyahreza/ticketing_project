@@ -82,6 +82,30 @@ const getAsets = async (req, res, next) => {
     }
 };
 
+const getLokasi = async (req, res, next) => {
+    try {
+        const query = 'SELECT id, nama FROM lokasi';
+        const lokasi = await db.query(query);
+
+        res.status(200).json(lokasi.rows);
+    } catch (error) {
+        console.error('Error fetching location:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+const getKategori = async (req, res, next) => {
+    try {
+        const query = 'SELECT id, nama FROM aset_kategori';
+        const kategori = await db.query(query);
+
+        res.status(200).json(kategori.rows);
+    } catch (error) {
+        console.error('Error fetching category:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 
 const edit_aset = async (req, res, next) => {
     const { id, nama, kategori, lokasi } = req.body;
@@ -171,4 +195,6 @@ module.exports = {
     edit_aset,
     remove_aset,
     search_aset,
+    getLokasi,
+    getKategori,
 }

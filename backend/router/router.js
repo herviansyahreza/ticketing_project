@@ -81,6 +81,10 @@ router.delete('/remove_aset/:id', asetController.remove_aset)
 
 router.post('/search_aset', asetController.search_aset)
 
+router.get('/getLokasi', asetController.getLokasi)
+
+router.get('/getKategori', asetController.getKategori)
+
 //status
 router.post('/add_status', statusController.add_status)
 

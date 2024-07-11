@@ -13,7 +13,33 @@ export default function EditAset() {
         kategori: '',
         lokasi: '',
     });
-    console.log(formData);
+
+    const [lokasi, setLokasi] = useState([]);
+    const [kategori, setKategori] = useState([]);
+    useEffect(() => {
+        // Mengambil daftar lokasi dari backend
+        const fetchLokasi = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/getLokasi');
+                setLokasi(response.data);
+            } catch (error) {
+                console.error('Error fetching lokasi:', error);
+            }
+        };
+
+        // Mengambil daftar kategori dari backend
+        const fetchKategori = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/getKategori');
+                setKategori(response.data);
+            } catch (error) {
+                console.error('Error fetching kategori:', error);
+            }
+        };
+
+        fetchLokasi();
+        fetchKategori();
+    }, []);
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -131,13 +157,12 @@ export default function EditAset() {
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
                     >
-                        <option value="">Pilih Kategori</option>
-                        <option value="Wifi">Wifi</option>
-                        <option value="Komputer">Komputer</option>
-                        <option value="Website">Website</option>
-                        <option value="Router">Router</option>
-                        <option value="Switch">Switch</option>
-                        <option value="Server">Server</option>
+                        <option value="">Pilih Kategori Aset</option>
+                            {kategori.map(kategori => (
+                                <option key={kategori.id} value={kategori.nama}>
+                                    {kategori.nama}
+                                </option>
+                            ))}
                     </select>
                     </div>
                 </div>
@@ -157,11 +182,12 @@ export default function EditAset() {
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
                     >
-                        <option value="">Pilih Lokasi</option>
-                        <option value="Gedung Rektorat">Gedung Rektorat</option>
-                        <option value="Gedung Roak">Gedung Roak</option>
-                        <option value="Gedung Roum">Gedung Roum</option>
-                        <option value="Gedung Auditorium">Gedung Auditorium</option>
+                        <option value="">Pilih Lokasi Aset</option>
+                            {lokasi.map(lokasi => (
+                                <option key={lokasi.id} value={lokasi.nama}>
+                                    {lokasi.nama}
+                                </option>
+                            ))}
                     </select>
                     </div>
                 </div>

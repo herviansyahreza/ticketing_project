@@ -6,6 +6,7 @@ import {jwtDecode} from 'jwt-decode';
 
 export default function TicketForm() {
     const navigate = useNavigate();
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -18,6 +19,7 @@ export default function TicketForm() {
                     navigate('/unauthorized');
                     return;
                 }
+                setUsername(decodedToken.username);
             } catch (error) {
                 console.error('Error decoding token:', error);
                 navigate('/login');
@@ -73,7 +75,6 @@ export default function TicketForm() {
         return Object.keys(formErrors).length === 0;
     };
 
-    const username = localStorage.getItem('name');
     const handleSubmit = async (event) => {
         event.preventDefault();
 

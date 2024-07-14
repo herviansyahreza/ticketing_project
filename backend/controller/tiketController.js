@@ -49,11 +49,15 @@ const add_tiket = async (req, res, next) => {
             }
         }
 
+        // Generate nomor tiket using sequence
+        const nomorTiketQuery = await db.query('SELECT nextval(\'tiket_nomor_seq\') AS nomor');
+        const nomorTiket = nomorTiketQuery.rows[0]?.nomor;
+
         // Insert data tiket jaringan ke database
         const currentDate = new Date().toISOString();
         const newTicket = await db.query(
-            'INSERT INTO tiket (judul, aset, deskripsi, user_id, status, prioritas, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            [judul, asetId, deskripsi, userId, statusId, prioritasId, currentDate]
+            'INSERT INTO tiket (judul, aset, deskripsi, user_id, status, prioritas, created_at, nomor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+            [judul, asetId, deskripsi, userId, statusId, prioritasId, currentDate, nomorTiket]
         );
 
         res.status(201).json(newTicket.rows[0]);
@@ -62,6 +66,7 @@ const add_tiket = async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 const show_tiket = async (req, res, next) => {
     try {
@@ -367,7 +372,8 @@ const search_tiket = async (req, res, next) => {
                 OR users.username ILIKE $1 
                 OR status.nama ILIKE $1 
                 OR prioritas.nama ILIKE $1
-                OR tiket.deskripsi ILIKE $1`,
+                OR tiket.deskripsi ILIKE $1
+                OR tiket.nomor::TEXT ILIKE $1`,
             [`%${search}%`]
         );
 

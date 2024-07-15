@@ -3,26 +3,27 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import axios from 'axios';
 
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const asetNames = {
-    21: "Wifi Kemhan go.id",
-    22: "Wifi Kadet Mahasiswa",
-    23: "Wifi Unhan Mahasiswa",
-    13: "Wifi 1st-Class",
-    2: "Wifi 2nd-Class",
-    12: "Wifi 3rd-Class",
-    8: "Wifi 4th-Class",
-    14: "Wifi 5th-Class",
-    15: "Wifi 6th-Class",
-    16: "Wifi 7th-Class",
-    17: "Wifi 8th-Class",
-    18: "Wifi 9th-Class",
-    19: "Wifi 10th-Class",
-    20: "Wifi 11th-Class"
-};
-
 export default function TicketReportChart() {
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
+    const [asetNames, setAsetNames] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5001/getAsets');
+                const result = response.data;
+                const asetNames = {};
+                result.forEach(item => {
+                    asetNames[item.id] = item.nama;
+                });
+                setAsetNames(asetNames);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const fetchData1 = async () => {
@@ -56,42 +57,42 @@ export default function TicketReportChart() {
         };
 
         const fetchData2 = async () => {
-			try {
-				const response = await axios.get('http://localhost:5001/show_aset_byDamage');
-				const result = response.data;
-				const filteredResult = result.filter(item => item.status === 3);
-		
-				// Inisialisasi objek untuk menyimpan data unik berdasarkan nama aset
-				const uniqueData = {};
-		
-				// Memasukkan jumlah kerusakan ke dalam uniqueData berdasarkan asetNames
-				filteredResult.forEach(item => {
-					const asetName = asetNames[item.aset_id]; // Ambil nama aset berdasarkan aset_id
-					const kerusakanCount = parseInt(item.jumlah_kerusakan, 10);
-		
-					// Jika data untuk aset ini belum ada, tambahkan ke uniqueData
-					if (!uniqueData[asetName]) {
-						uniqueData[asetName] = {
-							name: asetName,
-							Kerusakan: kerusakanCount
-						};
-					}
-				});
-		
-				// Ubah objek menjadi array untuk state data2
-				const formattedData = Object.values(uniqueData);
-		
-				// Mengatur state data2 dengan data yang sudah diformat
-				setData2(formattedData);
-			} catch (error) {
-				console.error('Error fetching data:', error);
-			}
-		};
-		
+            if (Object.keys(asetNames).length === 0) return; // Tunggu hingga asetNames terisi
+            try {
+                const response = await axios.get('http://localhost:5001/show_aset_byDamage');
+                const result = response.data;
+                const filteredResult = result.filter(item => item.status === 3);
+
+                // Inisialisasi objek untuk menyimpan data unik berdasarkan nama aset
+                const uniqueData = {};
+
+                // Memasukkan jumlah kerusakan ke dalam uniqueData berdasarkan asetNames
+                filteredResult.forEach(item => {
+                    const asetName = asetNames[item.aset_id]; // Ambil nama aset berdasarkan aset_id
+                    const kerusakanCount = parseInt(item.jumlah_kerusakan, 10);
+
+                    // Jika data untuk aset ini belum ada, tambahkan ke uniqueData
+                    if (!uniqueData[asetName]) {
+                        uniqueData[asetName] = {
+                            name: asetName,
+                            Kerusakan: kerusakanCount
+                        };
+                    }
+                });
+
+                // Ubah objek menjadi array untuk state data2
+                const formattedData = Object.values(uniqueData);
+
+                // Mengatur state data2 dengan data yang sudah diformat
+                setData2(formattedData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
         fetchData1();
         fetchData2();
-    }, []);
+    }, [asetNames]); // Memastikan fetchData2 dipanggil setelah asetNames diperbarui
 
     return (
         <div className="h-screen overflow-auto bg-gray-100 p-4">

@@ -31,7 +31,7 @@ export default function UsersList() {
             }
             
             // Jika peran adalah admin, ambil data pengguna
-            axios.get('http://localhost:3001/show_user')
+            axios.get('http://localhost:5001/show_user')
                 .then(response => {
                     setUser(response.data);
                 })
@@ -40,7 +40,7 @@ export default function UsersList() {
                     alert('Terjadi kesalahan saat mengambil data pengguna');
                 });
     
-            axios.get('http://localhost:3001/pending_user')
+            axios.get('http://localhost:5001/pending_user')
                 .then(response => {
                     setPendingUsers(response.data);
                 })
@@ -58,7 +58,7 @@ export default function UsersList() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/search_user', { search: searchTerm });
+            const response = await axios.post('http://localhost:5001/search_user', { search: searchTerm });
             setUser(response.data);
         } catch (error) {
             console.error('Error searching tiket:', error);
@@ -67,7 +67,7 @@ export default function UsersList() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:3001/remove/${id}`);
+            const response = await axios.delete(`http://localhost:5001/remove/${id}`);
             if (response.status === 200) {
                 const updatedUser = user.filter(item => item.id !== id);
                 setUser(updatedUser);
@@ -82,7 +82,7 @@ export default function UsersList() {
 
     const handleApprove = async (id) => {
         try {
-            const response = await axios.put(`http://localhost:3001/approve_user/${id}`);
+            const response = await axios.put(`http://localhost:5001/approve_user/${id}`);
             if (response.status === 200) {
                 const updatedPendingUsers = pendingUsers.filter(item => item.id !== id);
                 setPendingUsers(updatedPendingUsers);

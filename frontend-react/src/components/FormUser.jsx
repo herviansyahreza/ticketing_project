@@ -70,7 +70,7 @@ export default function UserForm() {
         if (!validate()) return;
 
         try {
-            const response = await axios.post('http://localhost:3001/add_user', formData);
+            const response = await axios.post('http://localhost:5001/add_user', formData);
             if (response.status === 200 || response.status === 201) {
                 navigate('/users');
                 alert('Submit form berhasil');

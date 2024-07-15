@@ -38,7 +38,7 @@ export default function TicketList () {
                 navigate('/login');
                 return;
             }
-        axios.get('http://localhost:3001/show_tiket')
+        axios.get('http://localhost:5001/show_tiket')
             .then(response => {
             setTiket(response.data);
             })
@@ -49,7 +49,7 @@ export default function TicketList () {
 
         const handleSearch = async () => {
             try {
-                const response = await axios.post('http://localhost:3001/search_tiket', { search: searchTerm });
+                const response = await axios.post('http://localhost:5001/search_tiket', { search: searchTerm });
                 setTiket(response.data);
             } catch (error) {
                 console.error('Error searching tiket:', error);
@@ -59,7 +59,7 @@ export default function TicketList () {
         const handleDelete = async (id) => {
 
             try {
-                const response = await axios.delete(`http://localhost:3001/remove_tiket/${id}`);
+                const response = await axios.delete(`http://localhost:5001/remove_tiket/${id}`);
                 console.log(response);
                 if (response.status === 200) {
                     // Hapus tiket berhasil

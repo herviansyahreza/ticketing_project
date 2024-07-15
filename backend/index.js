@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3001;
+const port = 5001;
 const db = require('./db.config/db.config');
 
 const cors = require('cors');
@@ -16,7 +16,7 @@ app.use(cookieParser()); // Hapus opsi maxAge di sini
 
 // Konfigurasi CORS
 app.use(cors({
-    origin: 'http://localhost:3000', // Atur origin sesuai dengan domain frontend Anda
+    origin: 'http://localhost:5000', // Atur origin sesuai dengan domain frontend Anda
     credentials: true,
 }));
 

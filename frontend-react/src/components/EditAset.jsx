@@ -20,7 +20,7 @@ export default function EditAset() {
         // Mengambil daftar lokasi dari backend
         const fetchLokasi = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getLokasi');
+                const response = await axios.get('http://localhost:5001/getLokasi');
                 setLokasi(response.data);
             } catch (error) {
                 console.error('Error fetching lokasi:', error);
@@ -30,7 +30,7 @@ export default function EditAset() {
         // Mengambil daftar kategori dari backend
         const fetchKategori = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getKategori');
+                const response = await axios.get('http://localhost:5001/getKategori');
                 setKategori(response.data);
             } catch (error) {
                 console.error('Error fetching kategori:', error);
@@ -58,7 +58,7 @@ export default function EditAset() {
             }
 
             // Mengambil data aset yang akan diubah berdasarkan ID
-            axios.get(`http://localhost:3001/get_aset/${id}`)
+            axios.get(`http://localhost:5001/get_aset/${id}`)
                 .then(response => {
                     setFormData(response.data);
                 })
@@ -87,7 +87,7 @@ export default function EditAset() {
         };
 
         try {
-            const response = await axios.put(`http://localhost:3001/edit_aset/${id}`, newData);
+            const response = await axios.put(`http://localhost:5001/edit_aset/${id}`, newData);
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil

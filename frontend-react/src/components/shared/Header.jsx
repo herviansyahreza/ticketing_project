@@ -14,7 +14,7 @@ export default function Header() {
         try {
             // Kirim permintaan ke endpoint logout
             const token = localStorage.getItem('accessToken');
-            const response = await axios.post('http://localhost:3001/logout', null,{
+            const response = await axios.post('http://localhost:5001/logout', null,{
 				headers: {
 					Authorization: `Bearer ${token}`
 				}

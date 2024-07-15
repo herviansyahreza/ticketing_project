@@ -46,7 +46,7 @@ export default function TicketForm() {
         // Mengambil daftar aset dari backend
         const fetchAsets = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getAsets');
+                const response = await axios.get('http://localhost:5001/getAsets');
                 setAsets(response.data);
             } catch (error) {
                 console.error('Error fetching assets:', error);
@@ -92,7 +92,7 @@ export default function TicketForm() {
         };
 
         try {
-            const response = await axios.post('http://localhost:3001/add_tiket', data);
+            const response = await axios.post('http://localhost:5001/add_tiket', data);
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Register berhasil

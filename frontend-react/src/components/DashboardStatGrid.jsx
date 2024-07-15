@@ -16,7 +16,7 @@ export default function DashboardStatsGrid({ setChartType, selectedChart }) {
     useEffect(() => {
         const fetchTicketCounts = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/count_tiket');
+                const response = await axios.get('http://localhost:5001/count_tiket');
                 setTicketCounts(response.data);
             } catch (error) {
                 console.error('Error fetching ticket counts:', error);

@@ -45,7 +45,7 @@ export default function TicketList () {
         
         if (userId) {
             // Mengirim permintaan GET ke backend dengan userId dari decodedToken
-            axios.get(`http://localhost:3001/show_tiket_byUser/${userId}`)
+            axios.get(`http://localhost:5001/show_tiket_byUser/${userId}`)
                 .then(response => {
                     setTiket(response.data);
                 })
@@ -60,7 +60,7 @@ export default function TicketList () {
 
         const handleDelete = async (id) => {
             try {
-                const response = await axios.delete(`http://localhost:3001/remove_tiket/${id}`);
+                const response = await axios.delete(`http://localhost:5001/remove_tiket/${id}`);
                 console.log(response);
                 if (response.status === 200) {
                     // Hapus tiket berhasil

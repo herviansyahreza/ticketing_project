@@ -13,7 +13,7 @@ export default function Aset() {
         // Mengambil daftar lokasi dari backend
         const fetchLokasi = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getLokasi');
+                const response = await axios.get('http://localhost:5001/getLokasi');
                 setLokasi(response.data);
             } catch (error) {
                 console.error('Error fetching lokasi:', error);
@@ -23,7 +23,7 @@ export default function Aset() {
         // Mengambil daftar kategori dari backend
         const fetchKategori = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getKategori');
+                const response = await axios.get('http://localhost:5001/getKategori');
                 setKategori(response.data);
             } catch (error) {
                 console.error('Error fetching kategori:', error);
@@ -71,7 +71,7 @@ export default function Aset() {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3001/add_aset', formData);
+            const response = await axios.post('http://localhost:5001/add_aset', formData);
             console.log(response);
             if (response.status === 200||201) {
                 // Register berhasil

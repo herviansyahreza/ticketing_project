@@ -43,7 +43,7 @@ export default function RegisterForm() {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/register', formData);
+            const response = await axios.post('http://localhost:5001/register', formData);
             if (response.status === 200) {
                 alert('Registrasi berhasil! Silakan tunggu persetujuan dari admin.');
                 navigate('/login');

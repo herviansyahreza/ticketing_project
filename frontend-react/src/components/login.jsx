@@ -28,7 +28,7 @@ export default function Login() {
         }
     
         try {
-            const response = await axios.post('http://localhost:3001/login', {
+            const response = await axios.post('http://localhost:5001/login', {
                 email: email,
                 password: password
             });

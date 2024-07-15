@@ -12,7 +12,7 @@ export default function TicketReportChart() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/getAsets');
+                const response = await axios.get('http://localhost:5001/getAsets');
                 const result = response.data;
                 const asetNames = {};
                 result.forEach(item => {
@@ -29,7 +29,7 @@ export default function TicketReportChart() {
     useEffect(() => {
         const fetchData1 = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/get_chart');
+                const response = await axios.get('http://localhost:5001/get_chart');
                 const result = response.data;
                 const filteredResult = result.filter(item => item.status === 1);
                 const formattedData = filteredResult.map(item => ({
@@ -60,7 +60,7 @@ export default function TicketReportChart() {
         const fetchData2 = async () => {
             if (Object.keys(asetNames).length === 0) return; // Tunggu hingga asetNames terisi
             try {
-                const response = await axios.get('http://localhost:3001/show_aset_byDamage');
+                const response = await axios.get('http://localhost:5001/show_aset_byDamage');
                 const result = response.data;
                 const filteredResult = result.filter(item => item.status === 1);
 

@@ -34,7 +34,7 @@ export default function EditTicket() {
             }
             
             // Ambil data tiket jika token valid dan role adalah admin atau technician
-            axios.get(`http://localhost:3001/get_tiket/${id}`)
+            axios.get(`http://localhost:5001/get_tiket/${id}`)
                 .then(response => {
                     setFormData(response.data);
                 })
@@ -84,7 +84,7 @@ export default function EditTicket() {
         };
 
         try {
-            const response = await axios.put(`http://localhost:3001/edit_tiket/${id}`, newData);
+            const response = await axios.put(`http://localhost:5001/edit_tiket/${id}`, newData);
             console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil

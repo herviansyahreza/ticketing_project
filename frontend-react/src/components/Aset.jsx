@@ -33,7 +33,7 @@ export default function AsetList() {
             return;
         }
 
-        axios.get('http://localhost:3001/show_aset')
+        axios.get('http://localhost:5001/show_aset')
             .then(response => {
                 setAset(response.data);
             })
@@ -44,7 +44,7 @@ export default function AsetList() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/search_aset', { search: searchTerm });
+            const response = await axios.post('http://localhost:5001/search_aset', { search: searchTerm });
             setAset(response.data);
         } catch (error) {
             console.error('Error searching aset:', error);
@@ -53,7 +53,7 @@ export default function AsetList() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:3001/remove_aset/${id}`);
+            const response = await axios.delete(`http://localhost:5001/remove_aset/${id}`);
             if (response.status === 200) {
                 const updatedAset = aset.filter(item => item.id !== id);
                 setAset(updatedAset);

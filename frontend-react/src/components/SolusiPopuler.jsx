@@ -75,7 +75,7 @@ export default function TicketList() {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" className="px-6 py-3">No</th>
+                        <th scope="col" className="px-6 py-3">Nomor</th>
                         <th scope="col" className="px-6 py-3">Judul</th>
                         {/* <th scope="col" className="px-6 py-3">Pelapor</th> */}
                         <th scope="col" className="px-6 py-3">Aset</th>
@@ -91,7 +91,7 @@ export default function TicketList() {
                 <tbody className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                     {tiket.map((item, index) => (
                         <tr key={index}>
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.nomor}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.judul}</td>
                             {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.users_username}</td> */}
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.aset_nama}</td>

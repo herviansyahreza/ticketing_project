@@ -201,7 +201,7 @@ export default function TicketForm() {
                 </div>
                 </div> */}
 
-                {/* <div className="sm:col-span-4">
+                <div className="sm:col-span-4">
                 <label htmlFor="prioritas" className="block text-sm font-medium leading-6 text-gray-900">
                     Prioritas
                 </label>
@@ -223,7 +223,7 @@ export default function TicketForm() {
                     </select>
                     </div>
                 </div>
-                </div> */}
+                </div>
                 
                 <div className="col-span-full">
                 <label htmlFor="deskripsi" className="block text-sm font-medium leading-6 text-gray-900">

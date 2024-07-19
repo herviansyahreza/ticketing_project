@@ -105,8 +105,9 @@ export default function TicketList() {
                         <th scope="col" className="px-6 py-3">Status</th>
                         <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
                         <th scope="col" className="px-6 py-3">Prioritas</th>
+                        <th scope="col" className="px-6 py-3">Index SLA</th>
                         <th scope="col" className="px-6 py-3">Waktu dibuat</th>
-                        <th scope="col" className="px-6 py-3">Waktu diubah</th>
+                        {/* <th scope="col" className="px-6 py-3">Waktu diubah</th> */}
                         <th scope="col" className="px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
@@ -120,8 +121,9 @@ export default function TicketList() {
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.status_nama}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || 'Belum Ditentukan'}</td>
+                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.sla}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
-                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
+                            {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td> */}
                             <td>
                                 <button
                                     className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"

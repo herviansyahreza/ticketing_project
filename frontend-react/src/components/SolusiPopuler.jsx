@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-// import { parseISO, format, set } from "date-fns";
+import { parseISO, format, set } from "date-fns";
 // import { FaRegEdit } from "react-icons/fa";
 // import { MdDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
@@ -56,7 +56,7 @@ export default function TicketList() {
                         Buat Tiket
                     </button>
                 </Link> */}
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                     <input
                         type="text"
                         placeholder="Cari tiket..."
@@ -70,7 +70,7 @@ export default function TicketList() {
                     >
                         <FaSearch className="text-xl" />
                     </button>
-                </div>
+                </div> */}
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -82,10 +82,10 @@ export default function TicketList() {
                         <th scope="col" className="px-6 py-3">Status</th>
                         <th scope="col" className="px-6 py-3">Deskripsi Laporan</th>
                         {/* <th scope="col" className="px-6 py-3">Prioritas</th>
-                        <th scope="col" className="px-6 py-3">Created at</th>
-                        <th scope="col" className="px-6 py-3">Edited at</th> */}
+                        <th scope="col" className="px-6 py-3">Created at</th> */}
                         {/* <th scope="col" className="px-6 py-3">Aksi</th> */}
                         <th scope="col" className="px-6 py-3">Solusi Yang Disarankan</th>
+                        <th scope="col" className="px-6 py-3">Waktu diubah</th>
                     </tr>
                 </thead>
                 <tbody className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -99,8 +99,8 @@ export default function TicketList() {
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.deskripsi}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.solusi ? item.solusi:'Belum ada solusi dari teknisi'}</td>
                             {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.prioritas_nama || 'Belum Ditentukan'}</td> */}
-                            {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td>
-                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td> */}
+                            {/* <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{format(parseISO(item.created_at), "dd MMMM yyyy, HH:mm")} WIB</td> */}
+                            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{item.edited_at ? format(parseISO(item.edited_at), "dd MMMM yyyy, HH:mm") : 'Belum diedit'}</td>
                             {/* <td>
                                 <button
                                     className="bg-neutral-100 hover:bg-neutral-200 text-black font-bold py-2 px-4 rounded mr-2 mb-4 border border-black"

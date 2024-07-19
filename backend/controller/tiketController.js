@@ -107,7 +107,7 @@ const solusi_populer = async (req, res, next) => {
                 JOIN status ON tiket.status = status.id
                 LEFT JOIN prioritas ON tiket.prioritas = prioritas.id
                 JOIN aset ON tiket.aset = aset.id
-        WHERE status IN (3, 4, 5)
+        WHERE status IN (4, 5)
         ORDER BY created_at ASC
         `;
         const tikets = await db.query(query);
@@ -384,6 +384,29 @@ const search_tiket = async (req, res, next) => {
     }
 };
 
+const selesaiTiket = async (req, res) => {
+    const tiketId = req.params.id;
+    const waktuSelesai = new Date();
+    
+    try {
+      // Update tiket dengan waktu selesai
+        await pool.query('UPDATE tiket SET waktu_selesai = $1 WHERE id = $2', [waktuSelesai, tiketId]);
+
+      // Periksa apakah SLA terpenuhi
+        const result = await pool.query('SELECT waktu_pembuatan FROM tiket WHERE id = $1', [tiketId]);
+        const waktuPembuatan = new Date(result.rows[0].waktu_pembuatan);
+        const timeDiff = (waktuSelesai - waktuPembuatan) / (1000 * 60 * 60); // dalam jam
+        const slaTerpenuhi = timeDiff <= 2;
+
+      // Update status SLA
+        await pool.query('UPDATE tiket SET sla_terpenuhi = $1 WHERE id = $2', [slaTerpenuhi, tiketId]);
+
+        res.json({ message: 'Tiket berhasil diselesaikan', slaTerpenuhi });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Terjadi kesalahan saat memperbarui tiket' });
+    }
+};
 
 
 module.exports = {
@@ -400,4 +423,5 @@ module.exports = {
     getNotification,
     search_tiket,
     solusi_populer,
+    selesaiTiket,
 }

@@ -23,7 +23,7 @@ export default function EditTicket() {
             navigate('/login');
             return;
         }
-    
+
         try {
             const decodedToken = jwtDecode(token);
             const role = decodedToken.peran;
@@ -32,7 +32,7 @@ export default function EditTicket() {
                 navigate('/unauthorized');
                 return;
             }
-            
+
             // Ambil data tiket jika token valid dan role adalah admin atau technician
             axios.get(`http://localhost:5001/get_tiket/${id}`)
                 .then(response => {
@@ -84,11 +84,18 @@ export default function EditTicket() {
         };
 
         try {
+            const token = localStorage.getItem('accessToken');
+            const decodedToken = jwtDecode(token);
+            const role = decodedToken.peran;
+
             const response = await axios.put(`http://localhost:5001/edit_tiket/${id}`, newData);
-            console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
-                navigate('/tiket');
+                if (role === 1) {
+                    navigate('/tiket');
+                } else if (role === 2) {
+                    navigate('/teknisi');
+                }
                 alert('Edit tiket berhasil');
             } else {
                 // Edit gagal
@@ -107,7 +114,7 @@ export default function EditTicket() {
                 alert('Terjadi kesalahan: ' + error.message);
             }
         }
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit}>

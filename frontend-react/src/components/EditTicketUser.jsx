@@ -79,21 +79,20 @@ export default function EditTicket() {
             id: id,
             judul: formData.judul,
             deskripsi: formData.deskripsi,
-            status: formData.status, // Tidak mengubah status secara otomatis
-            prioritas: formData.prioritas, // Tidak mengubah prioritas secara otomatis
+            status: 'Reopened',
+            prioritas: 'Urgent', 
             solusi: formData.solusi,
         };
 
         try {
             const response = await axios.put(`http://localhost:5001/edit_tiket/${id}`, newData);
-            console.log(response);
             if (response.status === 200 || response.status === 201) {
                 // Edit berhasil
                 navigate('/tiket_byUser');
-                alert('Edit tiket berhasil');
+                alert('Feedback Laporan berhasil dikirim');
             } else {
                 // Edit gagal
-                alert('Edit tiket gagal');
+                alert('Feedback Laporan gagal');
             }
         } catch (error) {
             // Menangani kesalahan dengan lebih rinci
